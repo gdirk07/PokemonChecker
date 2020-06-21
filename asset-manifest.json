@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/gdirk07/PokemonChecker/static/css/main.5f361e03.chunk.css",
+    "main.js": "/gdirk07/PokemonChecker/static/js/main.b1633e54.chunk.js",
+    "main.js.map": "/gdirk07/PokemonChecker/static/js/main.b1633e54.chunk.js.map",
+    "runtime-main.js": "/gdirk07/PokemonChecker/static/js/runtime-main.74ce619a.js",
+    "runtime-main.js.map": "/gdirk07/PokemonChecker/static/js/runtime-main.74ce619a.js.map",
+    "static/js/2.5939b8f4.chunk.js": "/gdirk07/PokemonChecker/static/js/2.5939b8f4.chunk.js",
+    "static/js/2.5939b8f4.chunk.js.map": "/gdirk07/PokemonChecker/static/js/2.5939b8f4.chunk.js.map",
+    "index.html": "/gdirk07/PokemonChecker/index.html",
+    "precache-manifest.3e56e00ae1ce593429d071c57e69715f.js": "/gdirk07/PokemonChecker/precache-manifest.3e56e00ae1ce593429d071c57e69715f.js",
+    "service-worker.js": "/gdirk07/PokemonChecker/service-worker.js",
+    "static/css/main.5f361e03.chunk.css.map": "/gdirk07/PokemonChecker/static/css/main.5f361e03.chunk.css.map",
+    "static/js/2.5939b8f4.chunk.js.LICENSE.txt": "/gdirk07/PokemonChecker/static/js/2.5939b8f4.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.74ce619a.js",
+    "static/js/2.5939b8f4.chunk.js",
+    "static/css/main.5f361e03.chunk.css",
+    "static/js/main.b1633e54.chunk.js"
+  ]
+}
