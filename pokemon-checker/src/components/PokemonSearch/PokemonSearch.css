@@ -1,0 +1,11 @@
+.pokemonList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 5px;
+}
+
+.pokemonContainer {
+    margin: 5px;
+    font-size: 10px;
+}

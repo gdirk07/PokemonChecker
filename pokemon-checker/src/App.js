@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import './App.css';
-import './components/PokemonInfo';
-import PokemonInfo from './components/PokemonInfo';
-import SearchBox from './components/SearchBar';
+import './components/PokemonSearch/PokemonInfo';
+import PokemonInfo from './components/PokemonSearch/PokemonInfo';
+import SearchBox from './components/SearchBar/SearchBar';
 
 class App extends Component{
   constructor() {
       super();
       this.state = {
-        pokemon: [],
+        pokemonList: [],
         pokemonName: '',
-        searchfield: ''
+        searchfield: '',
       }
   }
   componentDidMount() {
     fetch('https://pokeapi.co/api/v2/pokemon?limit=1000offset=0').then(response=> response.json())
-    .then(pokemonRetrieved => this.setState({ pokemon: pokemonRetrieved.results}))
+    .then(pokemonRetrieved => this.setState({ pokemonList: pokemonRetrieved.results}))
     .catch(console.log);        
   }
 
@@ -24,20 +24,29 @@ class App extends Component{
     
   }
 
+  onPokemonSelected = () => {
+    console.log("hi");
+  }
+
   render() {
-    const {pokemon, searchfield} = this.state;
-    const selectedPokemon = pokemon[(searchfield-1)];
-    let bottomText = <h4>No Pokemon Selected</h4>;
-    if (selectedPokemon) {
-      bottomText = <h4>{selectedPokemon.name}</h4>;
+    const {pokemonList, pokemonName, searchfield} = this.state;
+    let filteredPokemon = [];
+    if (searchfield === '') {
+
     }
+    else {
+      filteredPokemon = pokemonList.filter(pokemonList =>{
+        return pokemonList.name.toLowerCase().includes(searchfield.toLowerCase());
+    })
+  }
+
     return(
       <div className="App">
-        <header className="App-header">
-          <h1>Select a pokemon based off ID</h1>
+          <h1>Search for a Pokemon</h1>
           <SearchBox  searchChange={this.onSearchChange}/>
-          {bottomText}
-        </header>
+          <PokemonInfo onPokemonSelected={this.onPokemonSelected} pokemonQuery={filteredPokemon} />
+            {//<PokemonDisplay />
+            }
       </div>
     )
   }
