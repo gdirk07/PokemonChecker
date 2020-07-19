@@ -5,9 +5,8 @@ import "./PokemonSearch.css";
 const PokemonInfo = ({pokemonQuery, onPokemonSelected}) => {
 
     const pokemonComponent = pokemonQuery.map((pokemon, p) =>
-        <PokemonId key={p} name={pokemon.name} url={pokemon.url}></PokemonId>
+        <PokemonId key={p} name={pokemon.name} url={pokemon.url} onSelectPokemon={onPokemonSelected}></PokemonId>
     )
-    debugger;
     if (pokemonComponent.length === 0) {
         return (
             <div>
@@ -17,7 +16,7 @@ const PokemonInfo = ({pokemonQuery, onPokemonSelected}) => {
     }
     else {
         return (
-            <div className="pokemonList">
+            <div className="pokemonList" onClick={onPokemonSelected}>
                     {pokemonComponent}
 
             </div>
@@ -26,6 +25,8 @@ const PokemonInfo = ({pokemonQuery, onPokemonSelected}) => {
 
     
 }
+
+
 
 
     

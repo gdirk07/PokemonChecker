@@ -1,12 +1,12 @@
 import React from 'react';
 
-const PokemonId = ({name, url}) => {
+const PokemonId = ({name, url, onSelectPokemon}) => {
+        
     return (
-
-            <div className="pokemonContainer">
                 
-                    <h2>{name}</h2>
+            <div className="pokemonContainer">  
                 
+                    <h2 onClick={() => onSelectPokemon(name)}>{name}</h2>
             </div>
     );
 }
