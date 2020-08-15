@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import './components/PokemonSearch/PokemonInfo';
-import PokemonInfo from './components/PokemonSearch/PokemonInfo';
+import './components/PokemonSearch/PokemonSearchResults';
+import PokemonSearchResults from './components/PokemonSearch/PokemonSearchResults';
 import SearchBox from './components/SearchBar/SearchBar';
+import PokemonDisplay from './components/PokemonDisplay/PokemonDisplay';
 
 class App extends Component{
   constructor() {
@@ -14,8 +15,10 @@ class App extends Component{
         pokemonSelected: ''
       }
   }
+
+  //Fetch all of the pokemon to start, no need to paginate
   componentDidMount() {
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=100offset=0').then(response=> response.json())
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=1000offset=0').then(response=> response.json())
     .then(pokemonRetrieved => this.setState({ pokemonList: pokemonRetrieved.results}))
     .catch(console.log);        
   }
@@ -27,13 +30,12 @@ class App extends Component{
 
   onPokemonSelected = (pokemonClicked) => {
     this.setState({pokemonSelected: pokemonClicked})
-
   }
 
   render() {
     const {pokemonList, pokemonName, searchfield, pokemonSelected} = this.state;
     let filteredPokemon = [];
-    if (searchfield === '') {
+    if (searchfield.length < 2) {
 
     }
     else {
@@ -52,10 +54,8 @@ class App extends Component{
       <div className="App">
           <h1>Search for a Pokemon</h1>
           <SearchBox  searchChange={this.onSearchChange}/>
-          <PokemonInfo onPokemonSelected={this.onPokemonSelected} pokemonQuery={filteredPokemon} />
-
-            {//<PokemonDisplay />
-  }
+          <PokemonSearchResults onPokemonSelected={this.onPokemonSelected} pokemonQuery={filteredPokemon} />
+          <PokemonDisplay pokemonSelected={pokemonSelected}/>
 
       </div>
     )

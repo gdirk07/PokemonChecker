@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import PokemonId from './PokemonId';
 import "./PokemonSearch.css";
 
-const PokemonInfo = ({pokemonQuery, onPokemonSelected}) => {
+const PokemonSearchResults = ({pokemonQuery, onPokemonSelected}) => {
 
     const pokemonComponent = pokemonQuery.map((pokemon, p) =>
         <PokemonId key={p} name={pokemon.name} url={pokemon.url} onSelectPokemon={onPokemonSelected}></PokemonId>
@@ -16,7 +16,7 @@ const PokemonInfo = ({pokemonQuery, onPokemonSelected}) => {
     }
     else {
         return (
-            <div className="pokemonList" onClick={onPokemonSelected}>
+            <div className="pokemonList">
                     {pokemonComponent}
 
             </div>
@@ -30,4 +30,4 @@ const PokemonInfo = ({pokemonQuery, onPokemonSelected}) => {
 
 
     
-export default PokemonInfo;
+export default PokemonSearchResults;
