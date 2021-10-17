@@ -1,38 +1,51 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 
 class PokemonDisplay extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pokemonToLookup: ''
+            pokemonObject: ''
         };
-
     }
 
     componentDidUpdate(prevProps, prevState) {
-
-        let newPokemon = this.props.pokemonSelected
-        if (newPokemon !== prevProps.pokemonSelected) {
-            this.setState({pokemonToLookup: newPokemon}, () =>console.log("New Pokemon:", newPokemon, "State: ", this.state.pokemonToLookup));
-
+        const prevUrl = prevProps.pokemonUrl;
+        const url = this.props.pokemonUrl;
+        if (prevUrl !== url)
+        {
+            this.fetchPokemonObject();
         }
     }
-    render() {
 
-        const {pokemonToLookup} = this.state;
-        let pokemon;
-        if (pokemonToLookup != undefined && pokemonToLookup != '') {
-            pokemon = pokemonToLookup;
+    fetchPokemonObject()
+    {
+        const url = this.props.pokemonUrl;
+        if (url && url !== '')
+        {
+            fetch(url).then(response=> response.json())
+            .then(pokemonRetrieved => this.setState({ pokemonObject: pokemonRetrieved}))
+            .catch(console.log); 
+        }
+    }
+
+    render() {
+        const {pokemonObject} = this.state;
+        let pokemonName;
+        let display = false;
+        if (pokemonObject) {
+            display = true;
+            pokemonName = pokemonObject.name;
+            display = pokemonObject.sprites.back_default;
         }
         else {
-            pokemon = 'Awaiting Pokemon Selection';
+            display = false;
+            pokemonName = 'Awaiting Pokemon Selection';
         }
         return (
-                
             <div className="pokedex">  
-                
-                    <h2>{pokemon}</h2>
+                    <h2>{pokemonName}</h2>
+                    {display ? (<img id="pokemonDisplay" src={display} alt={pokemonName}></img>) :
+                    <h2>No Pokemon</h2>}
             </div>
         );
     }
