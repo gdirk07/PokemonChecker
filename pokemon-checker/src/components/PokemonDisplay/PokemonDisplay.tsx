@@ -21,7 +21,7 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
         };
     }
 
-    componentDidUpdate(prevProps: displayProps, prevState) {
+    componentDidUpdate(prevProps: displayProps) {
         const prevUrl = prevProps.pokemonUrl;
         const url = this.props.pokemonUrl;
         if (prevUrl !== url)
@@ -43,11 +43,11 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
 
     render() {
         const {pokemonObject} = this.state;
-        let pokemonName: string;
-        let display = '';
+        let pokemonName: string | undefined;
+        let display: string | undefined = '';
         if (pokemonObject) {
             pokemonName = pokemonObject.name;
-            display = pokemonObject.sprites.back_default;
+            display = pokemonObject.sprites?.back_default;
         }
         else {
             pokemonName = 'Awaiting Pokemon Selection';
