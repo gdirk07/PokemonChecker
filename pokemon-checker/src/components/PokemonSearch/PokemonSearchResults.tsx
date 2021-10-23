@@ -33,5 +33,5 @@ const PokemonSearchResults = ({pokemonQuery, onPokemonSelected}: PokemonSearchRe
           </div>
       );
   }
-
+}
 export default PokemonSearchResults;
