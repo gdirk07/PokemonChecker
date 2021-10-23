@@ -1,14 +1,27 @@
 import React from 'react';
 
-class PokemonDisplay extends React.Component {
-    constructor(props) {
+type displayProps = {
+    pokemonUrl: string
+}
+
+type displayState = {
+    pokemonObject: {
+        name?: string,
+        sprites?: {
+            back_default: boolean
+        }
+    }
+}
+
+class PokemonDisplay extends React.Component<displayProps, displayState> {
+    constructor(props: displayProps) {
         super(props);
         this.state = {
-            pokemonObject: ''
+            pokemonObject: {}
         };
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps: displayProps, prevState) {
         const prevUrl = prevProps.pokemonUrl;
         const url = this.props.pokemonUrl;
         if (prevUrl !== url)
@@ -30,7 +43,7 @@ class PokemonDisplay extends React.Component {
 
     render() {
         const {pokemonObject} = this.state;
-        let pokemonName;
+        let pokemonName: string;
         let display = false;
         if (pokemonObject) {
             display = true;
