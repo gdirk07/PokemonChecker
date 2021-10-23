@@ -8,7 +8,7 @@ type displayState = {
     pokemonObject: {
         name?: string,
         sprites?: {
-            back_default: boolean
+            back_default: string
         }
     }
 }
@@ -44,14 +44,12 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
     render() {
         const {pokemonObject} = this.state;
         let pokemonName: string;
-        let display = false;
+        let display = '';
         if (pokemonObject) {
-            display = true;
             pokemonName = pokemonObject.name;
             display = pokemonObject.sprites.back_default;
         }
         else {
-            display = false;
             pokemonName = 'Awaiting Pokemon Selection';
         }
         return (
