@@ -4,10 +4,19 @@ import "./components/PokemonSearch/PokemonSearchResults";
 import PokemonSearchResults from "./components/PokemonSearch/PokemonSearchResults";
 import SearchBox from "./components/SearchBar/SearchBar";
 import PokemonDisplay from "./components/PokemonDisplay/PokemonDisplay";
+import PokemonSearchObj from "./components/PokemonSearch/PokemonSearchResults";
 
-class App extends Component {
-  constructor() {
-    super();
+type AppState = {
+  pokemonList: typeof PokemonSearchObj[];
+  pokemonName: string;
+  searchfield: string;
+  pokemonSelected: string;
+  pokemonUrl: string;
+};
+
+class App extends Component<any, AppState> {
+  constructor(props: any) {
+    super(props);
     this.state = {
       pokemonList: [],
       pokemonName: "",
@@ -26,11 +35,13 @@ class App extends Component {
       )
       .catch(console.log);
   }
-  onSearchChange = (event) => {
-    this.setState({ searchfield: event.target.value });
+  onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event && event.target && event.target.value) {
+      this.setState({ searchfield: event.target.value });
+    }
   };
 
-  onPokemonSelected = (pokemonClicked, url) => {
+  onPokemonSelected = (pokemonClicked: string, url: string) => {
     if (url && url !== "") {
       this.setState({ pokemonSelected: pokemonClicked, pokemonUrl: url });
     }
@@ -38,14 +49,12 @@ class App extends Component {
 
   render() {
     const { pokemonList, searchfield, pokemonUrl } = this.state;
-    let filteredPokemon = [];
+    let filteredPokemon: any[] = [];
     if (searchfield.length < 2) {
       //do nothing, only really want to start searching when we have at least 2 characters
     } else {
-      filteredPokemon = pokemonList.filter((pokemonList) => {
-        return pokemonList.name
-          .toLowerCase()
-          .includes(searchfield.toLowerCase());
+      filteredPokemon = pokemonList.filter((pokemon) => {
+        return pokemon.name.toLowerCase().includes(searchfield.toLowerCase());
       });
     }
     return (
