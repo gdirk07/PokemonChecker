@@ -1,14 +1,9 @@
 type PokemonConstructorOptions = {
   name: string;
-  dexId: number;
-  types: {type:{name: string}}[];
-  moves: {
-    move: {
-      name: string;
-      url: string;
-    };
-  }[];
-  sprites: {front_shiny: string, front_default: string}
+  id: number;
+  types: { type: { name: string } }[];
+  moves: { name: string; url: string }[];
+  sprites: { front_shiny: string; front_default: string };
 };
 
 /**
@@ -21,12 +16,7 @@ class PokemonDTO {
   public dexId: number;
   public type1: string; //TODO: Update this to a TypeDTO object when created
   public type2: string | null;
-  public moves: {
-    move: {
-      name: string;
-      url: string;
-    };
-  }[]; //TODO: Update this to a moveDTO[] object when created
+  public moves:{ name: string; url: string }[]; //TODO: Update this to a moveDTO[] object when created
   public frontDefault: string;
   public frontShiny: string;
 
