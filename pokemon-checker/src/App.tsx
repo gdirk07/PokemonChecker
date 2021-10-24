@@ -4,15 +4,15 @@ import "./components/PokemonSearch/PokemonSearchResults";
 import PokemonSearchResults from "./components/PokemonSearch/PokemonSearchResults";
 import SearchBox from "./components/SearchBar/SearchBar";
 import PokemonDisplay from "./components/PokemonDisplay/PokemonDisplay";
-import PokemonSearchObj from "./components/PokemonSearch/PokemonSearchResults"
+import PokemonSearchObj from "./components/PokemonSearch/PokemonSearchResults";
 
 type AppState = {
-  pokemonList: typeof PokemonSearchObj[],
-  pokemonName: string,
-  searchfield: string,
-  pokemonSelected: string,
-  pokemonUrl: string,
-}
+  pokemonList: typeof PokemonSearchObj[];
+  pokemonName: string;
+  searchfield: string;
+  pokemonSelected: string;
+  pokemonUrl: string;
+};
 
 class App extends Component<any, AppState> {
   constructor(props: any) {
@@ -54,9 +54,7 @@ class App extends Component<any, AppState> {
       //do nothing, only really want to start searching when we have at least 2 characters
     } else {
       filteredPokemon = pokemonList.filter((pokemon) => {
-        return pokemon.name
-          .toLowerCase()
-          .includes(searchfield.toLowerCase());
+        return pokemon.name.toLowerCase().includes(searchfield.toLowerCase());
       });
     }
     return (
