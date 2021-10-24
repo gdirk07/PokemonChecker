@@ -13,7 +13,8 @@ type displayState = {
         type1?: string,
         type2?: string
         sprites?: {
-            back_default: string
+            frontDefault: string
+            frontShiny: string
         }
     }
 }
@@ -53,37 +54,42 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
    */
   createPokemonObject(pokemonRetrieved: any): void
   {
-    this.pokemonToDisplay = new PokemonDTO(
-        pokemonRetrieved.name,
-        pokemonRetrieved.id,
-        pokemonRetrieved.moves,
-        pokemonRetrieved.types[0],
-        pokemonRetrieved.types[1] ? pokemonRetrieved.types[1] : null
-    )
+    this.pokemonToDisplay = new PokemonDTO(pokemonRetrieved)
 
     this.setState({ pokemonObject: pokemonRetrieved})
   }
 
   render() {
-    const {pokemonObject} = this.state;
+    let pokemon = this.pokemonToDisplay;
     let pokemonName: string | undefined;
     let dexId: string;
-    let display: string | undefined = '';
-    if (this.pokemonToDisplay) {
-        pokemonName = this.pokemonToDisplay.name;
-        dexId = `#${this.pokemonToDisplay.dexId}`;
-        display = pokemonObject.sprites?.back_default;
+    let displayDefault: string | undefined = '';
+    let displayShiny: string | undefined = '';
+    let type1: string | null;
+    let type2: string | null;
+
+    if (pokemon) {
+        pokemonName = pokemon.name;
+        dexId = `#${pokemon.dexId}`;
+        displayDefault = pokemon.frontDefault;
+        displayShiny = pokemon.frontShiny;
+        type1 = pokemon.type1;
+        type2 = pokemon.type2 ? pokemon.type2 : null;
     }
-    else {
+    else { // as Display gets bigger, this will get messier
         pokemonName = 'Awaiting Pokemon Selection';
         dexId = "";
+        type1 = "";
+        type2 = "";
     }
     return (
         <div className="pokedex">  
-                <h2>{pokemonName}</h2>
-                <h2>{dexId}</h2>
-                {display ? (<img id="pokemonDisplay" src={display} alt={pokemonName}></img>) :
-                <h2>No Pokemon</h2>}
+                <h2>{pokemonName}{dexId}</h2>
+                <h5>{type1} {type2}</h5>
+                {displayDefault ? (<img id="pokemonDisplay" src={displayDefault} alt={pokemonName}></img>) :
+                <h2>No Pokemon</h2>} 
+                {displayShiny ? (<img id="pokemonDisplay" src={displayShiny} alt={pokemonName}></img>) :
+                <h2>No Shiny</h2>}
         </div>
     );
   }
