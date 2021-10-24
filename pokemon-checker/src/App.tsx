@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Component } from "react";
+import React, { Component } from "react";
 import "./App.css";
 import "./components/PokemonSearch/PokemonSearchResults";
 import PokemonSearchResults from "./components/PokemonSearch/PokemonSearchResults";
