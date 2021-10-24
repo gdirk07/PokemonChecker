@@ -2,14 +2,14 @@ import React from "react";
 import PokemonId from "./PokemonId";
 import "./PokemonSearch.css";
 
-interface PokemonSearchObj {
-  name: string;
-  url: string;
+export type PokemonSearchObj = {
+  name: string,
+  url: string,
 }
 
 type PokemonSearchResultsProps = {
   pokemonQuery: PokemonSearchObj[],
-  onPokemonSelected: () => {}
+  onPokemonSelected: (name: string, url: string) => void
 }
 
 const PokemonSearchResults = ({pokemonQuery, onPokemonSelected}: PokemonSearchResultsProps) => {

@@ -3,7 +3,7 @@ import React from "react";
 type PokemonIdProps = {
   name: string;
   url: string;
-  onSelectPokemon: (name: string, url: string) => {};
+  onSelectPokemon: (name: string, url: string) => void;
 };
 
 const PokemonId = ({ name, url, onSelectPokemon }: PokemonIdProps) => {
