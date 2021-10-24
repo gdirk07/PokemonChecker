@@ -6,17 +6,27 @@
 class PokemonDTO
 {
     public name: string;
-    public dexId: Number;
-    public type1: String; //TODO: Update this to a TypeDTO object when created
-    public type2: String | null;
-    public moves: String[]; //TODO: Update this to a moveDTO[] object when created
-    constructor(name: string, dexId: number, moves: string[], type1: string, type2: string | null = null)
+    public dexId: number;
+    public type1: string; //TODO: Update this to a TypeDTO object when created
+    public type2: string | null;
+    public moves: {
+        move: {
+            name: string,
+            url: string
+        }
+    }[]; //TODO: Update this to a moveDTO[] object when created
+    public frontDefault: string;
+    public frontShiny: string;
+
+    constructor(pokemonConstructorOptions: any)
     {
-        this.name = name;
-        this.dexId = dexId;
-        this.moves = moves;
-        this.type1 = type1;
-        this.type2 = type2;
+        this.name = pokemonConstructorOptions.name;
+        this.dexId = pokemonConstructorOptions.id;
+        this.moves = pokemonConstructorOptions.moves;
+        this.type1 = pokemonConstructorOptions.types[0].type.name;
+        this.type2 = pokemonConstructorOptions.types[1] ? pokemonConstructorOptions.types[1].type.name : null;
+        this.frontDefault = pokemonConstructorOptions.sprites.front_default;
+        this.frontShiny = pokemonConstructorOptions.sprites.front_shiny;
     }
 }
 
