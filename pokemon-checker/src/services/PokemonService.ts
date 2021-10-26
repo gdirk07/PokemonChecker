@@ -22,6 +22,6 @@ export const getAllPokemon = (url: string):Promise<any> => {
  * Lookup an individual pokemon
  * @param url the url for the specific pokemon
  */
-export function getSelectedPokemon(url: string): Promise<any> {
+export const getSelectedPokemon =(url: string): Promise<any> => {
   return fetch(url).then((response) => response.json());
 }
