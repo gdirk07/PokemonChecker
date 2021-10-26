@@ -32,7 +32,6 @@ class App extends Component<any, AppState> {
   //Fetch all of the pokemon to start, no need to paginate
   componentDidMount() {
     getAllPokemon(this.pokemonApiUrl)
-      .then((response) => response.json())
       .then((pokemonRetrieved) => {
         this.setState({ pokemonList: pokemonRetrieved.results });
       })

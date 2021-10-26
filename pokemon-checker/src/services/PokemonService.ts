@@ -9,7 +9,13 @@
  * @param url the url to fetch all pokemon for searching
  */
 export function getAllPokemon(url: string): Promise<any> {
-  return fetch(url);
+  return fetch(url).then((response) => {
+    response.json().then((data) => {
+      // Perform the DTO validation here, return
+      console.log(data);
+      return data;
+    });
+  });
 }
 
 /**
