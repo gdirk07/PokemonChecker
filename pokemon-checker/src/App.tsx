@@ -5,6 +5,7 @@ import PokemonSearchResults from "./components/PokemonSearch/PokemonSearchResult
 import SearchBox from "./components/SearchBar/SearchBar";
 import PokemonDisplay from "./components/PokemonDisplay/PokemonDisplay";
 import PokemonSearchObj from "./components/PokemonSearch/PokemonSearchResults";
+import { getAllPokemon } from "./services/PokemonService";
 
 type AppState = {
   pokemonList: typeof PokemonSearchObj[];
@@ -15,6 +16,8 @@ type AppState = {
 };
 
 class App extends Component<any, AppState> {
+  private pokemonApiUrl: string =
+    "https://pokeapi.co/api/v2/pokemon?limit=1000offset=0";
   constructor(props: any) {
     super(props);
     this.state = {
@@ -28,13 +31,13 @@ class App extends Component<any, AppState> {
 
   //Fetch all of the pokemon to start, no need to paginate
   componentDidMount() {
-    fetch("https://pokeapi.co/api/v2/pokemon?limit=1000offset=0")
-      .then((response) => response.json())
-      .then((pokemonRetrieved) =>
-        this.setState({ pokemonList: pokemonRetrieved.results })
-      )
+    getAllPokemon(this.pokemonApiUrl)
+      .then((pokemonRetrieved) => {
+        this.setState({ pokemonList: pokemonRetrieved.results });
+      })
       .catch(console.log);
   }
+
   onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event && event.target && event.target.value) {
       this.setState({ searchfield: event.target.value });
