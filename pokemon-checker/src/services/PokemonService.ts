@@ -8,7 +8,7 @@
  * Search ALL pokemon with their name and individual url
  * @param url the url to fetch all pokemon for searching
  */
-export function getAllPokemon(url: string): Promise<any> {
+export const getAllPokemon = (url: string):Promise<any> => {
   return fetch(url).then((response) => {
     response.json().then((data) => {
       // Perform the DTO validation here, return
