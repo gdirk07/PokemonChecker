@@ -10,7 +10,7 @@
  */
 export const getAllPokemon = (url: string):Promise<any> => {
   return fetch(url).then((response) => {
-    response.json().then((data) => {
+    return response.json().then((data) => {
       // Perform the DTO validation here, return
       console.log(data);
       return data;
