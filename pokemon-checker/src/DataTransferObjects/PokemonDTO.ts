@@ -6,6 +6,10 @@ type PokemonConstructorOptions = {
   sprites: { front_shiny: string; front_default: string };
 };
 
+type PokemonSpeciesConstructorOptions = {
+  varieties: { name: string; url: string }[];
+}
+
 /**
  * Pokemon Data Transfer Object
  *
@@ -19,8 +23,13 @@ class PokemonDTO {
   public moves:{ name: string; url: string }[]; //TODO: Update this to a moveDTO[] object when created
   public frontDefault: string;
   public frontShiny: string;
+  public alternateForms: { name: string; url: string }[] | null; //Mega, attack-type etc...
 
-  constructor(pokemonConstructorOptions: PokemonConstructorOptions) {
+  constructor(
+    pokemonConstructorOptions: PokemonConstructorOptions, 
+    PokemonSpeciesConstructorOptions: PokemonSpeciesConstructorOptions
+  ) 
+  {
     this.name = pokemonConstructorOptions.name;
     this.dexId = pokemonConstructorOptions.id;
     this.moves = pokemonConstructorOptions.moves;
@@ -30,6 +39,11 @@ class PokemonDTO {
       : null;
     this.frontDefault = pokemonConstructorOptions.sprites.front_default;
     this.frontShiny = pokemonConstructorOptions.sprites.front_shiny;
+    // First item is the pokemon itself so remove it
+    this.alternateForms 
+      = PokemonSpeciesConstructorOptions.varieties.length > 1 ? 
+        PokemonSpeciesConstructorOptions.varieties.slice(1) :
+        null;
   }
 }
 

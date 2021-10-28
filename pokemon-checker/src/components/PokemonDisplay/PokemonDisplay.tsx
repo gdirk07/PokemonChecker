@@ -53,8 +53,12 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
    * @param pokemonRetrieved the pokemon retrieved from the API
    */
   createPokemonObject(pokemonRetrieved: any): void {
-    this.pokemonToDisplay = new PokemonDTO(pokemonRetrieved);
-    this.setState({ pokemonObject: pokemonRetrieved });
+    getSelectedPokemon(pokemonRetrieved.species.url)
+      .then(pokemonSpeciesObject => {
+        this.pokemonToDisplay = new PokemonDTO(pokemonRetrieved, pokemonSpeciesObject)
+        this.setState({ pokemonObject: pokemonRetrieved })
+      }
+    )
   }
 
   render() {

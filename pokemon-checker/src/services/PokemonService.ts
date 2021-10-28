@@ -22,6 +22,12 @@ export const getAllPokemon = (url: string):Promise<any> => {
  * Lookup an individual pokemon
  * @param url the url for the specific pokemon
  */
-export const getSelectedPokemon =(url: string): Promise<any> => {
-  return fetch(url).then((response) => response.json());
+export const getSelectedPokemon = (url: string): Promise<any> => {
+  return fetch(url).then(response => {
+    return response.json().then(data => {
+      // Perform the DTO validation here, return
+      console.log(data);
+      return data;
+    })
+  })
 }
