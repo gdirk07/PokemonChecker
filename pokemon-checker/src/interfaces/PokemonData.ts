@@ -1,4 +1,7 @@
 
+/**
+ * Raw object received with Pokemon data. Contains the name and a link.
+ */
 export interface IMoveStub {
   name: string;
   url: string;
@@ -13,6 +16,10 @@ export interface IMoveLearnMethod {
   url: string;
 }
 
+/**
+ * Contains a link to the move in different versions of the game
+ * e.g. 'gold-silver', 'platinum', 'black-2-white-2'
+ */
 export interface IMoveVersionGroup {
   name: string;
   url: string;
