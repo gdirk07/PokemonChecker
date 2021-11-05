@@ -65,6 +65,7 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
     let displayShiny: string | undefined = "";
     let type1: string | null;
     let type2: string | null;
+    let baseStats: string;
 
     if (pokemon) {
       pokemonName = pokemon.name;
@@ -73,12 +74,14 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
       displayShiny = pokemon.frontShiny;
       type1 = pokemon.type1;
       type2 = pokemon.type2 ? pokemon.type2 : null;
+      baseStats = "Total base stats: " + pokemon.baseStats.toString();
     } else {
       // as Display gets bigger, this will get messier
       pokemonName = "Awaiting Pokemon Selection";
       dexId = "";
       type1 = "";
       type2 = "";
+      baseStats = "";
     }
     return (
       <div className="pokedex">
@@ -86,6 +89,9 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
           {pokemonName}
           {dexId}
         </h2>
+        <h5>
+          {baseStats}
+        </h5>
         <h5>
           {type1} {type2}
         </h5>
