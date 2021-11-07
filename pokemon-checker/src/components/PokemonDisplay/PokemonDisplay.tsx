@@ -1,6 +1,8 @@
 import React from "react";
 import PokemonDTO from "../../DataTransferObjects/PokemonDTO";
 import { getSelectedPokemon } from "../../services/PokemonService";
+import {IPokemonData } from "../../interfaces/PokemonData";
+import { PokemonFactory } from "../../factories/PokemonFactory";
 
 type displayProps = {
   pokemonUrl: string;
@@ -12,7 +14,7 @@ type displayState = {
     id?: string;
     moves?: string[];
     type1?: string;
-    type2?: string;
+    type2?: string | null;
     sprites?: {
       frontDefault: string;
       frontShiny: string;
@@ -22,6 +24,7 @@ type displayState = {
 
 class PokemonDisplay extends React.Component<displayProps, displayState> {
   private pokemonToDisplay: PokemonDTO | null;
+  private pokemonFactory: PokemonFactory;
 
   constructor(props: displayProps) {
     super(props);
@@ -29,6 +32,7 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
       pokemonObject: {},
     };
     this.pokemonToDisplay = null;
+    this.pokemonFactory = new PokemonFactory();
   }
 
   componentDidUpdate(prevProps: displayProps) {
@@ -52,9 +56,20 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
    * Create a PokemonObject from the results retrieved
    * @param pokemonRetrieved the pokemon retrieved from the API
    */
-  createPokemonObject(pokemonRetrieved: any): void {
-    this.pokemonToDisplay = new PokemonDTO(pokemonRetrieved);
-    this.setState({ pokemonObject: pokemonRetrieved });
+  createPokemonObject(pokemonRetrieved: IPokemonData): void {
+    this.pokemonToDisplay = this.pokemonFactory.createPokemon(pokemonRetrieved);
+    const displayObject = {
+      name: this.pokemonToDisplay.name,
+      id: this.pokemonToDisplay.dexId.toString(),
+      moves: this.pokemonToDisplay.moves.map((moveEntry) => moveEntry.name),
+      type1: this.pokemonToDisplay.type1,
+      type2: this.pokemonToDisplay.type2,
+      sprites: {
+        frontDefault: this.pokemonToDisplay.frontDefault,
+        frontShiny: this.pokemonToDisplay.frontShiny
+      }
+    }
+    this.setState({ pokemonObject: displayObject });
   }
 
   render() {

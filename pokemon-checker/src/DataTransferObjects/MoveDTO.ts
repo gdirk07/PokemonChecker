@@ -1,33 +1,33 @@
 
-enum moveType {
+export enum damageClass {
   PHYSICAL = "physical",
   SPECIAL = "special",
   STATUS = "status",
   NULL = "null"
 }
 
-type MoveConstructorOptions = {
+export type MoveConstructorOptions = {
   name: string,
-  damage?: number,
+  power?: number,
   accuracy?: number,
-  type?: moveType,
+  damage_class?: damageClass,
   description?: string,
   url?: string
 }
 
-class MoveDTO {
+export class MoveDTO {
   public name: string;
-  public damage: number;
+  public power: number;
   public accuracy: number;
-  public type: moveType;
+  public damage_class: damageClass;
   public description: string;
   public url: string;
 
   constructor(MoveConstructorOptions: MoveConstructorOptions) {
     this.name = MoveConstructorOptions.name;
-    this.damage = MoveConstructorOptions.damage ? MoveConstructorOptions.damage : -1;
+    this.power = MoveConstructorOptions.power ? MoveConstructorOptions.power : -1;
     this.accuracy = MoveConstructorOptions.accuracy ? MoveConstructorOptions.accuracy : -1;
-    this.type = MoveConstructorOptions.type ? MoveConstructorOptions.type : moveType.NULL;
+    this.damage_class = MoveConstructorOptions.damage_class ? MoveConstructorOptions.damage_class : damageClass.NULL;
     this.description = MoveConstructorOptions.description ? MoveConstructorOptions.description : "";
     this.url = MoveConstructorOptions.url ? MoveConstructorOptions.url : "";
   }
