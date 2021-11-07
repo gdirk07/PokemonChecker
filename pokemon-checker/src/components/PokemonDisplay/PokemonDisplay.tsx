@@ -1,7 +1,7 @@
 import React from "react";
 import PokemonDTO from "../../DataTransferObjects/PokemonDTO";
 import { getSelectedPokemon } from "../../services/PokemonService";
-import {IPokemonData } from "../../interfaces/PokemonData";
+import { IPokemonData } from "../../interfaces/PokemonData";
 import { PokemonFactory } from "../../factories/PokemonFactory";
 
 type displayProps = {
@@ -24,6 +24,7 @@ type displayState = {
 
 class PokemonDisplay extends React.Component<displayProps, displayState> {
   private pokemonToDisplay: PokemonDTO | null;
+  //TODO (jeremy): Move this factory to a service! Views shouldn't control this.
   private pokemonFactory: PokemonFactory;
 
   constructor(props: displayProps) {
@@ -93,9 +94,7 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
           {pokemonName}
           {dexId}
         </h2>
-        <h5>
-          {baseStats}
-        </h5>
+        <h5>{baseStats}</h5>
         <h5>
           {type1} {type2}
         </h5>

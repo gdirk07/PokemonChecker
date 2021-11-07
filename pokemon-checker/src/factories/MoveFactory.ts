@@ -21,8 +21,8 @@ export class MoveFactory {
       accuracy: moveData.accuracy,
       damage_class: moveData.damage_class,
       description: moveData.description,
-      url: moveData.url
-    }
+      url: moveData.url,
+    };
 
     return new MoveDTO(opts);
   };
