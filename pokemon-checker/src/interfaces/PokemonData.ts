@@ -25,12 +25,18 @@ export interface IMoveVersionGroup {
   url: string;
 }
 
+/**
+ * Move acquisition metadata for each Pokemon version
+ */
 export interface IMoveVersion {
   level_learned_at: number;
   move_learn_method: IMoveLearnMethod;
   version_group: IMoveVersionGroup;
 }
 
+/**
+ * Contains the move stub info, as well as all versions
+ */
 export interface IMoveSummary {
   moveStub: IMoveStub
   version_group_details: IMoveVersion[]
