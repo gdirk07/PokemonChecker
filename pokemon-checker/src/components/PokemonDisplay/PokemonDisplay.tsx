@@ -58,18 +58,7 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
    */
   createPokemonObject(pokemonRetrieved: IPokemonData): void {
     this.pokemonToDisplay = this.pokemonFactory.createPokemon(pokemonRetrieved);
-    const displayObject = {
-      name: this.pokemonToDisplay.name,
-      id: this.pokemonToDisplay.dexId.toString(),
-      moves: this.pokemonToDisplay.moves.map((moveEntry) => moveEntry.name),
-      type1: this.pokemonToDisplay.type1,
-      type2: this.pokemonToDisplay.type2,
-      sprites: {
-        frontDefault: this.pokemonToDisplay.frontDefault,
-        frontShiny: this.pokemonToDisplay.frontShiny
-      }
-    }
-    this.setState({ pokemonObject: displayObject });
+    this.setState({ pokemonObject: this.pokemonToDisplay.getDisplayStats() });
   }
 
   render() {

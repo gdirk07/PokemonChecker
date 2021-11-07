@@ -7,8 +7,8 @@ import {
 export class MoveFactory {
   public createMoveFromStub = (stubData: IMoveSummary): MoveDTO => {
     const opts: MoveConstructorOptions = {
-      name: stubData.moveStub.name,
-      url: stubData.moveStub.url,
+      name: stubData.move.name,
+      url: stubData.move.url,
     };
 
     return new MoveDTO(opts);

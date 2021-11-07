@@ -46,7 +46,7 @@ export interface IMoveVersion {
  * Contains the move stub info, as well as all versions
  */
 export interface IMoveSummary {
-  moveStub: IMoveStub;
+  move: IMoveStub;
   version_group_details: IMoveVersion[];
 }
 

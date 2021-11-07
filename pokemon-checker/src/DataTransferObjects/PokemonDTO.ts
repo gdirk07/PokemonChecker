@@ -12,6 +12,18 @@ export type PokemonConstructorOptions = {
   }[];
 };
 
+export type pokemonDisplayObj = {
+  name?: string;
+  id?: string;
+  moves?: string[];
+  type1?: string;
+  type2?: string | null;
+  sprites?: {
+    frontDefault: string;
+    frontShiny: string;
+  };
+}
+
 export enum ElementType {
   bug = "bug",
   dark = "dark",
@@ -43,7 +55,7 @@ class PokemonDTO {
   public dexId: number;
   public type1: string; //TODO: Update this to a TypeDTO object when created
   public type2: string | null;
-  public moves: MoveDTO[]; //TODO: Update this to a moveDTO[] object when created
+  public moves: MoveDTO[];
   public frontDefault: string;
   public frontShiny: string;
   public stats: {
@@ -79,6 +91,26 @@ class PokemonDTO {
     this.baseStats = this.calculateBaseStats();
   }
 
+  /**
+   * Returns Pokemon data in consumable form (strings) for a calling view.
+   */
+  public getDisplayStats(): pokemonDisplayObj {
+    return {
+      name: this.name,
+      id: this.dexId.toString(),
+      moves: this.moves.map((moveEntry) => moveEntry.name),
+      type1: this.type1,
+      type2: this.type2,
+      sprites: {
+        frontDefault: this.frontDefault,
+        frontShiny: this.frontShiny
+      }
+    }
+  }
+
+  /**
+   * Calculates the 'base stat total' (BST) for this Pokemon.
+   */
   private calculateBaseStats(): number {
     if (this.stats) {
       const s = this.stats;
