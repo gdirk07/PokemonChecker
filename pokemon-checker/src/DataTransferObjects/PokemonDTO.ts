@@ -45,6 +45,15 @@ export enum ElementType {
   water = "water",
 }
 
+enum pokemonStatIndex {
+  HP,
+  ATK,
+  DEF,
+  SPA,
+  SPD,
+  SPE
+}
+
 /**
  * Pokemon Data Transfer Object
  *
@@ -69,6 +78,9 @@ class PokemonDTO {
   public baseStats: number; //A cumulation of the values of the 6 stats
 
   constructor(pokemonConstructorOptions: PokemonConstructorOptions) {
+    const stats = pokemonConstructorOptions.stats;
+    const s = pokemonStatIndex;
+
     this.name = pokemonConstructorOptions.name;
     this.dexId = pokemonConstructorOptions.id;
     this.moves = pokemonConstructorOptions.moves;
@@ -79,14 +91,15 @@ class PokemonDTO {
     this.frontDefault = pokemonConstructorOptions.sprites.front_default;
     this.frontShiny = pokemonConstructorOptions.sprites.front_shiny;
 
-    //TODO: there has to be a more structured method, this relies on the consistency of the API to map.
+    //TODO: there has to be a more structured method, 
+    //this relies on the consistency of the API to map.
     this.stats = {
-      hp: pokemonConstructorOptions.stats[0].base_stat,
-      attack: pokemonConstructorOptions.stats[1].base_stat,
-      defense: pokemonConstructorOptions.stats[2].base_stat,
-      spAttack: pokemonConstructorOptions.stats[3].base_stat,
-      spDefense: pokemonConstructorOptions.stats[4].base_stat,
-      speed: pokemonConstructorOptions.stats[5].base_stat,
+      hp: stats[s.HP].base_stat,
+      attack: stats[s.ATK].base_stat,
+      defense: stats[s.DEF].base_stat,
+      spAttack: stats[s.SPA].base_stat,
+      spDefense: stats[s.SPD].base_stat,
+      speed: stats[s.SPE].base_stat
     };
     this.baseStats = this.calculateBaseStats();
   }
