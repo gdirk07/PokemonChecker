@@ -11,9 +11,24 @@
 export const getAllPokemon = (url: string):Promise<any> => {
   return fetch(url).then((response) => {
     return response.json().then((data) => {
+      const results = data.results;
+      
+      //the query fetches all pokemon AND forms (megas etc), but we don't want 
+      //forms so filter out any result that has a url > 10000
+      const filterResults = results.filter((filter: {
+        name: string,
+        url: string
+      }) => {
+        //cut the final "/" out
+        const url = filter.url.substring(0, filter.url.length-1).split("/");
+
+        const id = Number(url.pop());
+        if (id && id < 10000) return filter
+        return false;
+      });
       // Perform the DTO validation here, return
-      console.log(data);
-      return data;
+      console.log(filterResults);
+      return filterResults;
     });
   });
 }

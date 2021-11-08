@@ -33,7 +33,7 @@ class App extends Component<any, AppState> {
   componentDidMount() {
     getAllPokemon(this.pokemonApiUrl)
       .then((pokemonRetrieved) => {
-        this.setState({ pokemonList: pokemonRetrieved.results });
+        this.setState({ pokemonList: pokemonRetrieved });
       })
       .catch(console.log);
   }
