@@ -16,6 +16,7 @@ export type MoveConstructorOptions = {
 }
 
 export class MoveDTO {
+  //TODO: Add a property for move use number (PP)
   public name: string;
   public power: number;
   public accuracy: number;
