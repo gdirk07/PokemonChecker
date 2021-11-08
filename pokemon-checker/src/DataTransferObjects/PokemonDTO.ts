@@ -1,13 +1,49 @@
-type PokemonConstructorOptions = {
+import { MoveDTO } from "./MoveDTO";
+import { ITypeData, ISpriteData } from "../interfaces/PokemonData";
+
+export type PokemonConstructorOptions = {
   name: string;
   id: number;
-  types: { type: { name: string } }[];
-  moves: { name: string; url: string }[];
-  sprites: { front_shiny: string; front_default: string };
+  types: ITypeData[];
+  moves: MoveDTO[];
+  sprites: ISpriteData;
   stats: {
-    base_stat: number
-  }[]
+    base_stat: number;
+  }[];
 };
+
+export type pokemonDisplayObj = {
+  name?: string;
+  id?: string;
+  moves?: string[];
+  type1?: string;
+  type2?: string | null;
+  sprites?: {
+    frontDefault: string;
+    frontShiny: string;
+  };
+}
+
+export enum ElementType {
+  BUG = "bug",
+  DARK = "dark",
+  DRAGON = "dragon",
+  ELECTRIC = "electric",
+  FAIRY = "fairy",
+  FIGHTING = "fighting",
+  FIRE = "fire",
+  FLYING = "flying",
+  GHOST = "ghost",
+  GRASS = "grass",
+  GROUND = "ground",
+  ICE = "ice",
+  NORMAL = "normal",
+  POISON = "poison",
+  PSYCHIC = "psychic",
+  ROCK = "rock",
+  STEEL = "steel",
+  WATER = "water",
+}
 
 enum pokemonStatIndex {
   HP,
@@ -28,19 +64,18 @@ class PokemonDTO {
   public dexId: number;
   public type1: string; //TODO: Update this to a TypeDTO object when created
   public type2: string | null;
-  //TODO: Update this to a moveDTO[] object when created
-  public moves:{ name: string; url: string }[];
+  public moves: MoveDTO[];
   public frontDefault: string;
   public frontShiny: string;
   public stats: {
-    hp: number,
-    attack: number,
-    defense: number,
-    spAttack: number,
-    spDefense: number,
-    speed: number
-  }
-  public baseStats: number //A cumulation of the values of the 6 stats
+    hp: number;
+    attack: number;
+    defense: number;
+    spAttack: number;
+    spDefense: number;
+    speed: number;
+  };
+  public baseStats: number; //A cumulation of the values of the 6 stats
 
   constructor(pokemonConstructorOptions: PokemonConstructorOptions) {
     const stats = pokemonConstructorOptions.stats;
@@ -49,9 +84,9 @@ class PokemonDTO {
     this.name = pokemonConstructorOptions.name;
     this.dexId = pokemonConstructorOptions.id;
     this.moves = pokemonConstructorOptions.moves;
-    this.type1 = pokemonConstructorOptions.types[0].type.name;
+    this.type1 = pokemonConstructorOptions.types[0].name;
     this.type2 = pokemonConstructorOptions.types[1]
-      ? pokemonConstructorOptions.types[1].type.name
+      ? pokemonConstructorOptions.types[1].name
       : null;
     this.frontDefault = pokemonConstructorOptions.sprites.front_default;
     this.frontShiny = pokemonConstructorOptions.sprites.front_shiny;
@@ -69,9 +104,28 @@ class PokemonDTO {
     this.baseStats = this.calculateBaseStats();
   }
 
+  /**
+   * Returns Pokemon data in consumable form (strings) for a calling view.
+   */
+  public getDisplayStats(): pokemonDisplayObj {
+    return {
+      name: this.name,
+      id: this.dexId.toString(),
+      moves: this.moves.map((moveEntry) => moveEntry.name),
+      type1: this.type1,
+      type2: this.type2,
+      sprites: {
+        frontDefault: this.frontDefault,
+        frontShiny: this.frontShiny
+      }
+    }
+  }
+
+  /**
+   * Calculates the 'base stat total' (BST) for this Pokemon.
+   */
   private calculateBaseStats(): number {
-    if (this.stats)
-    {
+    if (this.stats) {
       const s = this.stats;
       return s.hp + s.attack + s.defense + s.spAttack + s.spDefense + s.speed;
     }
