@@ -72,6 +72,14 @@ export interface IMoveData {
  */
 
 /**
+ * Data returned when querying all pokemon
+ */
+export interface IPokemonStub {
+  name: string;
+  url: string;
+}
+
+/**
  * Type stub found on pokemon data
  */
 export interface ITypeData {

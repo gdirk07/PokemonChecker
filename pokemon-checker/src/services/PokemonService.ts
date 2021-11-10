@@ -7,6 +7,8 @@
 /**
  * Search ALL pokemon with their name and individual url
  * @param url the url to fetch all pokemon for searching
+ * @TODO The promise type shold not be 'any', but changing it causes upstream
+ * errors in the App.tsx
  */
 export const getAllPokemon = (url: string):Promise<any> => {
   return fetch(url).then((response) => {
