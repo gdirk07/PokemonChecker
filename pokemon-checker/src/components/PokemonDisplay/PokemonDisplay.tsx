@@ -1,11 +1,11 @@
 import React from "react";
 import PokemonDTO from "../../DataTransferObjects/PokemonDTO";
-import { getSelectedPokemon } from "../../services/PokemonService";
 import { IPokemonData } from "../../interfaces/PokemonData";
 import { PokemonFactory } from "../../factories/PokemonFactory";
 
 type displayProps = {
   pokemonUrl: string;
+  getPokemonData: (url: string) => Promise<any>;
 };
 
 type displayState = {
@@ -47,7 +47,7 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
   fetchPokemonObject() {
     const url = this.props.pokemonUrl;
     if (url && url !== "") {
-      getSelectedPokemon(url)
+      this.props.getPokemonData(url)
         .then((pokemonRetrieved) => this.createPokemonObject(pokemonRetrieved))
         .catch(console.log);
     }

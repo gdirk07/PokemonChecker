@@ -14,6 +14,8 @@ export class PokemonRepository {
 
   /**
    * Fills the table with initial pokemon data
+   * The name record stores key/value pairs of names and URLs.
+   * e.g. { 'bulbasaur': 'https://...', 'ivysaur': 'https://', ...}
    * For reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
    * @param batch Returned stubs from a bundled API call
    */
@@ -45,7 +47,7 @@ export class PokemonRepository {
 
   /**
    * Retrieves a full pokemon payload, if applicable 
-   * @param name Name of the data to be retrieved
+   * @param name Name of the Pokemon to be retrieved
    */
   public getPokemonData(name: string): PokemonDTO | null {
     return this.pokemonTable[name] ?? null;
