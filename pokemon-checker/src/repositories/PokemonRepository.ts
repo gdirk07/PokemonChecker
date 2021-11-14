@@ -1,16 +1,31 @@
 import PokemonDTO from "../DataTransferObjects/PokemonDTO";
 import { IPokemonStub } from "../interfaces/PokemonData";
+import { Time } from "../constants/Time";
 
 export class PokemonRepository {
   private pokemonNames: Record<string, string>;
   private pokemonTable: Record<string, PokemonDTO>;
-  private timestamp: number;
+  private expiryTimestamp: number;
 
   constructor() {
     this.pokemonNames = {};
     this.pokemonTable = {};
-    this.timestamp = 0;
+    this.expiryTimestamp = 0;
   }
+
+  /**
+   * Sets a time for which the repository data will become stale.
+   * @param minutes Duration to set the repository expiry time.
+   */
+  public setExpiryTimestamp(minutes = 60): void {
+    this.expiryTimestamp =
+      Date.now() +
+      (minutes * Time.MILLISECONDS_PER_SECOND * Time.SECONDS_PER_MINUTE);
+  }
+
+  public get expiryTime(): number {
+    return this.expiryTimestamp;
+  };
 
   /**
    * Fills the table with initial pokemon data
@@ -46,7 +61,7 @@ export class PokemonRepository {
   }
 
   /**
-   * Retrieves a full pokemon payload, if applicable 
+   * Retrieves a full pokemon payload, if applicable
    * @param name Name of the Pokemon to be retrieved
    */
   public getPokemonData(name: string): PokemonDTO | null {

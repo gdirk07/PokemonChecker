@@ -1,7 +1,6 @@
 /**
- * Service for handling fetches related to Pokemon
- * TODO: Flesh these out, keeping them separate for now as we will flesh them
- * out in the future
+ * Service for handling fetches related to Pokemon, from
+ * name/url stubs to full Pokemon DTO data.
  */
 
 export class PokemonService {

@@ -72,7 +72,7 @@ export interface IMoveData {
  */
 
 /**
- * Data returned when querying all pokemon
+ * Name and URL returned when querying Pokemon summary data
  */
 export interface IPokemonStub {
   name: string;
@@ -86,6 +86,11 @@ export interface ITypeData {
   name: ElementType;
   url: string;
 }
+
+export interface ITypeSlot {
+  slot: number;
+  type: ITypeData;
+};
 
 /**
  * Sprite URLs attached to pokemon
@@ -119,7 +124,7 @@ export interface IStatData {
 export interface IPokemonData {
   name: string;
   id: number;
-  types: { slot: number; type: ITypeData }[];
+  types: ITypeSlot[];
   sprites: ISpriteData;
   moves: IMoveSummary[];
   stats: IStatData[];
