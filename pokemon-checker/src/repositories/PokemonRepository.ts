@@ -7,10 +7,24 @@ export class PokemonRepository {
   private pokemonTable: Record<string, PokemonDTO>;
   private expiryTimestamp: number;
 
+  // Used to check against localStorage
+  private static storageTimestampKey = "expiryTimestamp";
+
   constructor() {
     this.pokemonNames = {};
     this.pokemonTable = {};
-    this.expiryTimestamp = 0;
+    this.expiryTimestamp = this.initTimestamp();
+  }
+
+  /**
+   * Returns the existing timestamp from localStorage, if it exists.
+   * Zero indicates that localStorage is un-set
+   */
+  public initTimestamp(): number {
+    const oldStamp = Number(
+      localStorage.getItem(PokemonRepository.storageTimestampKey)
+    );
+    return oldStamp ?? 0;
   }
 
   /**
@@ -18,14 +32,19 @@ export class PokemonRepository {
    * @param minutes Duration to set the repository expiry time.
    */
   public setExpiryTimestamp(minutes = 60): void {
-    this.expiryTimestamp =
+    const newStamp =
       Date.now() +
-      (minutes * Time.MILLISECONDS_PER_SECOND * Time.SECONDS_PER_MINUTE);
+      minutes * Time.MILLISECONDS_PER_SECOND * Time.SECONDS_PER_MINUTE;
+
+    localStorage.setItem(
+      PokemonRepository.storageTimestampKey,
+      newStamp.toString()
+    );
   }
 
   public get expiryTime(): number {
     return this.expiryTimestamp;
-  };
+  }
 
   /**
    * Fills the table with initial pokemon data

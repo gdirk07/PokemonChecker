@@ -1,3 +1,5 @@
+import { PokemonRepository } from "../repositories/PokemonRepository";
+
 /**
  * Service for handling fetches related to Pokemon, from
  * name/url stubs to full Pokemon DTO data.
@@ -5,9 +7,11 @@
 
 export class PokemonService {
   private getAllUrl: string;
+  private repository: PokemonRepository;
 
   constructor() {
     this.getAllUrl = "https://pokeapi.co/api/v2/pokemon?limit=1000offset=0";
+    this.repository = new PokemonRepository();
   }
 
   /**
