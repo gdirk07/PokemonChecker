@@ -19,8 +19,8 @@ export class PokemonService {
    * @TODO The promise type shold not be 'any', but changing it causes upstream
    * errors in the App.tsx
    */
-  public getAllPokemon(): Promise<any> {
-    return fetch(this.getAllUrl).then((response) => {
+  public async getAllPokemon(): Promise<any> {
+    return await fetch(this.getAllUrl).then((response) => {
       return response.json().then((data) => {
         const results = data.results;
 
