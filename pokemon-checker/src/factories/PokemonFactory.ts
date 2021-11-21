@@ -3,6 +3,7 @@ import PokemonDTO, {
   PokemonConstructorOptions,
 } from "../DataTransferObjects/PokemonDTO";
 import { IPokemonData } from "../interfaces/PokemonData";
+import { scrubPokemonName } from "../utils/Helper";
 
 export class PokemonFactory {
   private moveFactory: MoveFactory;
@@ -13,7 +14,7 @@ export class PokemonFactory {
 
   public createPokemon = (pokemon: IPokemonData): PokemonDTO => {
     const opts: PokemonConstructorOptions = {
-      name: pokemon.name,
+      name: scrubPokemonName(pokemon.name),
       id: pokemon.id,
       types: pokemon.types.map((slot) => slot.type),
       moves: pokemon.moves.map((moveData) =>

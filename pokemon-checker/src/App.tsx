@@ -6,6 +6,7 @@ import SearchBox from "./components/SearchBar/SearchBar";
 import PokemonDisplay from "./components/PokemonDisplay/PokemonDisplay";
 import PokemonSearchObj from "./components/PokemonSearch/PokemonSearchResults";
 import { getAllPokemon } from "./services/PokemonService";
+import { scrubPokemonName } from "./utils/Helper";
 
 type AppState = {
   pokemonList: typeof PokemonSearchObj[];
@@ -33,6 +34,10 @@ class App extends Component<any, AppState> {
   componentDidMount() {
     getAllPokemon(this.pokemonApiUrl)
       .then((pokemonRetrieved) => {
+        pokemonRetrieved.map((pokemon: {name: string, url: string})  => {
+          return pokemon.name 
+            = scrubPokemonName(pokemon.name.toLowerCase());
+        });
         this.setState({ pokemonList: pokemonRetrieved });
       })
       .catch(console.log);
@@ -57,7 +62,8 @@ class App extends Component<any, AppState> {
       //do nothing, only really want to start searching when we have at least 2 characters
     } else {
       filteredPokemon = pokemonList.filter((pokemon) => {
-        return pokemon.name.toLowerCase().includes(searchfield.toLowerCase());
+        let name: string = pokemon.name.toLowerCase();
+        return name.includes(searchfield.toLowerCase());
       });
     }
     return (

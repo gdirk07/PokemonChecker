@@ -27,6 +27,9 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
   //TODO (jeremy): Move this factory to a service! Views shouldn't control this.
   private pokemonFactory: PokemonFactory;
 
+  private readonly width: string = "96";
+  private readonly height: string = "96";
+
   constructor(props: displayProps) {
     super(props);
     this.state = {
@@ -99,12 +102,24 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
           {type1} {type2}
         </h5>
         {displayDefault ? (
-          <img id="pokemonDisplay" src={displayDefault} alt={pokemonName}></img>
+          <
+            img id="pokemonDisplay" 
+            src={displayDefault} 
+            alt={pokemonName} 
+            width={this.width} 
+            height={this.height}
+          ></img>
         ) : (
           <h2>No Pokemon</h2>
         )}
         {displayShiny ? (
-          <img id="pokemonDisplay" src={displayShiny} alt={pokemonName}></img>
+          <
+            img id="pokemonDisplay" 
+            src={displayShiny} 
+            alt={pokemonName}
+            width={this.width} 
+            height={this.height}
+          ></img>
         ) : (
           <h2>No Shiny</h2>
         )}
