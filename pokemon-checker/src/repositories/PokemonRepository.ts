@@ -1,18 +1,18 @@
 import PokemonDTO from "../DataTransferObjects/PokemonDTO";
-import { IPokemonStub } from "../interfaces/PokemonData";
 import { Time } from "../constants/Time";
+import { PokemonFactory } from "../factories/PokemonFactory";
 
 export class PokemonRepository {
-  private pokemonNames: Record<string, string>;
   private pokemonTable: Record<string, PokemonDTO>;
   private expiryTimestamp: number;
+  private factory: PokemonFactory
 
   // Used to check against localStorage
   private static storageTimestampKey = "expiryTimestamp";
 
   constructor() {
-    this.pokemonNames = {};
     this.pokemonTable = {};
+    this.factory = new PokemonFactory();
     this.expiryTimestamp = this.initTimestamp();
   }
 
@@ -42,33 +42,11 @@ export class PokemonRepository {
     );
   }
 
-  public get expiryTime(): number {
-    return this.expiryTimestamp;
-  }
-
   /**
-   * Fills the table with initial pokemon data
-   * The name record stores key/value pairs of names and URLs.
-   * e.g. { 'bulbasaur': 'https://...', 'ivysaur': 'https://', ...}
-   * For reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
-   * @param batch Returned stubs from a bundled API call
+   * Determines whether the expiry timestamp has passed
    */
-  public loadPokemonNames(batch: IPokemonStub[]): void {
-    this.pokemonNames = batch.reduce(
-      (index, pokemonStub) => ({
-        ...index,
-        [pokemonStub.name]: pokemonStub.url,
-      }),
-      {}
-    );
-  }
-
-  /**
-   * Retrieves the URL of the pokemon, if it exists
-   * @param name Pokemon to retrieve
-   */
-  public getPokemonUrl(name: string): string {
-    return this.pokemonNames[name] ?? "";
+  public get isExpired(): boolean {
+    return this.expiryTimestamp < Date.now();
   }
 
   /**
@@ -85,5 +63,36 @@ export class PokemonRepository {
    */
   public getPokemonData(name: string): PokemonDTO | null {
     return this.pokemonTable[name] ?? null;
+  }
+
+  /**
+   * Fetches the full extent of stored Pokemon data in the repository.
+   */
+  public getAllPokemon(): PokemonDTO[] {
+    return (
+      Object.keys(this.pokemonTable).map((key) => this.pokemonTable[key]) ?? []
+    );
+  }
+
+  public loadPokemonBatch(payload: PokemonDTO[]): void {
+    payload.forEach(pokemon => this.setPokemonData(pokemon));
+  }
+
+  /**
+   * Saves the state of the current table to localStorage
+   */
+  public savePokemon(): void {
+    localStorage.setItem('pokemonTable', JSON.stringify(this.pokemonTable));
+  }
+
+  public loadFromStorage(): void {
+    const savedData = localStorage.getItem('pokemonTable');
+    if (savedData) {
+      const oldTable = JSON.parse(savedData);
+      (Object.keys(oldTable)).forEach(key => {
+        const pokemonData = this.factory.createPokemonStub(oldTable[key]);
+        this.setPokemonData(pokemonData);
+      });
+    }
   }
 }

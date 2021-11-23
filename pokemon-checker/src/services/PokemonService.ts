@@ -6,7 +6,6 @@ import PokemonDTO from "../DataTransferObjects/PokemonDTO";
  * Service for handling fetches related to Pokemon, from
  * name/url stubs to full Pokemon DTO data.
  */
-
 export class PokemonService {
   private getAllUrl: string;
   private factory: PokemonFactory;
@@ -16,6 +15,33 @@ export class PokemonService {
     this.getAllUrl = "https://pokeapi.co/api/v2/pokemon?limit=1000offset=0";
     this.repository = new PokemonRepository();
     this.factory = new PokemonFactory();
+  }
+
+  /**
+   * Fills the repository with skeleton DTOs and URLs,
+   * assigning a timestamp in the process.
+   * @param payload List of pokemon to store in the repository
+   */
+  private storePokemonStubs(payload: PokemonDTO[]): void {
+    try{
+      // Save the pokemon data to localStorage
+      this.repository.loadPokemonBatch(payload);
+      this.repository.savePokemon();
+
+      // Set the timestamp for 30 minutes
+      this.repository.setExpiryTimestamp(30);
+    }
+    catch (e: unknown) {
+      if (typeof e === 'string') {
+        console.log(`Could not store pokemon stubs: ${e}`);
+      }
+      else if (e instanceof Error) {
+        console.log(`Failed to store pokemon stub: ${e.message}`);
+      }
+      else {
+        console.log(`Unknown error storing pokemon stubs: ${e}`);
+      }
+    }
   }
 
   /**
@@ -39,8 +65,10 @@ export class PokemonService {
         return false;
       }
     );
-    // Perform the DTO validation here, return
-    console.log(filterResults);
+    // Store the pokemon names in the repository
+    this.storePokemonStubs(filterResults);
+
+    // console.log(filterResults);
 
     return filterResults;
   };
@@ -50,7 +78,13 @@ export class PokemonService {
    * @TODO We ought to fix what the pokemonList in App.tsx consumes.
    */
   public async getAllPokemon(): Promise<PokemonDTO[]> {
-    return await fetch(this.getAllUrl).then(this.resolvePokemonStubs);
+    if (this.repository.isExpired) {
+      return await fetch(this.getAllUrl).then(this.resolvePokemonStubs);
+    }
+    else {
+      this.repository.loadFromStorage();
+      return Promise.resolve(this.repository.getAllPokemon());
+    }
   }
 
   /**
