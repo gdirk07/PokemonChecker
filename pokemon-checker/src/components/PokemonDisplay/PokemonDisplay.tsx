@@ -3,6 +3,8 @@ import PokemonDTO from "../../DataTransferObjects/PokemonDTO";
 import { getSelectedPokemon } from "../../services/PokemonService";
 import { IPokemonData } from "../../interfaces/PokemonData";
 import { PokemonFactory } from "../../factories/PokemonFactory";
+import { PokemonInfo } from "./PokemonInfoDisplay";
+import { PokemonImage } from "./PokemonImageDisplay";
 
 type displayProps = {
   pokemonUrl: string;
@@ -93,36 +95,18 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
     }
     return (
       <div className="pokedex">
-        <h2>
-          {pokemonName}
-          {dexId}
-        </h2>
-        <h5>{baseStats}</h5>
-        <h5>
-          {type1} {type2}
-        </h5>
-        {displayDefault ? (
-          <
-            img id="pokemonDisplay" 
-            src={displayDefault} 
-            alt={pokemonName} 
-            width={this.width} 
-            height={this.height}
-          ></img>
-        ) : (
-          <h2>No Pokemon</h2>
-        )}
-        {displayShiny ? (
-          <
-            img id="pokemonDisplay" 
-            src={displayShiny} 
-            alt={pokemonName}
-            width={this.width} 
-            height={this.height}
-          ></img>
-        ) : (
-          <h2>No Shiny</h2>
-        )}
+        <PokemonInfo
+          pokemonName = {pokemonName}
+          dexId = {dexId}
+          baseStats = {baseStats}
+          type1 = {type1}
+          type2 = {type2}
+        />
+        <PokemonImage
+          altImageName = {pokemonName}
+          defaultFront = {displayDefault}
+          defaultFrontS = {displayShiny}
+        />
       </div>
     );
   }
