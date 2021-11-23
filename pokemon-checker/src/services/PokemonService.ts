@@ -1,5 +1,6 @@
 import { PokemonRepository } from "../repositories/PokemonRepository";
-import { PokemonSearchResultsProps } from "../components/PokemonSearch/PokemonSearchResults";
+import { PokemonFactory } from "../factories/PokemonFactory";
+import PokemonDTO from "../DataTransferObjects/PokemonDTO";
 
 /**
  * Service for handling fetches related to Pokemon, from
@@ -8,18 +9,22 @@ import { PokemonSearchResultsProps } from "../components/PokemonSearch/PokemonSe
 
 export class PokemonService {
   private getAllUrl: string;
+  private factory: PokemonFactory;
   private repository: PokemonRepository;
 
   constructor() {
     this.getAllUrl = "https://pokeapi.co/api/v2/pokemon?limit=1000offset=0";
     this.repository = new PokemonRepository();
+    this.factory = new PokemonFactory();
   }
 
   /**
    * Catches returned key-value pairs of pokemon names from the API
    * @param response Returned payload from fetching pokemon names
    */
-  private resolvePokemonStubs = async (response: Response) => {
+  private resolvePokemonStubs = async (
+    response: Response
+  ): Promise<PokemonDTO[]> => {
     const data = await response.json();
     const results = data.results;
     //the query fetches all pokemon AND forms (megas etc), but we don't want
@@ -30,12 +35,13 @@ export class PokemonService {
         const url = filter.url.substring(0, filter.url.length - 1).split("/");
 
         const id = Number(url.pop());
-        if (id && id < 10000) return filter;
+        if (id && id < 10000) return this.factory.createPokemonStub(filter);
         return false;
       }
     );
     // Perform the DTO validation here, return
     console.log(filterResults);
+
     return filterResults;
   };
 
@@ -43,12 +49,7 @@ export class PokemonService {
    * Search ALL pokemon with their name and individual url
    * @TODO We ought to fix what the pokemonList in App.tsx consumes.
    */
-  public async getAllPokemon(): Promise<
-    (({
-      pokemonQuery,
-      onPokemonSelected,
-    }: PokemonSearchResultsProps) => JSX.Element)[]
-  > {
+  public async getAllPokemon(): Promise<PokemonDTO[]> {
     return await fetch(this.getAllUrl).then(this.resolvePokemonStubs);
   }
 

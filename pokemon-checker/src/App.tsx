@@ -4,11 +4,11 @@ import "./components/PokemonSearch/PokemonSearchResults";
 import PokemonSearchResults from "./components/PokemonSearch/PokemonSearchResults";
 import SearchBox from "./components/SearchBar/SearchBar";
 import PokemonDisplay from "./components/PokemonDisplay/PokemonDisplay";
-import PokemonSearchObj from "./components/PokemonSearch/PokemonSearchResults";
 import { PokemonService } from "./services/PokemonService";
+import PokemonDTO from "./DataTransferObjects/PokemonDTO";
 
 type AppState = {
-  pokemonList: typeof PokemonSearchObj[];
+  pokemonList: PokemonDTO[];
   pokemonName: string;
   searchfield: string;
   pokemonSelected: string;
