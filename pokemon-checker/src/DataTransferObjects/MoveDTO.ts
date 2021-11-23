@@ -1,19 +1,18 @@
-
 export enum damageClass {
   PHYSICAL = "physical",
   SPECIAL = "special",
   STATUS = "status",
-  NULL = "null"
+  NULL = "null",
 }
 
 export type MoveConstructorOptions = {
-  name: string,
-  power?: number,
-  accuracy?: number,
-  damage_class?: damageClass,
-  description?: string,
-  url?: string
-}
+  name: string;
+  power?: number;
+  accuracy?: number;
+  damage_class?: damageClass;
+  description?: string;
+  url?: string;
+};
 
 export class MoveDTO {
   //TODO: Add a property for move use number (PP)
@@ -26,11 +25,11 @@ export class MoveDTO {
 
   constructor(MoveConstructorOptions: MoveConstructorOptions) {
     this.name = MoveConstructorOptions.name;
-    this.power = MoveConstructorOptions.power ? MoveConstructorOptions.power : -1;
-    this.accuracy = MoveConstructorOptions.accuracy ? MoveConstructorOptions.accuracy : -1;
-    this.damage_class = MoveConstructorOptions.damage_class ? MoveConstructorOptions.damage_class : damageClass.NULL;
-    this.description = MoveConstructorOptions.description ? MoveConstructorOptions.description : "";
-    this.url = MoveConstructorOptions.url ? MoveConstructorOptions.url : "";
+    this.power = MoveConstructorOptions.power ?? -1;
+    this.accuracy = MoveConstructorOptions.accuracy ?? -1;
+    this.damage_class = MoveConstructorOptions.damage_class ?? damageClass.NULL;
+    this.description = MoveConstructorOptions.description ?? "";
+    this.url = MoveConstructorOptions.url ?? "";
   }
 }
 export default MoveDTO;

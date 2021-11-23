@@ -10,6 +10,7 @@ export type PokemonConstructorOptions = {
   stats: {
     base_stat: number;
   }[];
+  url?: string;
 };
 
 export type pokemonDisplayObj = {
@@ -22,7 +23,7 @@ export type pokemonDisplayObj = {
     frontDefault: string;
     frontShiny: string;
   };
-}
+};
 
 export enum ElementType {
   BUG = "bug",
@@ -45,13 +46,17 @@ export enum ElementType {
   WATER = "water",
 }
 
+/**
+ * Pokemon stat data is (currently) sent in an array where
+ * stat indices are consistent with this enum
+ */
 enum pokemonStatIndex {
   HP,
   ATK,
   DEF,
   SPA,
   SPD,
-  SPE
+  SPE,
 }
 
 /**
@@ -76,6 +81,7 @@ class PokemonDTO {
     speed: number;
   };
   public baseStats: number; //A cumulation of the values of the 6 stats
+  public url: string;
 
   constructor(pokemonConstructorOptions: PokemonConstructorOptions) {
     const stats = pokemonConstructorOptions.stats;
@@ -84,22 +90,22 @@ class PokemonDTO {
     this.name = pokemonConstructorOptions.name;
     this.dexId = pokemonConstructorOptions.id;
     this.moves = pokemonConstructorOptions.moves;
-    this.type1 = pokemonConstructorOptions.types[0].name;
+    this.type1 = pokemonConstructorOptions.types[0].name ?? "";
     this.type2 = pokemonConstructorOptions.types[1]
       ? pokemonConstructorOptions.types[1].name
       : null;
     this.frontDefault = pokemonConstructorOptions.sprites.front_default;
     this.frontShiny = pokemonConstructorOptions.sprites.front_shiny;
+    this.url = pokemonConstructorOptions.url ?? "";
 
-    //TODO: there has to be a more structured method, 
-    //this relies on the consistency of the API to map.
+    // ! Current stat generation relies on the consistency of the API
     this.stats = {
       hp: stats[s.HP].base_stat,
       attack: stats[s.ATK].base_stat,
       defense: stats[s.DEF].base_stat,
       spAttack: stats[s.SPA].base_stat,
       spDefense: stats[s.SPD].base_stat,
-      speed: stats[s.SPE].base_stat
+      speed: stats[s.SPE].base_stat,
     };
     this.baseStats = this.calculateBaseStats();
   }
@@ -116,9 +122,29 @@ class PokemonDTO {
       type2: this.type2,
       sprites: {
         frontDefault: this.frontDefault,
-        frontShiny: this.frontShiny
-      }
-    }
+        frontShiny: this.frontShiny,
+      },
+    };
+  }
+
+  /**
+   * Determines whether this PokemonDTO is suitable for rendering
+   */
+  public get hasFullData(): boolean {
+    return (
+      this.name.length > 0 &&
+      this.dexId > 0 &&
+      this.moves.length > 0 &&
+      this.frontDefault.length > 0 &&
+      this.frontShiny.length > 0
+    );
+  }
+
+  /**
+   * Flag showing if this DTO has the URL for its full data
+   */
+  public get hasUrl(): boolean {
+    return this.url.length > 0;
   }
 
   /**

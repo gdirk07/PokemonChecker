@@ -7,7 +7,7 @@ export type PokemonSearchObj = {
   url: string,
 }
 
-type PokemonSearchResultsProps = {
+export type PokemonSearchResultsProps = {
   pokemonQuery: PokemonSearchObj[],
   onPokemonSelected: (name: string, url: string) => void
 }
