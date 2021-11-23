@@ -1,4 +1,5 @@
 import { PokemonRepository } from "../repositories/PokemonRepository";
+import { PokemonSearchResultsProps } from "../components/PokemonSearch/PokemonSearchResults";
 
 /**
  * Service for handling fetches related to Pokemon, from
@@ -15,34 +16,40 @@ export class PokemonService {
   }
 
   /**
-   * Search ALL pokemon with their name and individual url
-   * @TODO The promise type shold not be 'any', but changing it causes upstream
-   * errors in the App.tsx
+   * Catches returned key-value pairs of pokemon names from the API
+   * @param response Returned payload from fetching pokemon names
    */
-  public async getAllPokemon(): Promise<any> {
-    return await fetch(this.getAllUrl).then((response) => {
-      return response.json().then((data) => {
-        const results = data.results;
+  private resolvePokemonStubs = async (response: Response) => {
+    const data = await response.json();
+    const results = data.results;
+    //the query fetches all pokemon AND forms (megas etc), but we don't want
+    //forms so filter out any result that has a url > 10000
+    const filterResults = results.filter(
+      (filter: { name: string; url: string }) => {
+        //cut the final "/" out
+        const url = filter.url.substring(0, filter.url.length - 1).split("/");
 
-        //the query fetches all pokemon AND forms (megas etc), but we don't want
-        //forms so filter out any result that has a url > 10000
-        const filterResults = results.filter(
-          (filter: { name: string; url: string }) => {
-            //cut the final "/" out
-            const url = filter.url
-              .substring(0, filter.url.length - 1)
-              .split("/");
+        const id = Number(url.pop());
+        if (id && id < 10000) return filter;
+        return false;
+      }
+    );
+    // Perform the DTO validation here, return
+    console.log(filterResults);
+    return filterResults;
+  };
 
-            const id = Number(url.pop());
-            if (id && id < 10000) return filter;
-            return false;
-          }
-        );
-        // Perform the DTO validation here, return
-        console.log(filterResults);
-        return filterResults;
-      });
-    });
+  /**
+   * Search ALL pokemon with their name and individual url
+   * @TODO We ought to fix what the pokemonList in App.tsx consumes.
+   */
+  public async getAllPokemon(): Promise<
+    (({
+      pokemonQuery,
+      onPokemonSelected,
+    }: PokemonSearchResultsProps) => JSX.Element)[]
+  > {
+    return await fetch(this.getAllUrl).then(this.resolvePokemonStubs);
   }
 
   /**
