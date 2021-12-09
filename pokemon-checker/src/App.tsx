@@ -4,12 +4,12 @@ import "./components/PokemonSearch/PokemonSearchResults";
 import PokemonSearchResults from "./components/PokemonSearch/PokemonSearchResults";
 import SearchBox from "./components/SearchBar/SearchBar";
 import PokemonDisplay from "./components/PokemonDisplay/PokemonDisplay";
-import PokemonSearchObj from "./components/PokemonSearch/PokemonSearchResults";
-import { getAllPokemon } from "./services/PokemonService";
+import { PokemonService } from "./services/PokemonService";
+import PokemonDTO from "./DataTransferObjects/PokemonDTO";
 import { scrubPokemonName } from "./utils/Helper";
 
 type AppState = {
-  pokemonList: typeof PokemonSearchObj[];
+  pokemonList: PokemonDTO[];
   pokemonName: string;
   searchfield: string;
   pokemonSelected: string;
@@ -17,8 +17,8 @@ type AppState = {
 };
 
 class App extends Component<any, AppState> {
-  private pokemonApiUrl: string =
-    "https://pokeapi.co/api/v2/pokemon?limit=1000offset=0";
+  private pokeService: PokemonService;
+
   constructor(props: any) {
     super(props);
     this.state = {
@@ -28,11 +28,14 @@ class App extends Component<any, AppState> {
       pokemonSelected: "",
       pokemonUrl: "",
     };
+
+    this.pokeService = new PokemonService();
   }
 
   //Fetch all of the pokemon to start, no need to paginate
   componentDidMount() {
-    getAllPokemon(this.pokemonApiUrl)
+    this.pokeService
+      .getAllPokemon()
       .then((pokemonRetrieved) => {
         pokemonRetrieved.map((pokemon: {name: string, url: string})  => {
           return pokemon.name 
@@ -74,7 +77,10 @@ class App extends Component<any, AppState> {
           onPokemonSelected={this.onPokemonSelected}
           pokemonQuery={filteredPokemon}
         />
-        <PokemonDisplay pokemonUrl={pokemonUrl} />
+        <PokemonDisplay
+          getPokemonData={this.pokeService.getPokemon}
+          pokemonUrl={pokemonUrl}
+        />
       </div>
     );
   }

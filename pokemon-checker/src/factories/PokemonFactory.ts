@@ -1,8 +1,13 @@
 import { MoveFactory } from "./MoveFactory";
 import PokemonDTO, {
+  ElementType,
   PokemonConstructorOptions,
 } from "../DataTransferObjects/PokemonDTO";
-import { IPokemonData } from "../interfaces/PokemonData";
+import {
+  IPokemonData,
+  IPokemonStub,
+  ITypeData,
+} from "../interfaces/PokemonData";
 import { scrubPokemonName } from "../utils/Helper";
 
 export class PokemonFactory {
@@ -12,20 +17,82 @@ export class PokemonFactory {
     this.moveFactory = new MoveFactory();
   }
 
-  public createPokemon = (pokemon: IPokemonData): PokemonDTO => {
-    const opts: PokemonConstructorOptions = {
-      name: scrubPokemonName(pokemon.name),
-      id: pokemon.id,
-      types: pokemon.types.map((slot) => slot.type),
-      moves: pokemon.moves.map((moveData) =>
+  private getFullPokemonConstructorProps = (
+    data: IPokemonData
+  ): PokemonConstructorOptions => {
+    return {
+      name: data.name,
+      id: data.id,
+      types: data.types.map((slot) => slot.type),
+      moves: data.moves.map((moveData) =>
         this.moveFactory.createMoveFromStub(moveData)
       ),
-      sprites: pokemon.sprites,
-      stats: pokemon.stats.map((statData) => ({
+      sprites: data.sprites,
+      stats: data.stats.map((statData) => ({
         base_stat: statData.base_stat,
       })),
     };
+  };
 
+  /**
+   * Creates pokemon data that can be used for rendering
+   * @param pokemon Full data from the individual pokemon requests
+   */
+  public createPokemon = (pokemon: IPokemonData): PokemonDTO => {
+    return new PokemonDTO(this.getFullPokemonConstructorProps(pokemon));
+  };
+
+  /**
+   * Creates a partial pokemon DTO
+   * @param pokemon Partial stub data from the summary call
+   */
+  public createPokemonStub = (pokemon: IPokemonStub): PokemonDTO => {
+    // TODO: Introduce a null-type element
+    const dummyType: ITypeData = {
+      name: ElementType.BUG,
+      url: "https://pokeapi.co/api/v2/type/7/",
+    };
+    const opts: PokemonConstructorOptions = {
+      name: pokemon.name,
+      id: -1,
+      types: [dummyType],
+      sprites: {
+        back_default: null,
+        back_female: null,
+        back_shiny: null,
+        back_shiny_female: null,
+        front_default: "",
+        front_female: null,
+        front_shiny: "",
+        front_shiny_female: null,
+        other: {},
+        versions: {},
+      },
+      moves: [],
+      stats: [
+        { base_stat: 0},
+        { base_stat: 0},
+        { base_stat: 0},
+        { base_stat: 0},
+        { base_stat: 0},
+        { base_stat: 0},
+      ],
+      url: pokemon.url,
+    };
     return new PokemonDTO(opts);
+  };
+
+  /**
+   * Converts a partial DTO with only the URL to a full object
+   */
+  public convertStubToDTO = (
+    dto: PokemonDTO,
+    data: IPokemonData
+  ): PokemonDTO => {
+    const newPokemonProps: PokemonConstructorOptions = {
+      ...this.getFullPokemonConstructorProps(data),
+      url: dto.url,
+    };
+    return new PokemonDTO(newPokemonProps);
   };
 }
