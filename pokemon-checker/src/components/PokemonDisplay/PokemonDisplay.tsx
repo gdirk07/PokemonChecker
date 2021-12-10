@@ -2,8 +2,9 @@ import React from "react";
 import PokemonDTO from "../../DataTransferObjects/PokemonDTO";
 import { IPokemonData } from "../../interfaces/PokemonData";
 import { PokemonFactory } from "../../factories/PokemonFactory";
-import { PokemonInfo } from "./PokemonInfoDisplay";
-import { PokemonImage } from "./PokemonImageDisplay";
+import { QuickView } from "./PokemonQuickCardView";
+import "../../App.css";
+import WaitingView from "./DefaultDisplayView";
 
 type displayProps = {
   pokemonUrl: string;
@@ -72,6 +73,14 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
     let displayShiny: string | undefined = "";
     let type1: string | null;
     let type2: string | null;
+    let stats: {
+      hp: number;
+      attack: number;
+      defense: number;
+      spAttack: number;
+      spDefense: number;
+      speed: number;
+    } | null;
     let baseStats: string;
 
     if (pokemon) {
@@ -81,31 +90,40 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
       displayShiny = pokemon.frontShiny;
       type1 = pokemon.type1;
       type2 = pokemon.type2 ? pokemon.type2 : null;
+      stats = pokemon.stats;
       baseStats = "Total base stats: " + pokemon.baseStats.toString();
+
+      return (
+        <div className="pokedex">
+          <QuickView
+            pokemonName = {pokemonName} 
+            dexId = {dexId} 
+            baseStats = {baseStats}
+            stats = {stats}
+            type1 = {type1} 
+            type2 = {type2} 
+            displayDefault = {displayDefault} 
+            displayDefaultS = {displayShiny}
+          />
+        </div>
+      );
     } else {
       // as Display gets bigger, this will get messier
       pokemonName = "Awaiting Pokemon Selection";
       dexId = "";
+      displayDefault = "";
+      displayShiny = "";
       type1 = "";
       type2 = "";
+      stats = null;
       baseStats = "";
+
+      return (
+        <div className="AwaitingPokemon">
+          <WaitingView />
+        </div>
+      );
     }
-    return (
-      <div className="pokedex">
-        <PokemonInfo
-          pokemonName = {pokemonName}
-          dexId = {dexId}
-          baseStats = {baseStats}
-          type1 = {type1}
-          type2 = {type2}
-        />
-        <PokemonImage
-          altImageName = {pokemonName}
-          defaultFront = {displayDefault}
-          defaultFrontS = {displayShiny}
-        />
-      </div>
-    );
   }
 }
 
