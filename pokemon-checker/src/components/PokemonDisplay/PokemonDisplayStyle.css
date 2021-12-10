@@ -1,0 +1,20 @@
+.PokemonImages {
+  float: left;
+}
+
+.StatTable {
+  border: dotted;
+  border-collapse: collapse;
+  border-color: white;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.StatTable tr {
+  border: dotted;
+  border-color: white;
+}
+
+.StatTable td {
+  width: 50%;
+}
