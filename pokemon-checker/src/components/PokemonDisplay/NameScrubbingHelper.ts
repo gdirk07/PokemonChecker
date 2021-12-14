@@ -1,4 +1,4 @@
-import { HyphenInName, PeriodInName, GenderInName, apostrapheInName, diacriticInName, colonInName } from "./NameException";
+import { HyphenInName, PeriodInName, GenderInName, apostrapheInName, diacriticInName, colonInName } from "../../constants/NameException";
 
 /**
  * scrubber for pokemon names which will fix the api errors for namings
