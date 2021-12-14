@@ -17,11 +17,9 @@ export const PokemonImage = ({
 }: PokemonImageProps) => {
   return (
     <div>
-      {defaultFront ? (
+      {
         <img id="pokemonDisplay" src={defaultFront} alt={altImageName}></img>
-      ) : (
-        <h2>No Pokemon</h2>
-      )}
+      }
       {defaultFrontS ? (
         <img id="pokemonDisplay" src={defaultFrontS} alt={altImageName}></img>
       ) : (
