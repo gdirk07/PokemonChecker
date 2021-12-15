@@ -30,7 +30,6 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
   //TODO (jeremy): Move this factory to a service! Views shouldn't control this.
   private pokemonFactory: PokemonFactory;
 
-
   constructor(props: displayProps) {
     super(props);
     this.state = {
