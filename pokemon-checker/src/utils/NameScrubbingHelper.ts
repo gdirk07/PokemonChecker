@@ -1,4 +1,6 @@
-import { HyphenInName, PeriodInName, GenderInName, apostrapheInName, diacriticInName, colonInName } from "../constants/NameException";
+import { HYPHEN_IN_NAME, PERIOD_IN_NAME, GENDER_IN_NAME, 
+  APOSTAPHE_IN_NAME, DIACRITIC_IN_NAME, COLON_IN_NAME 
+} from "../constants/NameException";
 
 /**
  * scrubber for pokemon names which will fix the api errors for namings
@@ -6,17 +8,17 @@ import { HyphenInName, PeriodInName, GenderInName, apostrapheInName, diacriticIn
  * @returns The correct name of the pokemon
  */
 export function scrubPokemonName(pokemonName: string): string {
-  if (pokemonName in PeriodInName) return PeriodInName[pokemonName];
-  if (pokemonName in GenderInName) return GenderInName[pokemonName];
-  if (pokemonName in apostrapheInName) return apostrapheInName[pokemonName];
-  if (pokemonName in diacriticInName) return diacriticInName[pokemonName];
-  if (pokemonName in colonInName) return colonInName[pokemonName];
+  if (pokemonName in PERIOD_IN_NAME) return PERIOD_IN_NAME[pokemonName];
+  if (pokemonName in GENDER_IN_NAME) return GENDER_IN_NAME[pokemonName];
+  if (pokemonName in APOSTAPHE_IN_NAME) return APOSTAPHE_IN_NAME[pokemonName];
+  if (pokemonName in DIACRITIC_IN_NAME) return DIACRITIC_IN_NAME[pokemonName];
+  if (pokemonName in COLON_IN_NAME) return COLON_IN_NAME[pokemonName];
   if (pokemonName.includes("-") &&
-    !HyphenInName.find(element => element === pokemonName)) {
+    !HYPHEN_IN_NAME.find(element => element === pokemonName)) {
       return pokemonNameCapitalizer(pokemonName.split("-")[0]);
     }
   else if (pokemonName.includes("-") &&
-    HyphenInName.find(element => element === pokemonName)) {
+    HYPHEN_IN_NAME.find(element => element === pokemonName)) {
       return pokemonNameCapitalizer(pokemonName, true);
     }
   return pokemonNameCapitalizer(pokemonName);
