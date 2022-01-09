@@ -8,7 +8,6 @@ import {
   IPokemonStub,
   ITypeData,
 } from "../interfaces/PokemonData";
-import { scrubPokemonName } from "../utils/Helper";
 
 export class PokemonFactory {
   private moveFactory: MoveFactory;

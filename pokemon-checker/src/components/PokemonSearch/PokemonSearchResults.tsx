@@ -1,6 +1,5 @@
-import React from "react";
 import PokemonId from "./PokemonId";
-import "./PokemonSearch.css";
+import Box from "@mui/system/Box";
 
 export type PokemonSearchObj = {
   name: string,
@@ -12,7 +11,7 @@ export type PokemonSearchResultsProps = {
   onPokemonSelected: (name: string, url: string) => void
 }
 
-const PokemonSearchResults = ({pokemonQuery, onPokemonSelected}: PokemonSearchResultsProps) => {
+export default function PokemonSearchResults ({pokemonQuery, onPokemonSelected}: PokemonSearchResultsProps) {
   let pokemonComponent: JSX.Element[] = [];
   if (pokemonQuery) {
     pokemonComponent = pokemonQuery.map((pokemon, p) =>
@@ -21,17 +20,22 @@ const PokemonSearchResults = ({pokemonQuery, onPokemonSelected}: PokemonSearchRe
   }
   if (pokemonComponent.length === 0) {
     return (
-      <div>
-          <h4>No pokemon found</h4>
-      </div>
+        <div>
+            <h4>No pokemon found</h4>
+        </div>
     )
   }
   else {
     return (
-      <div className="pokemonList">
+      <Box sx={
+        { 
+          display: 'flex', 
+          flexWrap: 'wrap', 
+          justifyContent: 'center', 
+          padding: '5px' }
+        }>
         {pokemonComponent}
-      </div>
+      </Box>
     );
   }
 }
-export default PokemonSearchResults;
