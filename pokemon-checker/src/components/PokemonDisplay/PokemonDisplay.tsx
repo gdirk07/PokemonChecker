@@ -5,6 +5,7 @@ import { PokemonFactory } from "../../factories/PokemonFactory";
 import { QuickView } from "./PokemonQuickCardView";
 import "../../App.css";
 import WaitingView from "./DefaultDisplayView";
+import Container from "@mui/material/Container";
 
 type displayProps = {
   pokemonUrl: string;
@@ -94,7 +95,7 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
       baseStats = "Total base stats: " + pokemon.baseStats.toString();
 
       return (
-        <div className="pokedex">
+        <Container maxWidth="sm">
           <QuickView
             pokemonName = {pokemonName} 
             dexId = {dexId} 
@@ -105,7 +106,7 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
             displayDefault = {displayDefault} 
             displayDefaultS = {displayShiny}
           />
-        </div>
+        </Container>
       );
     } else {
       // as Display gets bigger, this will get messier

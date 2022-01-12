@@ -1,4 +1,4 @@
-import React from "react";
+import Box from "@mui/system/box";
 
 type PokemonIdProps = {
   name: string;
@@ -8,9 +8,9 @@ type PokemonIdProps = {
 
 const PokemonId = ({ name, url, onSelectPokemon }: PokemonIdProps) => {
   return (
-    <div className="pokemonContainer">
+    <Box sx= {{ margin: '5px', fontSize: '10px' }}>
       <h2 onClick={() => onSelectPokemon(name, url)}>{name}</h2>
-    </div>
+    </Box>
   );
 };
 

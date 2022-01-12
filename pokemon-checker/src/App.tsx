@@ -6,7 +6,7 @@ import SearchBox from "./components/SearchBar/SearchBar";
 import PokemonDisplay from "./components/PokemonDisplay/PokemonDisplay";
 import { PokemonService } from "./services/PokemonService";
 import PokemonDTO from "./DataTransferObjects/PokemonDTO";
-import { scrubPokemonName } from "./utils/Helper";
+import { scrubPokemonName } from "./utils/NameScrubbingHelper";
 
 type AppState = {
   pokemonList: PokemonDTO[];
