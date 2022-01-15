@@ -1,4 +1,13 @@
-import "../PokemonDisplayStyle.css";
+import { styled } from "@mui/material/styles";
+import { Table, TableBody, TableCell, TableRow, tableCellClasses } from "@mui/material";
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.body}`]: {
+    color: theme.palette.common.white,
+    fontSize: 14,
+    textAlign: "center"
+  },
+}));
 
 type pokemonStats = {
   baseStats: string
@@ -18,56 +27,34 @@ export const StatDisplay = ({ baseStats, stats }: pokemonStats) => {
       <h5>
         {baseStats}
       </h5>
-      <table className="StatTable">
-        <tr>
-          <th>
-            HP
-          </th>
-          <td>
-            {stats?.hp}
-          </td>
-        </tr>
-        <tr>
-          <th>
-            Attack
-          </th>
-          <td>
-            {stats?.attack}
-          </td>
-        </tr>
-        <tr>
-          <th>
-            Defense
-          </th>
-          <td>
-            {stats?.defense}
-          </td>
-        </tr>
-        <tr>
-          <th>
-            Special Attack
-          </th>
-          <td>
-            {stats?.spAttack}
-          </td>
-        </tr>
-        <tr>
-          <th>
-            Special Defense
-          </th>
-          <td>
-            {stats?.spDefense}
-          </td>
-        </tr>
-        <tr>
-          <th>
-            Speed
-          </th>
-          <td>
-            {stats?.speed}
-          </td>
-        </tr>
-      </table>
+      <Table sx={{ minWidth: 300 }} aria-label="stat table" color="white">
+        <TableBody>
+          <TableRow>
+            <StyledTableCell>HP</StyledTableCell>
+            <StyledTableCell>{stats?.hp}</StyledTableCell>
+          </TableRow>
+          <TableRow>
+            <StyledTableCell>Attack</StyledTableCell>
+            <StyledTableCell>{stats?.attack}</StyledTableCell>
+          </TableRow>
+          <TableRow>
+            <StyledTableCell>Defense</StyledTableCell>
+            <StyledTableCell>{stats?.defense}</StyledTableCell>
+          </TableRow>
+          <TableRow>
+            <StyledTableCell>Special Attack</StyledTableCell>
+            <StyledTableCell>{stats?.spAttack}</StyledTableCell>
+          </TableRow>
+          <TableRow>
+            <StyledTableCell>Special Defense</StyledTableCell>
+            <StyledTableCell>{stats?.spDefense}</StyledTableCell>
+          </TableRow>
+          <TableRow>
+            <StyledTableCell>Speed</StyledTableCell>
+            <StyledTableCell>{stats?.speed}</StyledTableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
     </div>
   );
 };

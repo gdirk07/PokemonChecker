@@ -2,7 +2,7 @@ import NameDisplay from "./DisplayFunctionalComponents/NameDisplay";
 import StatDisplay from "./DisplayFunctionalComponents/StatDisplay";
 import TypeDisplay from "./DisplayFunctionalComponents/TypeDisplay";
 import PokemonImage from "./DisplayFunctionalComponents/PokemonImageDisplay";
-import "./PokemonDisplayStyle.css";
+import Grid from "@mui/material/Grid";
 
 type PokemonInfoProps = {
   pokemonName: string,
@@ -36,33 +36,31 @@ export const QuickView =  (
 ) => {
 
   return (
-    <div id="PokemonQuickCardView" className="QuickView">
-      <div id="PokemonImages" className="PokemonImages">
+    <Grid container alignItems="center" columnSpacing={0}>
+      <Grid item xs={12} sm={7}>
         <PokemonImage
           altImageName = {pokemonName}
           defaultFront = {displayDefault}
           defaultFrontS = {displayDefaultS}
         />
-      </div>
-      <div id="PokemonTypes">
+      </Grid>
+      <Grid item xs={12} sm>
         <TypeDisplay
           type1 = {type1}
           type2 = {type2}
         />
-      </div>
-      <div id="PokemonName">
         <NameDisplay
-          name = {pokemonName}
-          id = {dexId}
-        />
-      </div>
-      <div id="PokemonStats">
+            name = {pokemonName}
+            id = {dexId}
+          />
+      </Grid>
+      <Grid item xs={12}>
         <StatDisplay
           baseStats = {baseStats}
           stats = {stats}
         />
-      </div>
-    </div>
+      </Grid>
+    </Grid>
   );
 };
 
