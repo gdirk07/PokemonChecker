@@ -49,7 +49,7 @@ class PokemonDTO {
   public name: string;
   public dexId: number;
   public type1: ElementType;
-  public type2: ElementType | null;
+  public type2: ElementType;
   public moves: MoveDTO[];
   public frontDefault: string;
   public frontShiny: string;
@@ -74,7 +74,7 @@ class PokemonDTO {
     this.type1 = getTypeFromData(pokemonConstructorOptions.types[0].name);
     this.type2 = pokemonConstructorOptions.types[1]
       ? getTypeFromData(pokemonConstructorOptions.types[1].name)
-      : null;
+      : ElementType.NULL;
     this.frontDefault = pokemonConstructorOptions.sprites.front_default;
     this.frontShiny = pokemonConstructorOptions.sprites.front_shiny;
     this.url = pokemonConstructorOptions.url ?? "";

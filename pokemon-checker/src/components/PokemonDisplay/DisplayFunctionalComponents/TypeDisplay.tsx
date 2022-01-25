@@ -1,9 +1,11 @@
-type pokemonTypes = {
-  type: string | null;
-};
+import { ElementType } from "../../../constants/ElementTypes";
 
-export const TypeDisplay = ({ type }: pokemonTypes) => {
-  if (!type) {
+type TypeDisplayProps = {
+  type: ElementType
+}
+
+export const TypeDisplay = ({ type }: TypeDisplayProps) => {
+  if (type === ElementType.NULL) {
     return <></>;
   }
 
