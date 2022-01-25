@@ -2,63 +2,30 @@ import NameDisplay from "./DisplayFunctionalComponents/NameDisplay";
 import StatDisplay from "./DisplayFunctionalComponents/StatDisplay";
 import TypeDisplay from "./DisplayFunctionalComponents/TypeDisplay";
 import PokemonImage from "./DisplayFunctionalComponents/PokemonImageDisplay";
+import PokemonDTO from "../../DataTransferObjects/PokemonDTO";
 import Grid from "@mui/material/Grid";
 
 type PokemonInfoProps = {
-  pokemonName: string,
-  dexId: string,
-  baseStats: string,
-  stats: {
-    hp: number;
-    attack: number;
-    defense: number;
-    spAttack: number;
-    spDefense: number;
-    speed: number;
-  } | null,
-  type1: string,
-  type2: string | null,
-  displayDefault: string,
-  displayDefaultS: string
+  pokemon: PokemonDTO;
 };
 
-export const QuickView =  (
-  {
-    pokemonName, 
-    dexId, 
-    baseStats,
-    stats,
-    type1, 
-    type2, 
-    displayDefault, 
-    displayDefaultS
-  }: PokemonInfoProps
-) => {
-
+export const QuickView = ({ pokemon }: PokemonInfoProps) => {
   return (
     <Grid container alignItems="center" columnSpacing={0}>
       <Grid item xs={12} sm={7}>
         <PokemonImage
-          altImageName = {pokemonName}
-          defaultFront = {displayDefault}
-          defaultFrontS = {displayDefaultS}
+          altImageName={pokemon.name}
+          defaultFront={pokemon.frontDefault}
+          defaultFrontS={pokemon.frontShiny}
         />
       </Grid>
       <Grid item xs={12} sm>
-        <TypeDisplay
-          type1 = {type1}
-          type2 = {type2}
-        />
-        <NameDisplay
-            name = {pokemonName}
-            id = {dexId}
-          />
+        <TypeDisplay type={pokemon.type1} />
+        <TypeDisplay type={pokemon.type2} />
+        <NameDisplay name={pokemon.name} id={pokemon.dexId} />
       </Grid>
       <Grid item xs={12}>
-        <StatDisplay
-          baseStats = {baseStats}
-          stats = {stats}
-        />
+        <StatDisplay baseStats={pokemon.baseStats} stats={pokemon.stats} />
       </Grid>
     </Grid>
   );

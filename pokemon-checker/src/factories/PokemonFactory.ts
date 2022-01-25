@@ -1,6 +1,5 @@
 import { MoveFactory } from "./MoveFactory";
 import PokemonDTO, {
-  ElementType,
   PokemonConstructorOptions,
 } from "../DataTransferObjects/PokemonDTO";
 import {
@@ -8,6 +7,7 @@ import {
   IPokemonStub,
   ITypeData,
 } from "../interfaces/PokemonData";
+import { ElementType } from "../constants/ElementTypes";
 
 export class PokemonFactory {
   private moveFactory: MoveFactory;

@@ -1,6 +1,6 @@
 type pokemonNameAndId = {
-  name: string,
-  id: string
+  name: string;
+  id: number;
 };
 
 export const NameDisplay = ({ name, id }: pokemonNameAndId) => {

@@ -1,8 +1,9 @@
 import {
-  ElementType,
+  
   PokemonConstructorOptions,
 } from "../DataTransferObjects/PokemonDTO";
 import { MoveDTO } from "../DataTransferObjects/MoveDTO";
+import { ElementType } from "../constants/ElementTypes";
 
 /**
  * Input object for creating a pokemon DTO
