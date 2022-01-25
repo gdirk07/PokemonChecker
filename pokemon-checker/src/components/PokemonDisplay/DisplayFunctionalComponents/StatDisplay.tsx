@@ -1,16 +1,22 @@
 import { styled } from "@mui/material/styles";
-import { Table, TableBody, TableCell, TableRow, tableCellClasses } from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  tableCellClasses,
+} from "@mui/material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.body}`]: {
     color: theme.palette.common.white,
     fontSize: 14,
-    textAlign: "center"
+    textAlign: "center",
   },
 }));
 
 type pokemonStats = {
-  baseStats: string
+  baseStats: number;
   stats: {
     hp: number;
     attack: number;
@@ -18,15 +24,13 @@ type pokemonStats = {
     spAttack: number;
     spDefense: number;
     speed: number;
-  } | null
+  } | null;
 };
 
 export const StatDisplay = ({ baseStats, stats }: pokemonStats) => {
   return (
     <div id="PokemonBaseStats">
-      <h5>
-        {baseStats}
-      </h5>
+      <h5>{baseStats}</h5>
       <Table sx={{ minWidth: 300 }} aria-label="stat table" color="white">
         <TableBody>
           <TableRow>
