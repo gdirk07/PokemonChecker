@@ -8,6 +8,7 @@ import {
   ITypeData,
 } from "../interfaces/PokemonData";
 import { ElementType } from "../constants/ElementTypes";
+import { scrubPokemonName } from "../utils/NameScrubbingHelper";
 
 export class PokemonFactory {
   private moveFactory: MoveFactory;
@@ -20,7 +21,7 @@ export class PokemonFactory {
     data: IPokemonData
   ): PokemonConstructorOptions => {
     return {
-      name: data.name,
+      name: scrubPokemonName(data.name),
       id: data.id,
       types: data.types.map((slot) => slot.type),
       moves: data.moves.map((moveData) =>
