@@ -31,7 +31,11 @@ export const StatDisplay = ({ baseStats, stats }: pokemonStats) => {
   return (
     <div id="PokemonBaseStats">
       <h5>{baseStats}</h5>
-      <Table sx={{ minWidth: 300 }} aria-label="stat table" color="white">
+      <Table 
+        sx={{ minWidth: 300, tableLayout: "fixed"}} 
+        aria-label="stat table" 
+        color="white"
+      >
         <TableBody>
           <TableRow>
             <StyledTableCell>HP</StyledTableCell>
