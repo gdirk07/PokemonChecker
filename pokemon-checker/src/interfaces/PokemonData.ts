@@ -1,5 +1,5 @@
 import { damageClass } from "../DataTransferObjects/MoveDTO";
-import { ElementType } from "../DataTransferObjects/PokemonDTO";
+import { ElementType } from "../constants/ElementTypes";
 
 /**
  * ===================================================================

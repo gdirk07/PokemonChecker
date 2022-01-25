@@ -1,5 +1,7 @@
 import { MoveDTO } from "./MoveDTO";
 import { ITypeData, ISpriteData } from "../interfaces/PokemonData";
+import { ElementType } from "../constants/ElementTypes";
+import { getTypeFromData } from "../utils/PokemonTypeUtils";
 
 export type PokemonConstructorOptions = {
   name: string;
@@ -25,27 +27,6 @@ export type pokemonDisplayObj = {
   };
 };
 
-export enum ElementType {
-  BUG = "bug",
-  DARK = "dark",
-  DRAGON = "dragon",
-  ELECTRIC = "electric",
-  FAIRY = "fairy",
-  FIGHTING = "fighting",
-  FIRE = "fire",
-  FLYING = "flying",
-  GHOST = "ghost",
-  GRASS = "grass",
-  GROUND = "ground",
-  ICE = "ice",
-  NORMAL = "normal",
-  POISON = "poison",
-  PSYCHIC = "psychic",
-  ROCK = "rock",
-  STEEL = "steel",
-  WATER = "water",
-}
-
 /**
  * Pokemon stat data is (currently) sent in an array where
  * stat indices are consistent with this enum
@@ -67,8 +48,8 @@ enum pokemonStatIndex {
 class PokemonDTO {
   public name: string;
   public dexId: number;
-  public type1: string; //TODO: Update this to a TypeDTO object when created
-  public type2: string | null;
+  public type1: ElementType;
+  public type2: ElementType | null;
   public moves: MoveDTO[];
   public frontDefault: string;
   public frontShiny: string;
@@ -90,9 +71,9 @@ class PokemonDTO {
     this.name = pokemonConstructorOptions.name;
     this.dexId = pokemonConstructorOptions.id;
     this.moves = pokemonConstructorOptions.moves;
-    this.type1 = pokemonConstructorOptions.types[0].name ?? "";
+    this.type1 = getTypeFromData(pokemonConstructorOptions.types[0].name);
     this.type2 = pokemonConstructorOptions.types[1]
-      ? pokemonConstructorOptions.types[1].name
+      ? getTypeFromData(pokemonConstructorOptions.types[1].name)
       : null;
     this.frontDefault = pokemonConstructorOptions.sprites.front_default;
     this.frontShiny = pokemonConstructorOptions.sprites.front_shiny;
