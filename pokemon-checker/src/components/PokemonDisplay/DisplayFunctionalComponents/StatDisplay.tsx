@@ -98,15 +98,15 @@ export const StatDisplay = ({ baseStats, stats }: pokemonStats) => {
 };
 
 const statDisplayColour = (stat: number): string => {
-  if (stat > statMaxThreshold.decent) {
+  if (stat >= statMaxThreshold.decent) {
     //green
     return "#00ff00";
   }
-  else if (stat > statMaxThreshold.low) {
+  else if (stat >= statMaxThreshold.low) {
     //Yellow
     return "#ffff00";
   }
-  else if (stat > statMaxThreshold.veryLow) {
+  else if (stat >= statMaxThreshold.veryLow) {
     //Orange
     return "#ffa500";
   }
