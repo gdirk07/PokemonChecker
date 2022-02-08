@@ -15,7 +15,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-type pokemonStats = {
+export type pokemonStats = {
   baseStats: number;
   stats: {
     hp: number;
@@ -97,7 +97,7 @@ export const StatDisplay = ({ baseStats, stats }: pokemonStats) => {
   );
 };
 
-const statDisplayColour = (stat: number): string => {
+export const statDisplayColour = (stat: number): string => {
   if (stat >= statMaxThreshold.decent) {
     //green
     return "#00ff00";
