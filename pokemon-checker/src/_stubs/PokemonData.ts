@@ -4,6 +4,7 @@ import {
 } from "../DataTransferObjects/PokemonDTO";
 import { MoveDTO } from "../DataTransferObjects/MoveDTO";
 import { ElementType } from "../constants/ElementTypes";
+import { AbilityDTO } from "../DataTransferObjects/AbilityDTO";
 
 /**
  * Input object for creating a pokemon DTO
@@ -15,6 +16,26 @@ export const heraConstructorOpts: PokemonConstructorOptions = {
       name: "swords-dance",
       url: "https://pokeapi.co/api/v2/move/14/",
     }),
+  ],
+  abilities: [
+    new AbilityDTO({
+      name: "swarm",
+      url: "https://pokeapi.co/api/v2/ability/68/",
+    },
+    false
+    ),
+    new AbilityDTO({
+      name: "guts",
+      url: "https://pokeapi.co/api/v2/ability/62",
+    },
+    false
+    ),
+    new AbilityDTO({
+      name: "moxie",
+      url:"https://pokeapi.co/api/v2/ability/153/",
+    },
+    true
+    ),
   ],
   name: "heracross",
   sprites: {
@@ -93,6 +114,7 @@ export const getEmptyPokemonOpts = (
     versions: {},
   },
   moves: [],
+  abilities: [],
   stats: [
     { base_stat: 0 },
     { base_stat: 0 },

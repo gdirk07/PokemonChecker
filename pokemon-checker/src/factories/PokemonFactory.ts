@@ -9,12 +9,15 @@ import {
 } from "../interfaces/PokemonData";
 import { ElementType } from "../constants/ElementTypes";
 import { scrubPokemonName } from "../utils/NameScrubbingHelper";
+import { AbilityFactory } from "./AbilityFactory";
 
 export class PokemonFactory {
   private moveFactory: MoveFactory;
+  private abilityFactory: AbilityFactory;
 
   constructor() {
     this.moveFactory = new MoveFactory();
+    this.abilityFactory = new AbilityFactory();
   }
 
   private getFullPokemonConstructorProps = (
@@ -26,6 +29,9 @@ export class PokemonFactory {
       types: data.types.map((slot) => slot.type),
       moves: data.moves.map((moveData) =>
         this.moveFactory.createMoveFromStub(moveData)
+      ),
+      abilities: data.abilities.map((abilityData) =>
+        this.abilityFactory.createAbilityFromStub(abilityData)
       ),
       sprites: data.sprites,
       stats: data.stats.map((statData) => ({
@@ -69,6 +75,7 @@ export class PokemonFactory {
         versions: {},
       },
       moves: [],
+      abilities: [],
       stats: [
         { base_stat: 0},
         { base_stat: 0},
