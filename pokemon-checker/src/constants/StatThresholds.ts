@@ -3,7 +3,14 @@
  */
 
 export const enum statMaxThreshold {
-  veryLow = 40,
-  low = 70,
-  decent = 100,
+  VERYLOW = 40,
+  LOW = 70,
+  DECENT = 100,
+}
+
+export const enum statColourDisplay {
+  VERYLOW = "#ff0000",
+  LOW = "#ffa500",
+  DECENT = "#ffff00",
+  GOOD = "#00ff00",
 }
