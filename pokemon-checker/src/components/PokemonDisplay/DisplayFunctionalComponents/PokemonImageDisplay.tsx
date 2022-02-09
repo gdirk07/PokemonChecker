@@ -25,7 +25,7 @@ export const PokemonImage = ({
       {
         <
           img 
-          id="pokemonDisplay" 
+          className="pokemonDisplay" 
           style={imageStyles} 
           src={defaultFront} 
           alt={altImageName}>
@@ -34,7 +34,7 @@ export const PokemonImage = ({
       {defaultFrontS ? (
         <
           img 
-          id="pokemonDisplay" 
+          className="pokemonDisplay" 
           style={imageStyles} 
           src={defaultFrontS} 
           alt={altImageName}
