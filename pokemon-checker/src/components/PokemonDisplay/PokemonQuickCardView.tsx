@@ -11,15 +11,15 @@ type PokemonInfoProps = {
 
 export const QuickView = ({ pokemon }: PokemonInfoProps) => {
   return (
-    <Grid container alignItems="center" columnSpacing={0}>
-      <Grid item xs={12} sm={7}>
+    <Grid container alignItems="center" columnSpacing={2}>
+      <Grid item xs={12} sm={6}>
         <PokemonImage
           altImageName={pokemon.name}
           defaultFront={pokemon.frontDefault}
           defaultFrontS={pokemon.frontShiny}
         />
       </Grid>
-      <Grid item xs={12} sm>
+      <Grid item xs={12} sm={6}>
         <TypeDisplay type={pokemon.type1} />
         <TypeDisplay type={pokemon.type2} />
         <NameDisplay name={pokemon.name} id={pokemon.dexId} />
