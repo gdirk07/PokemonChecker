@@ -26,10 +26,12 @@ export class AbilityDTO {
     this.name = AbilityConstructorOptions.name;
     this.url = AbilityConstructorOptions.url;
     this.id = AbilityConstructorOptions.id ?? -1;
-    this.effect = AbilityConstructorOptions.effect ?? "test effect";
+    this.effect = AbilityConstructorOptions.effect ?? "Missing Effect";
     this.pokemons = AbilityConstructorOptions.pokemons ?? [];
     this.isHidden = hidden;
   }
 
-
+  public setDescription(effect: string) {
+    this.effect = effect;
+  }
 }
