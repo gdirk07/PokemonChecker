@@ -8,7 +8,7 @@ const spaceStyles = {
   borderRadius: "0.25rem",
   margin: "0 0.2rem",
   padding: "0 0.3rem",
-  width: "100%"
+  width: "100%",
 };
 
 const getColourStyles = (type: ElementType) => {

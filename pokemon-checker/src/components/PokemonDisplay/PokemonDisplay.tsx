@@ -85,7 +85,7 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
 
     if (pokemon) {
       return (
-        <Container maxWidth="sm">
+        <Container maxWidth="md">
           <QuickView pokemon={pokemon} />
         </Container>
       );

@@ -1,11 +1,11 @@
 import * as React from "react";
 import { AbilityDTO } from "../../../DataTransferObjects/AbilityDTO";
-import { ListItem, Popover } from "@mui/material";
+import { Container, Box, Grid, ListItem, Popover } from "@mui/material";
 
 type AbilityDisplayProps = {
   abilities: AbilityDTO[];
-}
-
+};
+  
 //TODO: (Geoff) create custom styling for name
 export const AbilityDisplay = ( { abilities }: AbilityDisplayProps) => {
   const [anchorEl, setAnchorEl] 
@@ -22,27 +22,29 @@ export const AbilityDisplay = ( { abilities }: AbilityDisplayProps) => {
     setAnchorEl(null);
   };
 
-  const abilityHovered = Boolean(anchorEl);
+  const abilityClicked = Boolean(anchorEl);
   return (
-    <div className="ability-list">
+    <Container fixed>
+      <Box>
         {
           abilities.map(ability => {
             return (
-              <ListItem 
+              <ListItem
+                key={ability.name}
                 sx={{ fontSize: 14 }}
-                onMouseEnter={(e) => handlePopoverOpen(e, ability.effect)}
+                onClick={(e) => handlePopoverOpen(e, ability.effect)}
                 onMouseLeave={handlePopoverClose}
               >
                 {RenderAbilityName(ability)}
-                <Popover 
-                  open={abilityHovered}
+                <Popover
+                  open={abilityClicked}
                   sx={{
                     pointerEvents: 'none',
                   }}
                   anchorEl={anchorEl}
                   onClose={handlePopoverClose}
                   anchorOrigin={{
-                    vertical: 'bottom',
+                    vertical: 'top',
                     horizontal: 'left',
                   }}
                   disableRestoreFocus
@@ -53,14 +55,29 @@ export const AbilityDisplay = ( { abilities }: AbilityDisplayProps) => {
             );
           })
         }
-    </div>
+      </Box>
+    </Container>
   );
 }
 
-function RenderAbilityName(ability: AbilityDTO): string {
+/**
+ * Render the ability name as well as if its hidden
+ * @param ability the ability object which contains if its hidden
+ * @returns an MUI container (any is used for now
+ * todo: Geoff - define it properly)
+ */
+function RenderAbilityName(ability: AbilityDTO): any {
   if (ability.isHidden) {
-    return ability.name + " Hidden";
+    return (
+      <Grid container maxWidth="xs">
+        <Box sx={{ fontStyle: 'italic' }}>{ability.name}</Box>
+      </Grid>
+    );
   }
-  return ability.name;
+  return (
+    <Grid container maxWidth="xs" sx={{ display: 'flex' }}>
+      <Box maxWidth="100%" sx={{ textAlign: 'left' }}>{ability.name}</Box>
+    </Grid>
+  );
 }
 export default AbilityDisplay;
