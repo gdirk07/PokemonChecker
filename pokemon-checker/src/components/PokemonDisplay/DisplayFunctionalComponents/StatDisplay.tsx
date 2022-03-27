@@ -6,7 +6,8 @@ import {
   TableRow,
   tableCellClasses,
 } from "@mui/material";
-import { statMaxThreshold } from "../../../constants/StatThresholds";
+import { statMaxThreshold, statColourDisplay } 
+  from "../../../constants/StatThresholds";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.body}`]: {
@@ -46,7 +47,7 @@ export const StatDisplay = ({ baseStats, stats }: pokemonStats) => {
           <TableRow>
             <StyledTableCell sx={{ color: "#ffffff"}}>HP</StyledTableCell>
             <StyledTableCell 
-              sx={{ color: statDisplayColour(hp) }}
+              sx={{ color: setDisplayColour(hp) }}
             >
               {stats?.hp}
             </StyledTableCell>
@@ -54,7 +55,7 @@ export const StatDisplay = ({ baseStats, stats }: pokemonStats) => {
           <TableRow>
             <StyledTableCell sx={{ color: "#ffffff"}}>Attack</StyledTableCell>
             <StyledTableCell 
-              sx={{ color: statDisplayColour(att) }}
+              sx={{ color: setDisplayColour(att) }}
             >
               {stats?.attack}
             </StyledTableCell>
@@ -62,7 +63,7 @@ export const StatDisplay = ({ baseStats, stats }: pokemonStats) => {
           <TableRow>
             <StyledTableCell sx={{ color: "#ffffff"}}>Defense</StyledTableCell>
             <StyledTableCell 
-              sx={{ color: statDisplayColour(def) }}
+              sx={{ color: setDisplayColour(def) }}
             >
               {stats?.defense}
             </StyledTableCell>
@@ -72,7 +73,7 @@ export const StatDisplay = ({ baseStats, stats }: pokemonStats) => {
               Special Attack
             </StyledTableCell>
             <StyledTableCell 
-              sx={{ color: statDisplayColour(spA) }}
+              sx={{ color: setDisplayColour(spA) }}
             >
               {stats?.spAttack}
             </StyledTableCell>
@@ -82,7 +83,7 @@ export const StatDisplay = ({ baseStats, stats }: pokemonStats) => {
               Special Defense
             </StyledTableCell>
             <StyledTableCell 
-              sx={{ color: statDisplayColour(spE) }}
+              sx={{ color: setDisplayColour(spE) }}
             >
               {stats?.spDefense}
             </StyledTableCell>
@@ -90,7 +91,7 @@ export const StatDisplay = ({ baseStats, stats }: pokemonStats) => {
           <TableRow>
             <StyledTableCell sx={{ color: "#ffffff"}}>Speed</StyledTableCell>
             <StyledTableCell
-              sx={{ color: statDisplayColour(spD) }}
+              sx={{ color: setDisplayColour(spD) }}
             >
               {stats?.speed}
             </StyledTableCell>
@@ -101,22 +102,22 @@ export const StatDisplay = ({ baseStats, stats }: pokemonStats) => {
   );
 };
 
-export const statDisplayColour = (stat: number): string => {
-  if (stat >= statMaxThreshold.decent) {
+export const setDisplayColour = (stat: number): string => {
+  if (stat >= statMaxThreshold.DECENT) {
     //green
-    return "#00ff00";
+    return statColourDisplay.GOOD;
   }
-  else if (stat >= statMaxThreshold.low) {
+  else if (stat >= statMaxThreshold.LOW) {
     //Yellow
-    return "#ffff00";
+    return statColourDisplay.DECENT;
   }
-  else if (stat >= statMaxThreshold.veryLow) {
+  else if (stat >= statMaxThreshold.VERYLOW) {
     //Orange
-    return "#ffa500";
+    return statColourDisplay.LOW;
   }
   else {
     //Red
-    return "#ff0000";
+    return statColourDisplay.VERYLOW;
   }
 }
 
