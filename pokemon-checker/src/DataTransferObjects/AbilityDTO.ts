@@ -13,7 +13,7 @@ export type AbilityConstructorOptions = {
 
 export class AbilityDTO {
   public name: string;
-  public url;
+  public url: string;
   public id: number;
   public effect: string;
   public pokemons: ListOfPokemon[];

@@ -6,6 +6,7 @@ import { QuickView } from "./PokemonQuickCardView";
 import "../../App.css";
 import WaitingView from "./DefaultDisplayView";
 import Container from "@mui/material/Container";
+import { AbilityService } from "../../services/AbilityService";
 
 type displayProps = {
   pokemonUrl: string;
@@ -30,7 +31,7 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
   private pokemonToDisplay: PokemonDTO | null;
   //TODO (jeremy): Move this factory to a service! Views shouldn't control this.
   private pokemonFactory: PokemonFactory;
-
+  private abilityService: AbilityService;
   constructor(props: displayProps) {
     super(props);
     this.state = {
@@ -38,6 +39,7 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
     };
     this.pokemonToDisplay = null;
     this.pokemonFactory = new PokemonFactory();
+    this.abilityService = new AbilityService();
   }
 
   componentDidUpdate(prevProps: displayProps) {

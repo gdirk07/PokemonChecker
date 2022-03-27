@@ -7,7 +7,7 @@ type AbilityDisplayProps = {
 }
 
 //TODO: (Geoff) create custom styling for name
-export const AbilityDisplay = ( {abilities}: AbilityDisplayProps) => {
+export const AbilityDisplay = ( { abilities }: AbilityDisplayProps) => {
   const [anchorEl, setAnchorEl] 
     = React.useState<HTMLElement | null>(null);
   const [hoveredText, setHoveredText] = React.useState<string | null>(null);
@@ -20,7 +20,7 @@ export const AbilityDisplay = ( {abilities}: AbilityDisplayProps) => {
 
   const handlePopoverClose = () => {
     setAnchorEl(null);
-  }
+  };
 
   const abilityHovered = Boolean(anchorEl);
   return (
