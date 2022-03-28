@@ -27,10 +27,10 @@ export const AbilityDisplay = ( { abilities }: AbilityDisplayProps) => {
     <Container fixed>
       <Box>
         {
-          abilities.map(ability => {
+          abilities.map((ability, i) => {
             return (
               <ListItem
-                key={ability.name}
+                key={i}
                 sx={{ fontSize: 14 }}
                 onClick={(e) => handlePopoverOpen(e, ability.effect)}
                 onMouseLeave={handlePopoverClose}

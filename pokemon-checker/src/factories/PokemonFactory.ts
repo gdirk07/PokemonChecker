@@ -9,15 +9,15 @@ import {
 } from "../interfaces/PokemonData";
 import { ElementType } from "../constants/ElementTypes";
 import { scrubPokemonName } from "../utils/NameScrubbingHelper";
-import { AbilityFactory } from "./AbilityFactory";
+import { AbilityService } from "../services/AbilityService";
 
 export class PokemonFactory {
   private moveFactory: MoveFactory;
-  private abilityFactory: AbilityFactory;
+  private abilityService: AbilityService;
 
   constructor() {
     this.moveFactory = new MoveFactory();
-    this.abilityFactory = new AbilityFactory();
+    this.abilityService = new AbilityService();
   }
 
   private getFullPokemonConstructorProps = (
@@ -31,7 +31,7 @@ export class PokemonFactory {
         this.moveFactory.createMoveFromStub(moveData)
       ),
       abilities: data.abilities.map((abilityData) =>
-        this.abilityFactory.createAbilityFromStub(abilityData)
+        this.abilityService.getStub(abilityData)
       ),
       sprites: data.sprites,
       stats: data.stats.map((statData) => ({
@@ -45,7 +45,12 @@ export class PokemonFactory {
    * @param pokemon Full data from the individual pokemon requests
    */
   public createPokemon = (pokemon: IPokemonData): PokemonDTO => {
-    return new PokemonDTO(this.getFullPokemonConstructorProps(pokemon));
+    const createdPokemon 
+      = new PokemonDTO(this.getFullPokemonConstructorProps(pokemon));
+    createdPokemon.abilities.forEach(ability => {
+      this.abilityService.getFullAbilityDef(ability);
+    })
+    return createdPokemon;
   };
 
   /**

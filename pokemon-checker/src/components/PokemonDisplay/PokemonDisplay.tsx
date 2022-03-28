@@ -67,16 +67,6 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
    */
   createPokemonObject(pokemonRetrieved: IPokemonData): void {
     this.pokemonToDisplay = this.pokemonFactory.createPokemon(pokemonRetrieved);
-    this.pokemonToDisplay.abilities.forEach(ability => {
-      this.abilityService.getAbility(ability.url)
-        .then(( fetchedAbility ) =>  {
-          ability.setDescription(fetchedAbility.effect_entries[1].short_effect);
-        })
-        .catch(( error ) => {
-          console.error(error.message);
-        });
-
-    })
     this.setState({ pokemonObject: this.pokemonToDisplay.getDisplayStats() });
   }
 
