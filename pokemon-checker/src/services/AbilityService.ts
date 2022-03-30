@@ -87,7 +87,6 @@ export class AbilityService {
    */
   private repositoryLookup(key: string): AbilityDTO | undefined {
     if (!(this.repository.isExpired)) {
-      this.repository.loadFromStorage();
       const findAbility = this.repository.getAbility(key);
       if (findAbility) return findAbility;
     }
