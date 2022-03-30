@@ -54,6 +54,7 @@ export class AbilityService {
     const abilityStub 
       = this.factory.createAbilityStub(abilityDet);
 
+
     return abilityStub
   }
 
@@ -63,21 +64,16 @@ export class AbilityService {
     const repResult = this.repositoryLookup(ability.name);
     if (repResult && repResult.hasFullData) return Promise.resolve(repResult);
 
-    return(
-      fetch(ability.url).then((retrievedAbility) => 
-        this.resolveAbilityStub(
-          retrievedAbility, 
-          ability
-        )
-      )
-    );
+    return fetch(ability.url).then(response => response.json())
+      .then((jsonResponse: Promise<any>) => 
+        this.resolveAbilityStub(jsonResponse, ability));
   }
 
   private resolveAbilityStub = async (
-    response: Response,
+    response: Promise<any>,
     stub: AbilityDTO,
   ): Promise<AbilityDTO> => {
-    const data = await response.json();
+    const data = await response;
     const fullDetailedAbility 
       = this.factory.createAbilityFromDataAndStub(data, stub);
     this.updateAbilityTable(fullDetailedAbility);

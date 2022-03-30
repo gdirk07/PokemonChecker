@@ -32,6 +32,7 @@ export class AbilityFactory {
 
     stub.effect = fullAbility.desc;
     stub.pokemons = fullAbility.pokemonHave;
+    stub.id = fullAbility.id;
     return stub;
   };
 
