@@ -13,13 +13,13 @@ type AbilityDetails = {
 
 export class AbilityFactory {
   public createAbilityStub = 
-    (stubData: IAbilityStub, hidden: boolean): AbilityDTO => {
+    (stubData: IAbilityStub): AbilityDTO => {
     const opts: AbilityConstructorOptions = {
       name: stubData.name,
       url: stubData.url,
     };
     
-    return new AbilityDTO(opts, hidden);
+    return new AbilityDTO(opts);
   };
 
   public createAbilityFromDataAndStub = 

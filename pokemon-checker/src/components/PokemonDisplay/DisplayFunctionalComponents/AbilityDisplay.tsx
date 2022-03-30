@@ -1,13 +1,13 @@
 import * as React from "react";
-import { AbilityDTO } from "../../../DataTransferObjects/AbilityDTO";
+import { pokemonAbilities } from "../../../DataTransferObjects/PokemonDTO";
 import { Container, Box, Grid, ListItem, Popover } from "@mui/material";
 
 type AbilityDisplayProps = {
-  abilities: AbilityDTO[];
+  abilities: pokemonAbilities[];
 };
   
 //TODO: (Geoff) create custom styling for name
-export const AbilityDisplay = ( { abilities }: AbilityDisplayProps) => {
+export const AbilityDisplay = ( { abilities } : AbilityDisplayProps) => {
   const [anchorEl, setAnchorEl] 
     = React.useState<HTMLElement | null>(null);
   const [hoveredText, setHoveredText] = React.useState<string | null>(null);
@@ -32,7 +32,7 @@ export const AbilityDisplay = ( { abilities }: AbilityDisplayProps) => {
               <ListItem
                 key={i}
                 sx={{ fontSize: 14 }}
-                onClick={(e) => handlePopoverOpen(e, ability.effect)}
+                onClick={(e) => handlePopoverOpen(e, ability[0].effect)}
                 onMouseLeave={handlePopoverClose}
               >
                 {RenderAbilityName(ability)}
@@ -66,17 +66,17 @@ export const AbilityDisplay = ( { abilities }: AbilityDisplayProps) => {
  * @returns an MUI container (any is used for now
  * todo: Geoff - define it properly)
  */
-function RenderAbilityName(ability: AbilityDTO): any {
-  if (ability.isHidden) {
+function RenderAbilityName(ability: pokemonAbilities): any {
+  if (ability[1]) {
     return (
       <Grid container maxWidth="xs">
-        <Box sx={{ fontStyle: 'italic' }}>{ability.name}</Box>
+        <Box sx={{ fontStyle: 'italic' }}>{ability[0].name}</Box>
       </Grid>
     );
   }
   return (
     <Grid container maxWidth="xs" sx={{ display: 'flex' }}>
-      <Box maxWidth="100%" sx={{ textAlign: 'left' }}>{ability.name}</Box>
+      <Box maxWidth="100%" sx={{ textAlign: 'left' }}>{ability[0].name}</Box>
     </Grid>
   );
 }

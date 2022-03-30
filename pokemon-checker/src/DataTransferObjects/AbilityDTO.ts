@@ -17,18 +17,15 @@ export class AbilityDTO {
   public id: number;
   public effect: string;
   public pokemons: ListOfPokemon[];
-  public isHidden: boolean;
   
   constructor(
     AbilityConstructorOptions: AbilityConstructorOptions, 
-    hidden: boolean
   ) {
     this.name = AbilityConstructorOptions.name;
     this.url = AbilityConstructorOptions.url;
     this.id = AbilityConstructorOptions.id ?? -1;
     this.effect = AbilityConstructorOptions.effect ?? "Missing Effect";
     this.pokemons = AbilityConstructorOptions.pokemons ?? [];
-    this.isHidden = hidden;
   }
 
   public setDescription(effect: string) {
@@ -51,3 +48,5 @@ export class AbilityDTO {
     );
   }
 }
+
+export default AbilityDTO;

@@ -31,7 +31,10 @@ export class PokemonFactory {
         this.moveFactory.createMoveFromStub(moveData)
       ),
       abilities: data.abilities.map((abilityData) =>
-        this.abilityService.getStub(abilityData)
+        [
+          this.abilityService.createAbilityFromStub(abilityData), 
+          abilityData.is_hidden
+        ]
       ),
       sprites: data.sprites,
       stats: data.stats.map((statData) => ({
@@ -48,7 +51,9 @@ export class PokemonFactory {
     const createdPokemon 
       = new PokemonDTO(this.getFullPokemonConstructorProps(pokemon));
     createdPokemon.abilities.forEach(ability => {
-      this.abilityService.getFullAbilityDef(ability);
+      if (!(ability[0].hasFullData)) 
+      //if retrieved from repository it likely has the data, otherwise...
+      this.abilityService.getFullAbilityDef(ability[0]);
     })
     return createdPokemon;
   };

@@ -18,24 +18,21 @@ export const heraConstructorOpts: PokemonConstructorOptions = {
     }),
   ],
   abilities: [
-    new AbilityDTO({
+    [new AbilityDTO({
       name: "swarm",
       url: "https://pokeapi.co/api/v2/ability/68/",
     },
-    false
-    ),
-    new AbilityDTO({
+    ), false],
+    [new AbilityDTO({
       name: "guts",
       url: "https://pokeapi.co/api/v2/ability/62",
     },
-    false
-    ),
-    new AbilityDTO({
+    ), false],
+    [new AbilityDTO({
       name: "moxie",
       url:"https://pokeapi.co/api/v2/ability/153/",
     },
-    true
-    ),
+    ), false],
   ],
   name: "heracross",
   sprites: {

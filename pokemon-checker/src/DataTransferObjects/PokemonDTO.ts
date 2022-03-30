@@ -9,7 +9,7 @@ export type PokemonConstructorOptions = {
   id: number;
   types: ITypeData[];
   moves: MoveDTO[];
-  abilities: AbilityDTO[];
+  abilities: pokemonAbilities[];
   sprites: ISpriteData;
   stats: {
     base_stat: number;
@@ -30,6 +30,7 @@ export type pokemonDisplayObj = {
   };
 };
 
+export type pokemonAbilities = [ability: AbilityDTO, isHidden: boolean];
 /**
  * Pokemon stat data is (currently) sent in an array where
  * stat indices are consistent with this enum
@@ -54,7 +55,7 @@ class PokemonDTO {
   public type1: ElementType;
   public type2: ElementType;
   public moves: MoveDTO[];
-  public abilities: AbilityDTO[];
+  public abilities: pokemonAbilities[];
   public frontDefault: string;
   public frontShiny: string;
   public stats: {
@@ -106,7 +107,7 @@ class PokemonDTO {
       moves: this.moves.map((moveEntry) => moveEntry.name),
       type1: this.type1,
       type2: this.type2,
-      abilities: this.abilities.map((abilityEntry) => abilityEntry.name),
+      abilities: this.abilities.map((abilityEntry) => abilityEntry[0].name),
       sprites: {
         frontDefault: this.frontDefault,
         frontShiny: this.frontShiny,
