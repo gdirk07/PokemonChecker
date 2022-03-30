@@ -5,7 +5,14 @@ import { PokemonFactory } from "../../factories/PokemonFactory";
 import { QuickView } from "./PokemonQuickCardView";
 import "../../App.css";
 import WaitingView from "./DefaultDisplayView";
-import Container from "@mui/material/Container";
+import Container, { ContainerProps } from "@mui/material/Container";
+import { styled } from "@mui/material/styles";
+
+const DisplayBorder = styled(Container)<ContainerProps>(({ theme }) => ({
+  border: `3px double`,
+  borderRadius: `5px`,
+  padding: `10px`,
+}));
 
 type displayProps = {
   pokemonUrl: string;
@@ -25,6 +32,8 @@ type displayState = {
     };
   };
 };
+
+
 
 class PokemonDisplay extends React.Component<displayProps, displayState> {
   private pokemonToDisplay: PokemonDTO | null;
@@ -72,9 +81,9 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
 
     if (pokemon) {
       return (
-        <Container maxWidth="sm">
+        <DisplayBorder maxWidth="sm">
           <QuickView pokemon={pokemon} />
-        </Container>
+        </DisplayBorder>
       );
     } else {
       return (
