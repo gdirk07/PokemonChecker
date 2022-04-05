@@ -25,7 +25,6 @@ export const NameDisplay = ({ name, id }: pokemonNameAndId) => {
         #{id}
       </NameStyle>
     </NameIdContainer>
-    
   );
 };
 

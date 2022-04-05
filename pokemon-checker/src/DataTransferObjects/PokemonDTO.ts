@@ -1,4 +1,5 @@
 import { MoveDTO } from "./MoveDTO";
+import { AbilityDTO } from "./AbilityDTO";
 import { ITypeData, ISpriteData } from "../interfaces/PokemonData";
 import { ElementType } from "../constants/ElementTypes";
 import { getTypeFromData } from "../utils/PokemonTypeUtils";
@@ -8,6 +9,7 @@ export type PokemonConstructorOptions = {
   id: number;
   types: ITypeData[];
   moves: MoveDTO[];
+  abilities: pokemonAbilities[];
   sprites: ISpriteData;
   stats: {
     base_stat: number;
@@ -19,6 +21,7 @@ export type pokemonDisplayObj = {
   name?: string;
   id?: string;
   moves?: string[];
+  abilities?: string[];
   type1?: string;
   type2?: string | null;
   sprites?: {
@@ -27,6 +30,7 @@ export type pokemonDisplayObj = {
   };
 };
 
+export type pokemonAbilities = [ability: AbilityDTO, isHidden: boolean];
 /**
  * Pokemon stat data is (currently) sent in an array where
  * stat indices are consistent with this enum
@@ -51,6 +55,7 @@ class PokemonDTO {
   public type1: ElementType;
   public type2: ElementType;
   public moves: MoveDTO[];
+  public abilities: pokemonAbilities[];
   public frontDefault: string;
   public frontShiny: string;
   public stats: {
@@ -75,6 +80,7 @@ class PokemonDTO {
     this.type2 = pokemonConstructorOptions.types[1]
       ? getTypeFromData(pokemonConstructorOptions.types[1].name)
       : ElementType.NULL;
+    this.abilities = pokemonConstructorOptions.abilities;
     this.frontDefault = pokemonConstructorOptions.sprites.front_default;
     this.frontShiny = pokemonConstructorOptions.sprites.front_shiny;
     this.url = pokemonConstructorOptions.url ?? "";
@@ -101,6 +107,7 @@ class PokemonDTO {
       moves: this.moves.map((moveEntry) => moveEntry.name),
       type1: this.type1,
       type2: this.type2,
+      abilities: this.abilities.map((abilityEntry) => abilityEntry[0].name),
       sprites: {
         frontDefault: this.frontDefault,
         frontShiny: this.frontShiny,
@@ -116,6 +123,7 @@ class PokemonDTO {
       this.name.length > 0 &&
       this.dexId > 0 &&
       this.moves.length > 0 &&
+      this.abilities.length > 0 &&
       this.frontDefault.length > 0 &&
       this.frontShiny.length > 0
     );

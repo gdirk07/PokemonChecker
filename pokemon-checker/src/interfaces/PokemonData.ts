@@ -1,4 +1,5 @@
 import { damageClass } from "../DataTransferObjects/MoveDTO";
+import { ListOfPokemon } from "../DataTransferObjects/AbilityDTO"
 import { ElementType } from "../constants/ElementTypes";
 
 /**
@@ -11,6 +12,11 @@ import { ElementType } from "../constants/ElementTypes";
  * Raw object received with Pokemon data. Contains the name and a link.
  */
 export interface IMoveStub {
+  name: string;
+  url: string;
+}
+
+export interface IAbilityStub {
   name: string;
   url: string;
 }
@@ -51,6 +57,14 @@ export interface IMoveSummary {
 }
 
 /**
+ * Contains the Pokemon specific ability info
+ */
+export interface IPokemonAbilitySummary {
+  ability: IAbilityStub;
+  is_hidden: boolean;
+}
+
+/**
  * Full move DTO Partial
  */
 export interface IMoveData {
@@ -63,6 +77,17 @@ export interface IMoveData {
   priority: number;
   type: { name: string; url: string };
   url: string;
+}
+
+/**
+ * Full ability DTO Partial
+ */
+export interface IAbilityData {
+  name: string;
+  id: number;
+  url: string;
+  effect: string;
+  pokemons: ListOfPokemon[];
 }
 
 /**
@@ -127,5 +152,6 @@ export interface IPokemonData {
   types: ITypeSlot[];
   sprites: ISpriteData;
   moves: IMoveSummary[];
+  abilities: IPokemonAbilitySummary[];
   stats: IStatData[];
 }
