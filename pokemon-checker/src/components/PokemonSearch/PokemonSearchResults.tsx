@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PokemonId from "./PokemonId";
-import Box from "@mui/system/Box";
+import Box from "@mui/system/box";
 
 export type PokemonSearchObj = {
   name: string,
