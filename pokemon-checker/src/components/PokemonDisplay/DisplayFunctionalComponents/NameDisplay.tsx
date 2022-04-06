@@ -1,3 +1,15 @@
+import Container, {ContainerProps} from "@mui/material/Container";
+import Grid, {GridProps} from "@mui/material/Grid";
+import { styled } from "@mui/material/styles";
+
+const NameIdContainer = styled(Container)<ContainerProps>(({theme}) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  marginLeft: `auto`,
+}));
+const NameStyle = styled(Grid)<GridProps>(({theme}) => ({
+
+}));
 type pokemonNameAndId = {
   name: string;
   id: number;
@@ -5,11 +17,14 @@ type pokemonNameAndId = {
 
 export const NameDisplay = ({ name, id }: pokemonNameAndId) => {
   return (
-    <div id="PokemonName">
-      <h5>
-        {name} #{id}
-      </h5>
-    </div>
+    <NameIdContainer>
+      <NameStyle>
+        {name}
+      </NameStyle>
+      <NameStyle>
+        #{id}
+      </NameStyle>
+    </NameIdContainer>
   );
 };
 
