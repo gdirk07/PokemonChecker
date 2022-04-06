@@ -4,40 +4,39 @@ import { ElementType } from "../constants/ElementTypes";
 
 /**
  * ===================================================================
+ *                         Global Pokemon Stub
+ *  Far as I can tell, all data coming from the API will come in the
+ *             format of { name: string; url: string; }
+ * ===================================================================
+ */
+export interface IPokeAPIStub {
+  name: string;
+  url: string;
+}
+
+/**
+ * ===================================================================
  *                              MOVE DATA
  * ===================================================================
  */
 
 /**
- * Raw object received with Pokemon data. Contains the name and a link.
+ * Raw objects received with Pokemon data. Contains the name and a link.
  */
-export interface IMoveStub {
-  name: string;
-  url: string;
-}
-
-export interface IAbilityStub {
-  name: string;
-  url: string;
-}
+export interface IMoveStub extends IPokeAPIStub {}
+export interface IAbilityStub extends IPokeAPIStub {}
 
 /**
  * Dictates how a pokemon learns this move
  * e.g. 'machine', 'level-up', 'tutor'
  */
-export interface IMoveLearnMethod {
-  name: string;
-  url: string;
-}
+export interface IMoveLearnMethod extends IPokeAPIStub {}
 
 /**
  * Contains a link to the move in different versions of the game
  * e.g. 'gold-silver', 'platinum', 'black-2-white-2'
  */
-export interface IMoveVersionGroup {
-  name: string;
-  url: string;
-}
+export interface IMoveVersionGroup extends IPokeAPIStub {}
 
 /**
  * Move acquisition metadata for each Pokemon version
@@ -99,10 +98,7 @@ export interface IAbilityData {
 /**
  * Name and URL returned when querying Pokemon summary data
  */
-export interface IPokemonStub {
-  name: string;
-  url: string;
-}
+export interface IPokemonStub extends IPokeAPIStub {}
 
 /**
  * Type stub found on pokemon data
