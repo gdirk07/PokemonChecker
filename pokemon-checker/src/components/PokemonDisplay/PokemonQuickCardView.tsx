@@ -33,6 +33,7 @@ export const QuickView = ({ pokemon }: PokemonInfoProps) => {
         <TypeDisplay type={pokemon.type1} />
         <TypeDisplay type={pokemon.type2} />
         <NameDisplay name={pokemon.name} id={pokemon.dexId} />
+        <AbilityDisplay abilities={pokemon.abilities} />
       </BasicInfoDisplay>
 
       <Grid item xs={12}>
