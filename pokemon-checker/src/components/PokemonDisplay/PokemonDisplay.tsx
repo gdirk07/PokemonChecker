@@ -1,6 +1,5 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import PokemonDTO from "../../DataTransferObjects/PokemonDTO";
-import { AbilityService } from "../../services/AbilityService";
 import { IPokemonData } from "../../interfaces/PokemonData";
 import { PokemonFactory } from "../../factories/PokemonFactory";
 import { QuickView } from "./PokemonQuickCardView";
@@ -20,52 +19,20 @@ type displayProps = {
   getPokemonData: (url: string) => Promise<any>;
 };
 
-type displayState = {
-  pokemonObject: {
-    name?: string;
-    id?: string;
-    moves?: string[];
-    type1?: string;
-    type2?: string | null;
-    sprites?: {
-      frontDefault: string;
-      frontShiny: string;
-    };
-  };
-};
-
-
-
-class PokemonDisplay extends React.Component<displayProps, displayState> {
-  private pokemonToDisplay: PokemonDTO | null;
+export const PokemonDisplay = (props: displayProps ) => {
+  const [pokeonObject,setPokemonObject] = useState<PokemonDTO>();
   //TODO (jeremy): Move this factory to a service! Views shouldn't control this.
-  private pokemonFactory: PokemonFactory;
-  private abilityService: AbilityService;
+  const pokemonFactory: PokemonFactory = new PokemonFactory();
 
-  constructor(props: displayProps) {
-    super(props);
-    this.state = {
-      pokemonObject: {},
-    };
-    this.pokemonToDisplay = null;
-    this.pokemonFactory = new PokemonFactory();
-    this.abilityService = new AbilityService();
-  }
+  useEffect(() => {
+      fetchPokemonObject();
+  })
 
-  componentDidUpdate(prevProps: displayProps) {
-    const prevUrl = prevProps.pokemonUrl;
-    const url = this.props.pokemonUrl;
-    if (prevUrl !== url) {
-      this.fetchPokemonObject();
-    }
-  }
-
-  fetchPokemonObject() {
-    const url = this.props.pokemonUrl;
+  const fetchPokemonObject = () => {
+    const url = props.pokemonUrl;
     if (url && url !== "") {
-      this.props
-        .getPokemonData(url)
-        .then((pokemonRetrieved) => this.createPokemonObject(pokemonRetrieved))
+      props.getPokemonData(url)
+        .then((pokemonRetrieved) => createPokemonObject(pokemonRetrieved))
         .catch(console.log);
     }
   }
@@ -74,27 +41,24 @@ class PokemonDisplay extends React.Component<displayProps, displayState> {
    * Create a PokemonObject from the results retrieved
    * @param pokemonRetrieved the pokemon retrieved from the API
    */
-  createPokemonObject(pokemonRetrieved: IPokemonData): void {
-    this.pokemonToDisplay = this.pokemonFactory.createPokemon(pokemonRetrieved);
-    this.setState({ pokemonObject: this.pokemonToDisplay.getDisplayStats() });
+  const createPokemonObject = (pokemonRetrieved: IPokemonData): void => {
+    let pokemonToDisplay = pokemonFactory.createPokemon(pokemonRetrieved);
+    setPokemonObject(pokemonToDisplay);
   }
 
-  render() {
-    const pokemon = this.pokemonToDisplay;
-
-    if (pokemon) {
-      return (
-        <DisplayBorder maxWidth="sm">
-          <QuickView pokemon={pokemon} />
-        </DisplayBorder>
-      );
-    } else {
-      return (
-        <div className="AwaitingPokemon">
-          <WaitingView />
-        </div>
-      );
-    }
+  if (pokeonObject) {
+    return (
+      <DisplayBorder maxWidth="sm">
+        <QuickView pokemon={pokeonObject} />
+      </DisplayBorder>
+    );
+  } 
+  else {
+    return (
+      <div className="AwaitingPokemon">
+        <WaitingView />
+      </div>
+    );
   }
 }
 
