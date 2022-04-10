@@ -3,8 +3,8 @@ import { AbilityDTO, AbilityConstructorOptions } from "./AbilityDTO";
 test("Test creation of am ability from stub", () => {
   const abilityStub: AbilityConstructorOptions = {
     name: "dummy ability",
-    url: "https://test.test"
-  }
+    url: "https://test.test",
+  };
 
   const testAbility = new AbilityDTO(abilityStub);
 

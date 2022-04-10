@@ -3,7 +3,7 @@ import { ElementType } from "../constants/ElementTypes";
 /**
  * Returns a pokemon ElementType based on an input string (lowercase).
  * @param inputType Raw string from API payload
-*/
+ */
 export const getTypeFromData = (inputType: string): ElementType => {
   switch (inputType) {
     case "bug":
@@ -45,4 +45,4 @@ export const getTypeFromData = (inputType: string): ElementType => {
     default:
       return ElementType.NULL;
   }
-}
+};

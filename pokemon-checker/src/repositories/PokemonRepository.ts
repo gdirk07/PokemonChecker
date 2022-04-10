@@ -5,7 +5,7 @@ import { PokemonFactory } from "../factories/PokemonFactory";
 export class PokemonRepository {
   private pokemonTable: Record<string, PokemonDTO>;
   private expiryTimestamp: number;
-  private factory: PokemonFactory
+  private factory: PokemonFactory;
 
   // Used to check against localStorage
   private static storageTimestampKey = "expiryTimestamp";
@@ -75,21 +75,21 @@ export class PokemonRepository {
   }
 
   public loadPokemonBatch(payload: PokemonDTO[]): void {
-    payload.forEach(pokemon => this.setPokemonData(pokemon));
+    payload.forEach((pokemon) => this.setPokemonData(pokemon));
   }
 
   /**
    * Saves the state of the current table to localStorage
    */
   public savePokemon(): void {
-    localStorage.setItem('pokemonTable', JSON.stringify(this.pokemonTable));
+    localStorage.setItem("pokemonTable", JSON.stringify(this.pokemonTable));
   }
 
   public loadFromStorage(): void {
-    const savedData = localStorage.getItem('pokemonTable');
+    const savedData = localStorage.getItem("pokemonTable");
     if (savedData) {
       const oldTable = JSON.parse(savedData);
-      (Object.keys(oldTable)).forEach(key => {
+      Object.keys(oldTable).forEach((key) => {
         const pokemonData = this.factory.createPokemonStub(oldTable[key]);
         this.setPokemonData(pokemonData);
       });

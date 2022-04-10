@@ -5,7 +5,7 @@ import { AbilityFactory } from "../factories/AbilityFactory";
 export class AbilityRepository {
   private abilityTable: Record<string, AbilityDTO>;
   private expiryTimestamp: number;
-  private factory: AbilityFactory
+  private factory: AbilityFactory;
 
   // Used to check against localStorage
   private static storageTimestampKey = "expiryTimestamp";
@@ -20,7 +20,7 @@ export class AbilityRepository {
    * Returns the existing timestamp from localStorage, if it exists.
    * Zero indicates that localStorage is un-set
    */
-   public initTimestamp(): number {
+  public initTimestamp(): number {
     const oldStamp = Number(
       localStorage.getItem(AbilityRepository.storageTimestampKey)
     );
@@ -50,7 +50,7 @@ export class AbilityRepository {
    * Saves the state of the current table to localStorage
    */
   public saveAbility(): void {
-    localStorage.setItem('abilityTable', JSON.stringify(this.abilityTable));
+    localStorage.setItem("abilityTable", JSON.stringify(this.abilityTable));
   }
 
   /**
@@ -69,10 +69,10 @@ export class AbilityRepository {
   }
 
   public loadFromStorage(): void {
-    const savedData = localStorage.getItem('abilityTable');
+    const savedData = localStorage.getItem("abilityTable");
     if (savedData) {
       const oldTable = JSON.parse(savedData);
-      (Object.keys(oldTable)).forEach(key => {
+      Object.keys(oldTable).forEach((key) => {
         const abilityData = this.factory.createAbilityStub(oldTable[key]);
         this.setAbilityData(abilityData);
       });

@@ -1,15 +1,15 @@
 export type ListOfPokemon = {
   name: string;
   url: string;
-}
+};
 
 export type AbilityConstructorOptions = {
-  name: string,
-  url: string,
-  id?: number,
-  effect?: string,
-  pokemons?: ListOfPokemon[],
-}
+  name: string;
+  url: string;
+  id?: number;
+  effect?: string;
+  pokemons?: ListOfPokemon[];
+};
 
 export class AbilityDTO {
   public name: string;
@@ -17,10 +17,8 @@ export class AbilityDTO {
   public id: number;
   public effect: string;
   public pokemons: ListOfPokemon[];
-  
-  constructor(
-    AbilityConstructorOptions: AbilityConstructorOptions, 
-  ) {
+
+  constructor(AbilityConstructorOptions: AbilityConstructorOptions) {
     this.name = AbilityConstructorOptions.name;
     this.url = AbilityConstructorOptions.url;
     this.id = AbilityConstructorOptions.id ?? -1;

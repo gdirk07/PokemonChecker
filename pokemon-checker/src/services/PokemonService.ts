@@ -23,22 +23,19 @@ export class PokemonService {
    * @param payload List of pokemon to store in the repository
    */
   private storePokemonStubs(payload: PokemonDTO[]): void {
-    try{
+    try {
       // Save the pokemon data to localStorage
       this.repository.loadPokemonBatch(payload);
       this.repository.savePokemon();
 
       // Set the timestamp for 30 minutes
       this.repository.setExpiryTimestamp(30);
-    }
-    catch (e: unknown) {
-      if (typeof e === 'string') {
+    } catch (e: unknown) {
+      if (typeof e === "string") {
         console.log(`Could not store pokemon stubs: ${e}`);
-      }
-      else if (e instanceof Error) {
+      } else if (e instanceof Error) {
         console.log(`Failed to store pokemon stub: ${e.message}`);
-      }
-      else {
+      } else {
         console.log(`Unknown error storing pokemon stubs: ${e}`);
       }
     }
@@ -80,8 +77,7 @@ export class PokemonService {
   public async getAllPokemon(): Promise<PokemonDTO[]> {
     if (this.repository.isExpired) {
       return await fetch(this.getAllUrl).then(this.resolvePokemonStubs);
-    }
-    else {
+    } else {
       this.repository.loadFromStorage();
       return Promise.resolve(this.repository.getAllPokemon());
     }

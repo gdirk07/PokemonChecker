@@ -1,5 +1,5 @@
 import { damageClass } from "../DataTransferObjects/MoveDTO";
-import { ListOfPokemon } from "../DataTransferObjects/AbilityDTO"
+import { ListOfPokemon } from "../DataTransferObjects/AbilityDTO";
 import { ElementType } from "../constants/ElementTypes";
 
 /**
@@ -111,7 +111,7 @@ export interface ITypeData {
 export interface ITypeSlot {
   slot: number;
   type: ITypeData;
-};
+}
 
 /**
  * Sprite URLs attached to pokemon

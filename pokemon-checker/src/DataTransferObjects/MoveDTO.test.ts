@@ -3,8 +3,8 @@ import { MoveDTO, MoveConstructorOptions } from "./MoveDTO";
 test("Test creation of a move from stub", () => {
   const moveStub: MoveConstructorOptions = {
     name: "dummy move",
-    url: "https://test.test"
-  }
+    url: "https://test.test",
+  };
 
   const testMove = new MoveDTO(moveStub);
 

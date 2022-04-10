@@ -1,7 +1,4 @@
-import {
-  
-  PokemonConstructorOptions,
-} from "../DataTransferObjects/PokemonDTO";
+import { PokemonConstructorOptions } from "../DataTransferObjects/PokemonDTO";
 import { MoveDTO } from "../DataTransferObjects/MoveDTO";
 import { ElementType } from "../constants/ElementTypes";
 import { AbilityDTO } from "../DataTransferObjects/AbilityDTO";
@@ -18,21 +15,27 @@ export const heraConstructorOpts: PokemonConstructorOptions = {
     }),
   ],
   abilities: [
-    [new AbilityDTO({
-      name: "swarm",
-      url: "https://pokeapi.co/api/v2/ability/68/",
-    },
-    ), false],
-    [new AbilityDTO({
-      name: "guts",
-      url: "https://pokeapi.co/api/v2/ability/62",
-    },
-    ), false],
-    [new AbilityDTO({
-      name: "moxie",
-      url:"https://pokeapi.co/api/v2/ability/153/",
-    },
-    ), false],
+    [
+      new AbilityDTO({
+        name: "swarm",
+        url: "https://pokeapi.co/api/v2/ability/68/",
+      }),
+      false,
+    ],
+    [
+      new AbilityDTO({
+        name: "guts",
+        url: "https://pokeapi.co/api/v2/ability/62",
+      }),
+      false,
+    ],
+    [
+      new AbilityDTO({
+        name: "moxie",
+        url: "https://pokeapi.co/api/v2/ability/153/",
+      }),
+      false,
+    ],
   ],
   name: "heracross",
   sprites: {

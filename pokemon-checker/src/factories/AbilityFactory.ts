@@ -1,34 +1,35 @@
 import { IAbilityData, IAbilityStub } from "../interfaces/PokemonData";
 import {
-  AbilityConstructorOptions, AbilityDTO
+  AbilityConstructorOptions,
+  AbilityDTO,
 } from "../DataTransferObjects/AbilityDTO";
 
 type AbilityDetails = {
-  name: string,
-  url: string,
-  id: number,
-  desc: string,
-  pokemonHave: [],
-}
+  name: string;
+  url: string;
+  id: number;
+  desc: string;
+  pokemonHave: [];
+};
 
 export class AbilityFactory {
-  public createAbilityStub = 
-    (stubData: IAbilityStub): AbilityDTO => {
+  public createAbilityStub = (stubData: IAbilityStub): AbilityDTO => {
     const opts: AbilityConstructorOptions = {
       name: stubData.name,
       url: stubData.url,
     };
-    
+
     return new AbilityDTO(opts);
   };
 
-  public createAbilityFromDataAndStub = 
-    (
-      abilityData: IAbilityData, 
-      stub: AbilityDTO, 
-    ): AbilityDTO => {
-    const fullAbility: AbilityDetails 
-      = this.cleanRetrievedData(abilityData, stub)
+  public createAbilityFromDataAndStub = (
+    abilityData: IAbilityData,
+    stub: AbilityDTO
+  ): AbilityDTO => {
+    const fullAbility: AbilityDetails = this.cleanRetrievedData(
+      abilityData,
+      stub
+    );
 
     stub.effect = fullAbility.desc;
     stub.pokemons = fullAbility.pokemonHave;
@@ -38,13 +39,13 @@ export class AbilityFactory {
 
   /**
    * Clean the response and add in the list of pokemon and english descripton
-   * In a future milestone if we wanted to add 
+   * In a future milestone if we wanted to add
    * additional languages this would need to be expanded upon
-   * @param response 
-   * @param ability 
-   * @returns 
+   * @param response
+   * @param ability
+   * @returns
    */
-  public cleanRetrievedData = (data: any, stub: AbilityDTO) : AbilityDetails => {
+  public cleanRetrievedData = (data: any, stub: AbilityDTO): AbilityDetails => {
     const cleanedData: AbilityDetails = {
       name: stub.name,
       url: stub.url,
@@ -54,12 +55,12 @@ export class AbilityFactory {
     };
 
     data.effect_entries.forEach((effect: any) => {
-      if (effect.language.name === "en" && effect.short_effect) 
+      if (effect.language.name === "en" && effect.short_effect)
         cleanedData.desc = effect.short_effect;
       else if (effect.language.name === "en" && effect.effect)
         cleanedData.desc = effect.effect;
-      });
-    cleanedData.pokemonHave=data.pokemon;
+    });
+    cleanedData.pokemonHave = data.pokemon;
     return cleanedData;
-  }
+  };
 }

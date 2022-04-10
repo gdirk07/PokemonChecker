@@ -30,12 +30,10 @@ export class PokemonFactory {
       moves: data.moves.map((moveData) =>
         this.moveFactory.createMoveFromStub(moveData)
       ),
-      abilities: data.abilities.map((abilityData) =>
-        [
-          this.abilityService.createAbilityFromStub(abilityData), 
-          abilityData.is_hidden
-        ]
-      ),
+      abilities: data.abilities.map((abilityData) => [
+        this.abilityService.createAbilityFromStub(abilityData),
+        abilityData.is_hidden,
+      ]),
       sprites: data.sprites,
       stats: data.stats.map((statData) => ({
         base_stat: statData.base_stat,
@@ -48,13 +46,14 @@ export class PokemonFactory {
    * @param pokemon Full data from the individual pokemon requests
    */
   public createPokemon = (pokemon: IPokemonData): PokemonDTO => {
-    const createdPokemon 
-      = new PokemonDTO(this.getFullPokemonConstructorProps(pokemon));
-    createdPokemon.abilities.forEach(ability => {
-      if (!(ability[0].hasFullData)) 
-      //if retrieved from repository it likely has the data, otherwise...
-      this.abilityService.getFullAbilityDef(ability[0]);
-    })
+    const createdPokemon = new PokemonDTO(
+      this.getFullPokemonConstructorProps(pokemon)
+    );
+    createdPokemon.abilities.forEach((ability) => {
+      if (!ability[0].hasFullData)
+        //if retrieved from repository it likely has the data, otherwise...
+        this.abilityService.getFullAbilityDef(ability[0]);
+    });
     return createdPokemon;
   };
 
@@ -87,12 +86,12 @@ export class PokemonFactory {
       moves: [],
       abilities: [],
       stats: [
-        { base_stat: 0},
-        { base_stat: 0},
-        { base_stat: 0},
-        { base_stat: 0},
-        { base_stat: 0},
-        { base_stat: 0},
+        { base_stat: 0 },
+        { base_stat: 0 },
+        { base_stat: 0 },
+        { base_stat: 0 },
+        { base_stat: 0 },
+        { base_stat: 0 },
       ],
       url: pokemon.url,
     };
