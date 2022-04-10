@@ -19,23 +19,24 @@ type displayProps = {
   getPokemonData: (url: string) => Promise<any>;
 };
 
-export const PokemonDisplay = (props: displayProps ) => {
-  const [pokeonObject,setPokemonObject] = useState<PokemonDTO>();
+export const PokemonDisplay = (props: displayProps) => {
+  const [pokeonObject, setPokemonObject] = useState<PokemonDTO>();
   //TODO (jeremy): Move this factory to a service! Views shouldn't control this.
   const pokemonFactory: PokemonFactory = new PokemonFactory();
 
   useEffect(() => {
-      fetchPokemonObject();
-  })
+    fetchPokemonObject();
+  });
 
   const fetchPokemonObject = () => {
     const url = props.pokemonUrl;
-    if (url && url !== "") {
-      props.getPokemonData(url)
+    if (url && url.length > 0) {
+      props
+        .getPokemonData(url)
         .then((pokemonRetrieved) => createPokemonObject(pokemonRetrieved))
         .catch(console.log);
     }
-  }
+  };
 
   /**
    * Create a PokemonObject from the results retrieved
@@ -44,7 +45,7 @@ export const PokemonDisplay = (props: displayProps ) => {
   const createPokemonObject = (pokemonRetrieved: IPokemonData): void => {
     let pokemonToDisplay = pokemonFactory.createPokemon(pokemonRetrieved);
     setPokemonObject(pokemonToDisplay);
-  }
+  };
 
   if (pokeonObject) {
     return (
@@ -52,14 +53,13 @@ export const PokemonDisplay = (props: displayProps ) => {
         <QuickView pokemon={pokeonObject} />
       </DisplayBorder>
     );
-  } 
-  else {
+  } else {
     return (
       <div className="AwaitingPokemon">
         <WaitingView />
       </div>
     );
   }
-}
+};
 
 export default PokemonDisplay;
