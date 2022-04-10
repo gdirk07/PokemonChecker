@@ -1,7 +1,7 @@
 export const WaitingView = () => {
   return (
     <div>
-       <h2>Waiting for Pokemon selection</h2>
+      <h2>Waiting for Pokemon selection</h2>
     </div>
   );
 };

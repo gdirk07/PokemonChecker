@@ -13,7 +13,7 @@ const spaceStyles = {
 
 const sizeStyles = {
   fontSize: `1rem`,
-}
+};
 
 const getColourStyles = (type: ElementType) => {
   const colourObject = {
@@ -91,7 +91,11 @@ export const TypeDisplay = ({ type }: TypeDisplayProps) => {
     return <></>;
   }
 
-  const combinedStyles = { ...spaceStyles, ...getColourStyles(type), ...sizeStyles };
+  const combinedStyles = {
+    ...spaceStyles,
+    ...getColourStyles(type),
+    ...sizeStyles,
+  };
 
   return <span style={combinedStyles}>{type}</span>;
 };

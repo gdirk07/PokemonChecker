@@ -4,16 +4,14 @@ import TypeDisplay from "./DisplayFunctionalComponents/TypeDisplay";
 import AbilityDisplay from "./DisplayFunctionalComponents/AbilityDisplay";
 import PokemonImage from "./DisplayFunctionalComponents/PokemonImageDisplay";
 import PokemonDTO from "../../DataTransferObjects/PokemonDTO";
-import Grid, {GridProps} from "@mui/material/Grid";
+import Grid, { GridProps } from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 
-const SpriteDisplay = styled(Grid)<GridProps>(( { theme } ) => ({
+const SpriteDisplay = styled(Grid)<GridProps>(({ theme }) => ({
   alignSelf: `start`,
 }));
 
-const BasicInfoDisplay = styled(Grid)<GridProps>(( { theme } ) => ({
-
-}));
+const BasicInfoDisplay = styled(Grid)<GridProps>(({ theme }) => ({}));
 
 type PokemonInfoProps = {
   pokemon: PokemonDTO;
@@ -33,6 +31,7 @@ export const QuickView = ({ pokemon }: PokemonInfoProps) => {
         <TypeDisplay type={pokemon.type1} />
         <TypeDisplay type={pokemon.type2} />
         <NameDisplay name={pokemon.name} id={pokemon.dexId} />
+        <AbilityDisplay abilities={pokemon.abilities} />
       </BasicInfoDisplay>
 
       <Grid item xs={12}>

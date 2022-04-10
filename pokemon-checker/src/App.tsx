@@ -37,9 +37,8 @@ class App extends Component<any, AppState> {
     this.pokeService
       .getAllPokemon()
       .then((pokemonRetrieved) => {
-        pokemonRetrieved.map((pokemon: {name: string, url: string})  => {
-          return pokemon.name 
-            = scrubPokemonName(pokemon.name.toLowerCase());
+        pokemonRetrieved.map((pokemon: { name: string; url: string }) => {
+          return (pokemon.name = scrubPokemonName(pokemon.name.toLowerCase()));
         });
         this.setState({ pokemonList: pokemonRetrieved });
       })

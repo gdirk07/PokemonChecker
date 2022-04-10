@@ -5,41 +5,38 @@
  */
 
 type PokemonImageProps = {
-  altImageName: string,
-  defaultFront: string,
-  defaultFrontS: string
+  altImageName: string;
+  defaultFront: string;
+  defaultFrontS: string;
 };
 
 const imageStyles = {
   maxHeight: "96px",
   maxWidth: "96px",
-}
+};
 
 export const PokemonImage = ({
   altImageName,
   defaultFront,
-  defaultFrontS
+  defaultFrontS,
 }: PokemonImageProps) => {
   return (
     <div>
       {
-        <
-          img 
-          className="pokemonDisplay" 
-          style={imageStyles} 
-          src={defaultFront} 
-          alt={altImageName}>
-        </img>
+        <img
+          className="pokemonDisplay"
+          style={imageStyles}
+          src={defaultFront}
+          alt={altImageName}
+        ></img>
       }
       {defaultFrontS ? (
-        <
-          img 
-          className="pokemonDisplay" 
-          style={imageStyles} 
-          src={defaultFrontS} 
+        <img
+          className="pokemonDisplay"
+          style={imageStyles}
+          src={defaultFrontS}
           alt={altImageName}
-          >
-        </img>
+        ></img>
       ) : (
         //Pokemon should have a shiny, if not then we should log the error
         <h2>No Shiny</h2>
@@ -48,4 +45,4 @@ export const PokemonImage = ({
   );
 };
 
-export default PokemonImage
+export default PokemonImage;
