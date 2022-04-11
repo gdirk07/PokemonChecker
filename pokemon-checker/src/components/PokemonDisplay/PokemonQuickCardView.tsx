@@ -8,10 +8,12 @@ import Grid, { GridProps } from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 
 const SpriteDisplay = styled(Grid)<GridProps>(({ theme }) => ({
-  alignSelf: `start`,
+  alignSelf: `center`,
 }));
 
-const BasicInfoDisplay = styled(Grid)<GridProps>(({ theme }) => ({}));
+const BasicInfoDisplay = styled(Grid)<GridProps>(({ theme }) => ({
+  marginTop: `0.5em`,
+}));
 
 type PokemonInfoProps = {
   pokemon: PokemonDTO;
