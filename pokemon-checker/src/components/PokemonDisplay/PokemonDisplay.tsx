@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import PokemonDTO from "../../DataTransferObjects/PokemonDTO";
 import { IPokemonData } from "../../interfaces/PokemonData";
 import { PokemonFactory } from "../../factories/PokemonFactory";
@@ -20,15 +20,28 @@ type displayProps = {
 };
 
 export const PokemonDisplay = (props: displayProps) => {
-  const [pokeonObject, setPokemonObject] = useState<PokemonDTO>();
-  //TODO (jeremy): Move this factory to a service! Views shouldn't control this.
-  const pokemonFactory: PokemonFactory = new PokemonFactory();
+  const [pokemonObject, setPokemonObject] = useState<PokemonDTO>();
+  // TODO (jeremy): Elminate the factory declaration! The service method is
+  // passed to this component as a prop.
+  const pokemonFactory: PokemonFactory = useMemo(
+    () => new PokemonFactory(),
+    []
+  );
+  /**
+   * Create a PokemonObject from the results retrieved
+   * @param pokemonRetrieved the pokemon retrieved from the API
+   */
+  const createPokemonObject = useCallback(
+    (pokemonRetrieved: IPokemonData): void => {
+      let pokemonToDisplay = pokemonFactory.createPokemon(pokemonRetrieved);
+      setPokemonObject(pokemonToDisplay);
+    },
+    [pokemonFactory]
+  );
 
-  useEffect(() => {
-    fetchPokemonObject();
-  });
-
-  const fetchPokemonObject = () => {
+  // TODO: Eliminate this method. 'getPokemonData' as a Service method
+  // should already return the PokemonDTO - it currently returns raw JSON.
+  const fetchPokemonObject = useCallback(() => {
     const url = props.pokemonUrl;
     if (url && url.length > 0) {
       props
@@ -36,21 +49,16 @@ export const PokemonDisplay = (props: displayProps) => {
         .then((pokemonRetrieved) => createPokemonObject(pokemonRetrieved))
         .catch(console.log);
     }
-  };
+  }, [props, createPokemonObject]);
 
-  /**
-   * Create a PokemonObject from the results retrieved
-   * @param pokemonRetrieved the pokemon retrieved from the API
-   */
-  const createPokemonObject = (pokemonRetrieved: IPokemonData): void => {
-    let pokemonToDisplay = pokemonFactory.createPokemon(pokemonRetrieved);
-    setPokemonObject(pokemonToDisplay);
-  };
+  useEffect(() => {
+    fetchPokemonObject();
+  }, [fetchPokemonObject]);
 
-  if (pokeonObject) {
+  if (pokemonObject) {
     return (
       <DisplayBorder maxWidth="sm">
-        <QuickView pokemon={pokeonObject} />
+        <QuickView pokemon={pokemonObject} />
       </DisplayBorder>
     );
   } else {
