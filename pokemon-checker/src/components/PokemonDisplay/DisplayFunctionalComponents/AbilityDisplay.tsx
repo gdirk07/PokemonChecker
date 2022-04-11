@@ -1,6 +1,6 @@
 import { useState, MouseEvent } from "react";
 import { pokemonAbilities } from "../../../DataTransferObjects/PokemonDTO";
-import { Container, Box, Grid, ListItem, Popover } from "@mui/material";
+import { Container, Box, Grid, ListItem, Popover, Typography } from "@mui/material";
 
 type AbilityDisplayProps = {
   abilities: pokemonAbilities[];
@@ -53,7 +53,9 @@ export const AbilityDisplay = ({ abilities }: AbilityDisplayProps) => {
                 }}
                 disableRestoreFocus
               >
-                {hoveredText}
+                <Typography sx ={{ p:0.5 }}>
+                  {hoveredText}
+                </Typography>
               </Popover>
             </ListItem>
           );
