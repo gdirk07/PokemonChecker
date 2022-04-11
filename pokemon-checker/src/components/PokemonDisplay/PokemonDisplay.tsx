@@ -20,7 +20,7 @@ type displayProps = {
 };
 
 export const PokemonDisplay = (props: displayProps) => {
-  const [pokeonObject, setPokemonObject] = useState<PokemonDTO>();
+  const [pokemonObject, setPokemonObject] = useState<PokemonDTO>();
   // TODO (jeremy): Elminate the factory declaration! The service method is
   // passed to this component as a prop.
   const pokemonFactory: PokemonFactory = useMemo(
@@ -55,10 +55,10 @@ export const PokemonDisplay = (props: displayProps) => {
     fetchPokemonObject();
   }, [fetchPokemonObject]);
 
-  if (pokeonObject) {
+  if (pokemonObject) {
     return (
       <DisplayBorder maxWidth="sm">
-        <QuickView pokemon={pokeonObject} />
+        <QuickView pokemon={pokemonObject} />
       </DisplayBorder>
     );
   } else {
