@@ -31,18 +31,21 @@ export const PokemonDisplay = (props: displayProps) => {
    * Create a PokemonObject from the results retrieved
    * @param pokemonRetrieved the pokemon retrieved from the API
    */
-  const createPokemonObject = useCallback((url: string) => {
-    if (url && url.length > 0) {
-      getPokemonData(url)
-      .then(data => pokemonFactory.createPokemon(data))
-      .then(pokemon => pokemonFactory.fetchAbilities(pokemon))
-      .then(pokemon => setPokemonObject(pokemon));
-    }
-  }, [getPokemonData, pokemonFactory]);
+  const createPokemonObject = useCallback(
+    (url: string) => {
+      if (url && url.length > 0) {
+        getPokemonData(url)
+          .then((data) => pokemonFactory.createPokemon(data))
+          .then((pokemon) => pokemonFactory.fetchAbilities(pokemon))
+          .then((pokemon) => setPokemonObject(pokemon));
+      }
+    },
+    [getPokemonData, pokemonFactory]
+  );
 
   useEffect(() => {
     createPokemonObject(pokemonUrl);
-  }, [pokemonUrl, createPokemonObject],);
+  }, [pokemonUrl, createPokemonObject]);
 
   if (pokemonObject) {
     return (

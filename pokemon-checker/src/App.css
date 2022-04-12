@@ -1,6 +1,8 @@
-html, body, .App {
+html,
+body,
+.App {
   /* Fills up the entire app, without it there's a white bar at top and right side*/
-  overflow: auto; 
+  overflow: auto;
 }
 
 .App {

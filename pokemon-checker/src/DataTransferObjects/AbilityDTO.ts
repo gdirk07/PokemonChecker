@@ -26,9 +26,8 @@ export class AbilityDTO {
     this.id = AbilityConstructorOptions.id ?? -1;
     this.effect = AbilityConstructorOptions.effect ?? "Missing Effect";
     this.pokemons = AbilityConstructorOptions.pokemons ?? [];
-    this.localizedName 
-      = AbilityConstructorOptions.localizedName ?? 
-      AbilityConstructorOptions.name;
+    this.localizedName =
+      AbilityConstructorOptions.localizedName ?? AbilityConstructorOptions.name;
   }
 
   public setDescription(effect: string) {

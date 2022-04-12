@@ -65,17 +65,17 @@ export class AbilityFactory {
     });
     cleanedData.pokemonHave = data.pokemon;
     //default option, just use the stub name
-    cleanedData.localizedName  
-      = this.findLocalizedName("en", data.names) ?? stub.name;
+    cleanedData.localizedName =
+      this.findLocalizedName("en", data.names) ?? stub.name;
     return cleanedData;
   };
 
   /**
    * Find the localized name for the ability
-   * @param language the given language 
+   * @param language the given language
    * todo: make a global map for how we define language vs the API
    * @param data the fetched data
-   * @returns the localized name if found otherwise null 
+   * @returns the localized name if found otherwise null
    * (which will default to the object name)
    */
   private findLocalizedName = (language: string, data: any): string | null => {
@@ -83,5 +83,5 @@ export class AbilityFactory {
       if (value.language.name === "en") return value.name;
     }
     return null;
-  }
+  };
 }

@@ -45,15 +45,16 @@ class App extends Component<any, AppState> {
     let filteredPokemon: PokemonDTO[] = [];
     if (event && event.target && event.target.value) {
       const searchField = event.target.value;
-      filteredPokemon = searchField.length > 1 ? 
-        this.state.pokemonList.filter((pokemon) => {
-          let name: string = pokemon.name.toLowerCase();
-          return name.includes(searchField.toLowerCase());
-        }) :
-        [];
+      filteredPokemon =
+        searchField.length > 1
+          ? this.state.pokemonList.filter((pokemon) => {
+              let name: string = pokemon.name.toLowerCase();
+              return name.includes(searchField.toLowerCase());
+            })
+          : [];
     }
-      this.setState({ pokemonResults: filteredPokemon });
-    };
+    this.setState({ pokemonResults: filteredPokemon });
+  };
 
   onPokemonSelected = (url: string) => {
     if (url && url !== "") {
@@ -63,7 +64,7 @@ class App extends Component<any, AppState> {
 
   render() {
     const { pokemonResults, pokemonUrl } = this.state;
-  
+
     return (
       <div className="App">
         <h1>Search for a Pokemon</h1>

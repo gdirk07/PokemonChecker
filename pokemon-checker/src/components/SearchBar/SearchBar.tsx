@@ -5,7 +5,6 @@ type SearchBoxProps = {
 };
 
 const SearchBox = ({ searchChange }: SearchBoxProps) => {
-
   return (
     <div>
       <input

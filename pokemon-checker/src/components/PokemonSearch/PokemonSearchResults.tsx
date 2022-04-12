@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PokemonId from "./PokemonId";
-import PokemonDTO from "../../DataTransferObjects/PokemonDTO"
+import PokemonDTO from "../../DataTransferObjects/PokemonDTO";
 import Box from "@mui/system/box";
 
 export type PokemonSearchResultsProps = {
