@@ -1,25 +1,21 @@
 import React, { useState } from "react";
 import PokemonId from "./PokemonId";
+import PokemonDTO from "../../DataTransferObjects/PokemonDTO"
 import Box from "@mui/system/box";
 
-export type PokemonSearchObj = {
-  name: string;
-  url: string;
-};
-
 export type PokemonSearchResultsProps = {
-  pokemonQuery: PokemonSearchObj[];
-  onPokemonSelected: (name: string, url: string) => void;
+  pokemonQuery: PokemonDTO[];
+  onPokemonSelected: (url: string) => void;
 };
 
 export default function PokemonSearchResults({
-  pokemonQuery,
   onPokemonSelected,
+  pokemonQuery,
 }: PokemonSearchResultsProps) {
   const [selectedPokemon, setSelectedPokemon] = useState("");
 
   let pokemonComponent: JSX.Element[] = [];
-  if (pokemonQuery) {
+  if (pokemonQuery && pokemonQuery.length > 0) {
     pokemonComponent = pokemonQuery.map((pokemon, p) => (
       <PokemonId
         key={p}

@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import PokemonDTO from "../../DataTransferObjects/PokemonDTO";
-import { IPokemonData } from "../../interfaces/PokemonData";
 import { PokemonFactory } from "../../factories/PokemonFactory";
 import { QuickView } from "./PokemonQuickCardView";
 import "../../App.css";
@@ -15,8 +14,8 @@ const DisplayBorder = styled(Container)<ContainerProps>(({ theme }) => ({
 }));
 
 type displayProps = {
-  pokemonUrl: string;
   getPokemonData: (url: string) => Promise<any>;
+  pokemonUrl: string;
 };
 
 export const PokemonDisplay = (props: displayProps) => {
@@ -27,33 +26,23 @@ export const PokemonDisplay = (props: displayProps) => {
     () => new PokemonFactory(),
     []
   );
+  const { getPokemonData, pokemonUrl } = props;
   /**
    * Create a PokemonObject from the results retrieved
    * @param pokemonRetrieved the pokemon retrieved from the API
    */
-  const createPokemonObject = useCallback(
-    (pokemonRetrieved: IPokemonData): void => {
-      let pokemonToDisplay = pokemonFactory.createPokemon(pokemonRetrieved);
-      setPokemonObject(pokemonToDisplay);
-    },
-    [pokemonFactory]
-  );
-
-  // TODO: Eliminate this method. 'getPokemonData' as a Service method
-  // should already return the PokemonDTO - it currently returns raw JSON.
-  const fetchPokemonObject = useCallback(() => {
-    const url = props.pokemonUrl;
+  const createPokemonObject = useCallback((url: string) => {
     if (url && url.length > 0) {
-      props
-        .getPokemonData(url)
-        .then((pokemonRetrieved) => createPokemonObject(pokemonRetrieved))
-        .catch(console.log);
+      getPokemonData(url)
+      .then(data => pokemonFactory.createPokemon(data))
+      .then(pokemon => pokemonFactory.fetchAbilities(pokemon))
+      .then(pokemon => setPokemonObject(pokemon));
     }
-  }, [props, createPokemonObject]);
+  }, [getPokemonData, pokemonFactory]);
 
   useEffect(() => {
-    fetchPokemonObject();
-  }, [fetchPokemonObject]);
+    createPokemonObject(pokemonUrl);
+  }, [pokemonUrl, createPokemonObject],);
 
   if (pokemonObject) {
     return (

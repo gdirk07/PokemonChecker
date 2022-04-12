@@ -5,10 +5,10 @@ type SearchBoxProps = {
 };
 
 const SearchBox = ({ searchChange }: SearchBoxProps) => {
+
   return (
-    <div className="pa2">
+    <div>
       <input
-        className="pa3 ba b--green bg-lightest-blue"
         type="search"
         placeholder="Enter a Pokemon Name"
         onChange={searchChange}

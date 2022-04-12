@@ -10,6 +10,7 @@ type AbilityDetails = {
   id: number;
   desc: string;
   pokemonHave: [];
+  localizedName: string;
 };
 
 export class AbilityFactory {
@@ -34,6 +35,7 @@ export class AbilityFactory {
     stub.effect = fullAbility.desc;
     stub.pokemons = fullAbility.pokemonHave;
     stub.id = fullAbility.id;
+    stub.localizedName = fullAbility.localizedName;
     return stub;
   };
 
@@ -52,6 +54,7 @@ export class AbilityFactory {
       id: data.id,
       desc: "Missing Effect Description",
       pokemonHave: [],
+      localizedName: "",
     };
 
     data.effect_entries.forEach((effect: any) => {
@@ -61,6 +64,24 @@ export class AbilityFactory {
         cleanedData.desc = effect.effect;
     });
     cleanedData.pokemonHave = data.pokemon;
+    //default option, just use the stub name
+    cleanedData.localizedName  
+      = this.findLocalizedName("en", data.names) ?? stub.name;
     return cleanedData;
   };
+
+  /**
+   * Find the localized name for the ability
+   * @param language the given language 
+   * todo: make a global map for how we define language vs the API
+   * @param data the fetched data
+   * @returns the localized name if found otherwise null 
+   * (which will default to the object name)
+   */
+  private findLocalizedName = (language: string, data: any): string | null => {
+    for (const value of data) {
+      if (value.language.name === "en") return value.name;
+    }
+    return null;
+  }
 }
