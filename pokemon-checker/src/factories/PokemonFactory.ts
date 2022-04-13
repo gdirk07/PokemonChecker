@@ -58,7 +58,6 @@ export class PokemonFactory {
         //if retrieved from repository it likely has the data, otherwise...
         await this.abilityService.getFullAbilityDef(ability[0]);
     }));
-    console.log("complete");
     return pokemon;
   }
 
