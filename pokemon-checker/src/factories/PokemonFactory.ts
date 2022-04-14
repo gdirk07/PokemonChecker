@@ -49,13 +49,17 @@ export class PokemonFactory {
     const createdPokemon = new PokemonDTO(
       this.getFullPokemonConstructorProps(pokemon)
     );
-    createdPokemon.abilities.forEach((ability) => {
-      if (!ability[0].hasFullData)
-        //if retrieved from repository it likely has the data, otherwise...
-        this.abilityService.getFullAbilityDef(ability[0]);
-    });
     return createdPokemon;
   };
+
+  public fetchAbilities = async (pokemon : PokemonDTO): Promise<PokemonDTO> => {
+    await Promise.all(pokemon.abilities.map(async (ability) => {
+      if (!ability[0].hasFullData)
+        //if retrieved from repository it likely has the data, otherwise...
+        await this.abilityService.getFullAbilityDef(ability[0]);
+    }));
+    return pokemon;
+  }
 
   /**
    * Creates a partial pokemon DTO
