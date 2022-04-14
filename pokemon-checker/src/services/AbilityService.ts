@@ -30,8 +30,6 @@ export class AbilityService {
       this.repository.setAbilityData(payload);
       this.repository.saveAbility();
 
-      // Set the timestamp for 30 minutes
-      this.repository.setExpiryTimestamp(30);
     } catch (e: unknown) {
       if (typeof e === "string") {
         console.log(`Could not store ability stubs: ${e}`);
@@ -84,7 +82,7 @@ export class AbilityService {
    * @returns either the retrieved ability or nothing
    */
   private repositoryLookup(key: string): AbilityDTO | undefined {
-    if (!this.repository.isExpired) {
+    if (!this.repository.isExpired(key)) {
       const findAbility = this.repository.getAbility(key);
       if (findAbility) return findAbility;
     }
