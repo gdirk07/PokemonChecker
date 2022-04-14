@@ -79,12 +79,11 @@ export class AbilityService {
   /**
    * Helper function for a quick repository lookup
    * @param key
-   * @returns either the retrieved ability or nothing
+   * @returns either the retrieved ability or a null if expired or not found
    */
-  private repositoryLookup(key: string): AbilityDTO | undefined {
-    if (!this.repository.isExpired(key)) {
-      const findAbility = this.repository.getAbility(key);
-      if (findAbility) return findAbility;
-    }
+  private repositoryLookup(key: string): AbilityDTO | null {
+    return !this.repository.isExpired(key) ? 
+      this.repository.getAbility(key) :
+      null;
   }
 }
