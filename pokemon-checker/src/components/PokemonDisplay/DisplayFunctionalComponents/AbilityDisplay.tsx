@@ -75,14 +75,14 @@ function RenderAbilityName(ability: pokemonAbilities): any {
   if (ability[1]) {
     return (
       <Grid container maxWidth="xs">
-        <Box sx={{ fontStyle: "italic" }}>{ability[0].name}</Box>
+        <Box sx={{ fontStyle: "italic" }}>{ability[0].localizedName}</Box>
       </Grid>
     );
   }
   return (
     <Grid container maxWidth="xs" sx={{ display: "flex" }}>
       <Box maxWidth="100%" sx={{ textAlign: "left" }}>
-        {ability[0].name}
+        {ability[0].localizedName}
       </Box>
     </Grid>
   );

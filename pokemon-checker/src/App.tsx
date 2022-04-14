@@ -10,9 +10,7 @@ import { scrubPokemonName } from "./utils/NameScrubbingHelper";
 
 type AppState = {
   pokemonList: PokemonDTO[];
-  pokemonName: string;
-  searchfield: string;
-  pokemonSelected: string;
+  pokemonResults: PokemonDTO[];
   pokemonUrl: string;
 };
 
@@ -23,9 +21,7 @@ class App extends Component<any, AppState> {
     super(props);
     this.state = {
       pokemonList: [],
-      pokemonName: "",
-      searchfield: "",
-      pokemonSelected: "",
+      pokemonResults: [],
       pokemonUrl: "",
     };
 
@@ -46,35 +42,36 @@ class App extends Component<any, AppState> {
   }
 
   onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let filteredPokemon: PokemonDTO[] = [];
     if (event && event.target && event.target.value) {
-      this.setState({ searchfield: event.target.value });
+      const searchField = event.target.value;
+      filteredPokemon =
+        searchField.length > 1
+          ? this.state.pokemonList.filter((pokemon) => {
+              let name: string = pokemon.name.toLowerCase();
+              return name.includes(searchField.toLowerCase());
+            })
+          : [];
     }
+    this.setState({ pokemonResults: filteredPokemon });
   };
 
-  onPokemonSelected = (pokemonClicked: string, url: string) => {
+  onPokemonSelected = (url: string) => {
     if (url && url !== "") {
-      this.setState({ pokemonSelected: pokemonClicked, pokemonUrl: url });
+      this.setState({ pokemonUrl: url });
     }
   };
 
   render() {
-    const { pokemonList, searchfield, pokemonUrl } = this.state;
-    let filteredPokemon: any[] = [];
-    if (searchfield.length < 2) {
-      //do nothing, only really want to start searching when we have at least 2 characters
-    } else {
-      filteredPokemon = pokemonList.filter((pokemon) => {
-        let name: string = pokemon.name.toLowerCase();
-        return name.includes(searchfield.toLowerCase());
-      });
-    }
+    const { pokemonResults, pokemonUrl } = this.state;
+
     return (
       <div className="App">
         <h1>Search for a Pokemon</h1>
         <SearchBox searchChange={this.onSearchChange} />
         <PokemonSearchResults
           onPokemonSelected={this.onPokemonSelected}
-          pokemonQuery={filteredPokemon}
+          pokemonQuery={pokemonResults}
         />
         <PokemonDisplay
           getPokemonData={this.pokeService.getPokemon}
