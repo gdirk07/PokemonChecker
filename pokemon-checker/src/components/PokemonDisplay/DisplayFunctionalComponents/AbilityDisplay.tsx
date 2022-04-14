@@ -1,6 +1,6 @@
-import * as React from "react";
+import { useState, MouseEvent } from "react";
 import { pokemonAbilities } from "../../../DataTransferObjects/PokemonDTO";
-import { Container, Box, Grid, ListItem, Popover } from "@mui/material";
+import { Container, Box, Grid, ListItem, Popover, Typography } from "@mui/material";
 
 type AbilityDisplayProps = {
   abilities: pokemonAbilities[];
@@ -8,11 +8,11 @@ type AbilityDisplayProps = {
 
 //TODO: (Geoff) create custom styling for name
 export const AbilityDisplay = ({ abilities }: AbilityDisplayProps) => {
-  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
-  const [hoveredText, setHoveredText] = React.useState<string | null>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [hoveredText, setHoveredText] = useState<string | null>(null);
 
   const handlePopoverOpen = (
-    event: React.MouseEvent<HTMLElement>,
+    event: MouseEvent<HTMLElement>,
     hovered: string
   ) => {
     setHoveredText(hovered);
@@ -23,10 +23,14 @@ export const AbilityDisplay = ({ abilities }: AbilityDisplayProps) => {
     setAnchorEl(null);
   };
 
+  const abilityContainer = {
+    height: `4em`,
+  };
+
   const abilityClicked = Boolean(anchorEl);
   return (
     <Container fixed>
-      <Box>
+      <Box sx={abilityContainer}>
         {abilities.map((ability, i) => {
           return (
             <ListItem
@@ -49,7 +53,9 @@ export const AbilityDisplay = ({ abilities }: AbilityDisplayProps) => {
                 }}
                 disableRestoreFocus
               >
-                {hoveredText}
+                <Typography sx ={{ p:0.5 }}>
+                  {hoveredText}
+                </Typography>
               </Popover>
             </ListItem>
           );
@@ -61,8 +67,8 @@ export const AbilityDisplay = ({ abilities }: AbilityDisplayProps) => {
 
 /**
  * Render the ability name as well as if its hidden
- * @param ability the ability object which contains if its hidden
- * @returns an MUI container (any is used for now
+ * @param ability the ability container that has the DTO and whether its hidden
+ * @returns an MUI container (any is used for now)
  * todo: Geoff - define it properly)
  */
 function RenderAbilityName(ability: pokemonAbilities): any {
