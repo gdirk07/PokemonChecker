@@ -9,6 +9,7 @@ export type AbilityConstructorOptions = {
   id?: number;
   effect?: string;
   pokemons?: ListOfPokemon[];
+  localizedName?: string;
 };
 
 export class AbilityDTO {
@@ -17,6 +18,7 @@ export class AbilityDTO {
   public id: number;
   public effect: string;
   public pokemons: ListOfPokemon[];
+  public localizedName: string;
 
   constructor(AbilityConstructorOptions: AbilityConstructorOptions) {
     this.name = AbilityConstructorOptions.name;
@@ -24,6 +26,8 @@ export class AbilityDTO {
     this.id = AbilityConstructorOptions.id ?? -1;
     this.effect = AbilityConstructorOptions.effect ?? "Missing Effect";
     this.pokemons = AbilityConstructorOptions.pokemons ?? [];
+    this.localizedName =
+      AbilityConstructorOptions.localizedName ?? AbilityConstructorOptions.name;
   }
 
   public setDescription(effect: string) {
@@ -42,7 +46,8 @@ export class AbilityDTO {
       this.name.length > 0 &&
       this.url.length > 0 &&
       this.id > -1 &&
-      this.effect.length > 0
+      this.effect.length > 0 &&
+      this.localizedName.length > 0
     );
   }
 }
