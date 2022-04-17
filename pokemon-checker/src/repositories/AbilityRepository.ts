@@ -3,15 +3,12 @@ import { Time } from "../constants/Time";
 import { AbilityFactory } from "../factories/AbilityFactory";
 
 type storageData = {
-  ability: AbilityDTO,
-  expiry: number,
+  ability: AbilityDTO;
+  expiry: number;
 };
 export class AbilityRepository {
   private abilityTable: Record<string, storageData>;
   private factory: AbilityFactory;
-
-  // Used to check against localStorage
-  private static storageTimestampKey = "expiryTimestamp";
 
   constructor() {
     this.abilityTable = {};
@@ -31,7 +28,7 @@ export class AbilityRepository {
   }
 
   public getAbility(name: string): AbilityDTO | null {
-    if (this.abilityTable[name]) return this.abilityTable[name].ability
+    if (this.abilityTable[name]) return this.abilityTable[name].ability;
     return null;
   }
 
@@ -47,13 +44,13 @@ export class AbilityRepository {
    * @param data Ability to write to repository
    */
   public setAbilityData(
-    data: AbilityDTO, 
+    data: AbilityDTO,
     expire: number = this.setExpiryTimestamp()
-    ): void {
+  ): void {
     const item: storageData = {
       ability: data,
-      expiry: expire
-    }
+      expiry: expire,
+    };
     this.abilityTable[data.name] = item;
   }
 
