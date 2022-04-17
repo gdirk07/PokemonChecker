@@ -1,6 +1,10 @@
 export type ListOfPokemon = {
-  name: string;
-  url: string;
+  is_hidden: boolean,
+  pokemon: {
+    name: string;
+    url: string;
+  }
+  slot: number;
 };
 
 export type AbilityConstructorOptions = {
