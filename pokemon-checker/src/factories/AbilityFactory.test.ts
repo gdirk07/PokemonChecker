@@ -12,7 +12,6 @@ const pressureStub = {
   pokemons: [],
   localizedName: pressureAbility.name,
 };
-let mockStub: AbilityDTO;
 let mockFull: AbilityDTO;
 let apiRetrieved: IAbilityData;
 
@@ -22,11 +21,12 @@ beforeAll(async () => {
 })
 
 test("Can create stub ability", () => {
-  mockStub = factory.createAbilityStub(pressureStub)
+  const mockStub = factory.createAbilityStub(pressureStub)
   expect(mockStub).toEqual(pressureStub);
 })
 
 test("Can convert stub to full", () => {
+  const mockStub = factory.createAbilityStub(pressureStub);
   mockFull = factory.createAbilityFromDataAndStub(apiRetrieved, mockStub);
   expect(mockFull).toEqual(pressureAbility);
 })
