@@ -2,12 +2,11 @@ import { AbilityService } from "./AbilityService";
 import { pressureAbility } from "../_stubs/AbilityData";
 import AbilityDTO from "../DataTransferObjects/AbilityDTO";
 
-let serv: AbilityService;
+const serv: AbilityService = new AbilityService();
 let testAbility: AbilityDTO = new AbilityDTO(pressureAbility);
 let fetchedAbility: AbilityDTO;
 
 beforeAll(async () => {
-  serv = new AbilityService();
   fetchedAbility = await serv.getFullAbilityDef(testAbility);
 });
 
