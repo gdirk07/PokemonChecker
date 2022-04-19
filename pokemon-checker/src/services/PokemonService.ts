@@ -1,5 +1,6 @@
 import { PokemonRepository } from "../repositories/PokemonRepository";
 import { PokemonFactory } from "../factories/PokemonFactory";
+import { IPokemonData } from "../interfaces/PokemonData";
 import PokemonDTO from "../DataTransferObjects/PokemonDTO";
 
 /**
@@ -65,8 +66,6 @@ export class PokemonService {
     // Store the pokemon names in the repository
     this.storePokemonStubs(filterResults);
 
-    // console.log(filterResults);
-
     return filterResults;
   };
 
@@ -87,7 +86,14 @@ export class PokemonService {
    * Lookup an individual pokemon
    * @param url the url for the specific pokemon
    */
-  public getPokemon(url: string): Promise<any> {
-    return fetch(url).then((response) => response.json());
-  }
+  public getPokemon = async (url: string) => {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    } else {
+      const data = await response.json();
+      const pokemonPayload = data as IPokemonData;
+      return this.factory.createPokemon(pokemonPayload);
+    }
+  };
 }
