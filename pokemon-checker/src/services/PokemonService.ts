@@ -93,7 +93,9 @@ export class PokemonService {
     } else {
       const data = await response.json();
       const pokemonPayload = data as IPokemonData;
-      return this.factory.createPokemon(pokemonPayload);
+      const pokemon = this.factory.createPokemon(pokemonPayload);
+      await this.factory.fetchAbilities(pokemon);
+      return pokemon;
     }
   };
 }

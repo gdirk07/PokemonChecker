@@ -52,15 +52,18 @@ export class AbilityService {
     return abilityStub;
   }
 
-  public getFullAbilityDef(ability: AbilityDTO): Promise<AbilityDTO> {
+  public async getFullAbilityDef(ability: AbilityDTO): Promise<AbilityDTO> {
     const repResult = this.repositoryLookup(ability.name);
-    if (repResult && repResult.hasFullData) return Promise.resolve(repResult);
+    if (repResult && repResult.hasFullData) 
+      return await Promise.resolve(repResult);
 
-    return fetch(ability.url)
-      .then((response) => response.json())
-      .then((jsonResponse: Promise<any>) =>
-        this.resolveAbilityStub(jsonResponse, ability)
-      );
+    const response = await fetch(ability.url)
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    } else {
+      const data = await response.json();
+      return this.resolveAbilityStub(data, ability);
+    }
   }
 
   private resolveAbilityStub = async (

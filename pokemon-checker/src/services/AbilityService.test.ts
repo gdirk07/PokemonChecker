@@ -34,4 +34,8 @@ test("Test pokemonList fetched properly", () => {
   expect(fetchedAbility.pokemons).toEqual(pressureAbility.pokemons);
 });
 
+test("Test localized ability name fetched properly", () => {
+  expect(fetchedAbility.localizedName).toBe(pressureAbility.localizedName);
+});
+
 //mock browser data and test if AbilityService is actually storying/retrieving from localstorage
