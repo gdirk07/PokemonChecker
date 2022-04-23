@@ -22,7 +22,8 @@ const PokemonId = ({
 
   return (
     <Box sx={{ margin: "5px", fontSize: "10px" }}>
-      <h2
+      <h2 
+        id="searchResult"
         style={
           active === name ? { fontWeight: `bold` } : { fontWeight: `normal` }
         }
