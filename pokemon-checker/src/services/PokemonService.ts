@@ -94,7 +94,6 @@ export class PokemonService {
       const data = await response.json();
       const pokemonPayload = data as IPokemonData;
       const pokemon = this.factory.createPokemon(pokemonPayload);
-      await this.factory.fetchAbilities(pokemon);
       return pokemon;
     }
   };

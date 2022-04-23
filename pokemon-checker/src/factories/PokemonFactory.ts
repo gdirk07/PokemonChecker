@@ -45,21 +45,28 @@ export class PokemonFactory {
    * Creates pokemon data that can be used for rendering
    * @param pokemon Full data from the individual pokemon requests
    */
-  public createPokemon = (pokemon: IPokemonData): PokemonDTO => {
+  public createPokemon = async (pokemon: IPokemonData): Promise<PokemonDTO> => {
     const createdPokemon = new PokemonDTO(
       this.getFullPokemonConstructorProps(pokemon)
     );
-    return createdPokemon;
+    //fetch abilities
+    //ToDo: expand this to be more general, will help when we have to fetch
+    //moves and other calls that can take time by making them async but wait
+    //until all the details are returned
+    const pokeWithAbilities = this.fetchAbilities(createdPokemon);
+    return pokeWithAbilities;
   };
 
-  public fetchAbilities = async (pokemon : PokemonDTO): Promise<PokemonDTO> => {
-    await Promise.all(pokemon.abilities.map(async (ability) => {
-      if (!ability[0].hasFullData)
-        //if retrieved from repository it likely has the data, otherwise...
-        await this.abilityService.getFullAbilityDef(ability[0]);
-    }));
+  private fetchAbilities = async (pokemon: PokemonDTO): Promise<PokemonDTO> => {
+    await Promise.all(
+      pokemon.abilities.map(async (ability) => {
+        if (!ability[0].hasFullData)
+          //if retrieved from repository it likely has the data, otherwise...
+          await this.abilityService.getFullAbilityDef(ability[0]);
+      })
+    );
     return pokemon;
-  }
+  };
 
   /**
    * Creates a partial pokemon DTO
