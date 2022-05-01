@@ -28,7 +28,10 @@ export const PokemonDisplay = (props: displayProps) => {
     (url: string) => {
       if (url && url.length > 0) {
         getPokemonData(url)
-          .then((pokemon) => setPokemonObject(pokemon));
+          .then((pokemon) => {
+            console.log(pokemon);
+            setPokemonObject(pokemon)
+          });
       }
     },
     [getPokemonData]

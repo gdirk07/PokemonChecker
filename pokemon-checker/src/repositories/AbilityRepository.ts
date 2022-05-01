@@ -1,5 +1,5 @@
 import AbilityDTO from "../DataTransferObjects/AbilityDTO";
-import { Time } from "../constants/Time";
+import { TimeService } from "../services/TimeService"
 import { AbilityFactory } from "../factories/AbilityFactory";
 
 type storageData = {
@@ -9,22 +9,12 @@ type storageData = {
 export class AbilityRepository {
   private abilityTable: Record<string, storageData>;
   private factory: AbilityFactory;
+  private timeService: TimeService;
 
   constructor() {
     this.abilityTable = {};
     this.factory = new AbilityFactory();
-  }
-
-  /**
-   * Sets a time for which the repository data will become stale.
-   * @param minutes Duration to set the repository expiry time.
-   */
-  public setExpiryTimestamp(minutes = 60): number {
-    const newStamp =
-      Date.now() +
-      minutes * Time.MILLISECONDS_PER_SECOND * Time.SECONDS_PER_MINUTE;
-
-    return newStamp;
+    this.timeService = new TimeService();
   }
 
   public getAbility(name: string): AbilityDTO | null {
@@ -42,10 +32,11 @@ export class AbilityRepository {
   /**
    * Assigns a full ability data payload to the repository
    * @param data Ability to write to repository
+   * @param expire Defaults to 1h. Determines how long this data is valid
    */
   public setAbilityData(
     data: AbilityDTO,
-    expire: number = this.setExpiryTimestamp()
+    expire = this.timeService.generateExpiryTimestamp()
   ): void {
     const item: storageData = {
       ability: data,

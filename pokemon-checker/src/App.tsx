@@ -33,7 +33,10 @@ class App extends Component<any, AppState> {
     this.pokeService
       .getAllPokemon()
       .then((pokemonRetrieved) => {
-        pokemonRetrieved.map((pokemon: { name: string; url: string }) => {
+        pokemonRetrieved.map((pokemon: PokemonDTO) => {
+          if (!(pokemon && pokemon.name)) {
+            return null;
+          }
           return (pokemon.name = scrubPokemonName(pokemon.name.toLowerCase()));
         });
         this.setState({ pokemonList: pokemonRetrieved });
@@ -48,6 +51,9 @@ class App extends Component<any, AppState> {
       filteredPokemon =
         searchField.length > 1
           ? this.state.pokemonList.filter((pokemon) => {
+              if (!(pokemon && pokemon.name)) {
+                return null;
+              }
               let name: string = pokemon.name.toLowerCase();
               return name.includes(searchField.toLowerCase());
             })

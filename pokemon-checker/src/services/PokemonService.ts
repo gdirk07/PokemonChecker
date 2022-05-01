@@ -1,6 +1,6 @@
 import { PokemonRepository } from "../repositories/PokemonRepository";
 import { PokemonFactory } from "../factories/PokemonFactory";
-import { IPokemonData } from "../interfaces/PokemonData";
+import { IPokemonData, IPokemonStub } from "../interfaces/PokemonData";
 import PokemonDTO from "../DataTransferObjects/PokemonDTO";
 
 /**
@@ -16,6 +16,8 @@ export class PokemonService {
     this.getAllUrl = "https://pokeapi.co/api/v2/pokemon?limit=1000offset=0";
     this.repository = new PokemonRepository();
     this.factory = new PokemonFactory();
+
+    console.log(this.factory);
   }
 
   /**
@@ -26,11 +28,13 @@ export class PokemonService {
   private storePokemonStubs(payload: PokemonDTO[]): void {
     try {
       // Save the pokemon data to localStorage
-      this.repository.loadPokemonBatch(payload);
-      this.repository.savePokemon();
+      this.repository.saveStubs(payload);
+      console.log(payload[0]);
+      console.log(this.repository);
+      // this.repository.savePokemon();
 
       // Set the timestamp for 30 minutes
-      this.repository.setExpiryTimestamp(30);
+      // this.repository.setExpiryTimestamp(30);
     } catch (e: unknown) {
       if (typeof e === "string") {
         console.log(`Could not store pokemon stubs: ${e}`);
@@ -53,13 +57,13 @@ export class PokemonService {
     const results = data.results;
     //the query fetches all pokemon AND forms (megas etc), but we don't want
     //forms so filter out any result that has a url > 10000
-    const filterResults = results.filter(
-      (filter: { name: string; url: string }) => {
+    const filterResults = results.map(
+      (stub: IPokemonStub) => {
         //cut the final "/" out
-        const url = filter.url.substring(0, filter.url.length - 1).split("/");
+        const url = stub.url.substring(0, stub.url.length - 1).split("/");
 
         const id = Number(url.pop());
-        if (id && id < 10000) return this.factory.createPokemonStub(filter);
+        if (id && id < 10000) return this.factory.createPokemonStub(stub);
         return false;
       }
     );
@@ -71,10 +75,10 @@ export class PokemonService {
 
   /**
    * Search ALL pokemon with their name and individual url
-   * @TODO We ought to fix what the pokemonList in App.tsx consumes.
    */
-  public async getAllPokemon(): Promise<PokemonDTO[]> {
-    if (this.repository.isExpired) {
+  public getAllPokemon = async () => {
+    // if (this.repository.isExpired) {
+      if (true){
       return await fetch(this.getAllUrl).then(this.resolvePokemonStubs);
     } else {
       this.repository.loadFromStorage();

@@ -73,10 +73,9 @@ export class PokemonFactory {
    * @param pokemon Partial stub data from the summary call
    */
   public createPokemonStub = (pokemon: IPokemonStub): PokemonDTO => {
-    // TODO: Introduce a null-type element
     const dummyType: ITypeData = {
-      name: ElementType.BUG,
-      url: "https://pokeapi.co/api/v2/type/7/",
+      name: ElementType.NULL,
+      url: "",
     };
     const opts: PokemonConstructorOptions = {
       name: pokemon.name,
