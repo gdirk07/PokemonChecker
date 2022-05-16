@@ -38,10 +38,12 @@ export const AbilityDisplay = ({ abilities }: AbilityDisplayProps) => {
     <Container fixed>
       <Box sx={abilityContainer}>
         {abilities.map((ability, i) => {
+          let expand: boolean | null = (expanded as expandState)[i];
           return (
             <List key={i} onClick={() => handleAbilityClicked(i)}>
               <ListItem sx={{ fontSize: 14 }}>
                 {RenderAbilityName(ability)}
+                {expand ? "\u25B2" : "\u25BC"}
               </ListItem>
               <Collapse
                 in={(expanded as expandState)[i]}
