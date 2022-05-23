@@ -1,63 +1,61 @@
-import { useState, MouseEvent } from "react";
+import { useState, useEffect } from "react";
 import { pokemonAbilities } from "../../../DataTransferObjects/PokemonDTO";
-import { Container, Box, Grid, ListItem, Popover, Typography } from "@mui/material";
+import {
+  Container,
+  Box,
+  Grid,
+  List,
+  ListItem,
+  Collapse,
+  Typography,
+} from "@mui/material";
 
 type AbilityDisplayProps = {
   abilities: pokemonAbilities[];
 };
 
-//TODO: (Geoff) create custom styling for name
+interface expandState {
+  [ability: number]: boolean;
+}
+
 export const AbilityDisplay = ({ abilities }: AbilityDisplayProps) => {
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const [hoveredText, setHoveredText] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState<expandState | {}>({});
 
-  const handlePopoverOpen = (
-    event: MouseEvent<HTMLElement>,
-    hovered: string
-  ) => {
-    setHoveredText(hovered);
-    setAnchorEl(event.currentTarget);
+  //reset the collapse tab state when we get different props
+  useEffect(() => {
+    setExpanded({});
+  }, [abilities]);
+
+  const handleAbilityClicked = (index: number) => {
+    setExpanded({ ...expanded, [index]: !(expanded as expandState)[index] });
   };
 
-  const handlePopoverClose = () => {
-    setAnchorEl(null);
-  };
-
-  const abilityContainer = {
-    height: `4em`,
-  };
-
-  const abilityClicked = Boolean(anchorEl);
   return (
-    <Container fixed>
-      <Box sx={abilityContainer}>
+    <Container>
+      <Box>
         {abilities.map((ability, i) => {
+          let expand: boolean | null = (expanded as expandState)[i];
           return (
-            <ListItem
-              key={i}
-              sx={{ fontSize: 14 }}
-              onClick={(e) => handlePopoverOpen(e, ability[0].effect)}
-              onMouseLeave={handlePopoverClose}
-            >
-              {RenderAbilityName(ability)}
-              <Popover
-                open={abilityClicked}
-                sx={{
-                  pointerEvents: "none",
-                }}
-                anchorEl={anchorEl}
-                onClose={handlePopoverClose}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                disableRestoreFocus
-              >
-                <Typography sx ={{ p:0.5 }}>
-                  {hoveredText}
+            <List key={i} onClick={() => handleAbilityClicked(i)}>
+              <ListItem sx={{ padding: 0 }}>
+                <Typography
+                  sx={{ fontSize: "0.4em" }}
+                  style={{ display: "inline-flex" }}
+                >
+                  {expand ? "\u25B2" : "\u25BC"}
+                  {RenderAbilityName(ability)}
                 </Typography>
-              </Popover>
-            </ListItem>
+              </ListItem>
+              <Collapse
+                in={(expanded as expandState)[i]}
+                timeout="auto"
+                unmountOnExit
+              >
+                <Typography sx={{ fontSize: "0.4em" }}>
+                  {ability[0].effect}
+                </Typography>
+              </Collapse>
+            </List>
           );
         })}
       </Box>

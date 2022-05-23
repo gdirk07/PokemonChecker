@@ -4,6 +4,7 @@ import { styled } from "@mui/material/styles";
 
 const NameIdContainer = styled(Container)<ContainerProps>(({ theme }) => ({
   display: "flex",
+  fontSize: "0.7em",
   justifyContent: "space-between",
   marginLeft: `auto`,
 }));
