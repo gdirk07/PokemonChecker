@@ -7,9 +7,9 @@ import PokemonImage from "./DisplayFunctionalComponents/PokemonImageDisplay";
 import PokemonDTO from "../../DataTransferObjects/PokemonDTO";
 import Grid, { GridProps } from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
-import FlareIcon from '@mui/icons-material/Flare';
+import FlareIcon from "@mui/icons-material/Flare";
 import { styled } from "@mui/material/styles";
-import { shinyTheme } from "../../userinterface/CustomThemes"
+import { shinyTheme } from "../../userinterface/CustomThemes";
 import { useEffect } from "react";
 
 const DisplayBorder = styled(Grid)<GridProps>(({ theme }) => ({
@@ -19,20 +19,19 @@ const DisplayBorder = styled(Grid)<GridProps>(({ theme }) => ({
 }));
 
 const ShinyButtonDisplay = styled(Grid)<GridProps>(({ theme }) => ({
-  alignSelf: 'flex-start',
-  position: 'absolute',
+  alignSelf: "flex-start",
+  position: "absolute",
 }));
 
 const SpriteDisplay = styled(Grid)<GridProps>(({ theme }) => ({
   alignSelf: `flex-start`,
-  marginTop: '1em',
+  marginTop: "1em",
 }));
 
-const BasicInfoDisplay = styled(Grid)<GridProps>(({ theme }) => ({
-}));
+const BasicInfoDisplay = styled(Grid)<GridProps>(({ theme }) => ({}));
 
-const StatInfoDisplay = styled(Grid)<GridProps>(({ theme}) => ({
-  marginTop: '0.5em',
+const StatInfoDisplay = styled(Grid)<GridProps>(({ theme }) => ({
+  marginTop: "0.5em",
 }));
 
 type PokemonInfoProps = {
@@ -41,23 +40,24 @@ type PokemonInfoProps = {
 
 export const QuickView = ({ pokemon }: PokemonInfoProps) => {
   const [displayDefault, setSpriteDisplay] = useState(true);
-  const {primary, secondary} = shinyTheme.palette;
+  const { primary, secondary } = shinyTheme.palette;
   useEffect(() => {
     setSpriteDisplay(true);
-  }, [pokemon])
+  }, [pokemon]);
 
   return (
-    <DisplayBorder 
-      container 
-      direction="row" 
-      alignItems="stretch" 
+    <DisplayBorder
+      container
+      direction="row"
+      alignItems="stretch"
       columnSpacing={1}
     >
-      <ShinyButtonDisplay 
+      <ShinyButtonDisplay
         theme={shinyTheme}
-        color={displayDefault ? primary.main : secondary.main}>
+        color={displayDefault ? primary.main : secondary.main}
+      >
         <label htmlFor="icon-button-file">
-          <IconButton 
+          <IconButton
             color="inherit"
             onClick={() => setSpriteDisplay(!displayDefault)}
           >
@@ -69,9 +69,7 @@ export const QuickView = ({ pokemon }: PokemonInfoProps) => {
         <PokemonImage
           altImageName={pokemon.name}
           spriteImage={
-            displayDefault ? 
-            pokemon.frontDefault : 
-            pokemon.frontShiny
+            displayDefault ? pokemon.frontDefault : pokemon.frontShiny
           }
         />
       </SpriteDisplay>

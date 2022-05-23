@@ -36,14 +36,11 @@ export const AbilityDisplay = ({ abilities }: AbilityDisplayProps) => {
         {abilities.map((ability, i) => {
           let expand: boolean | null = (expanded as expandState)[i];
           return (
-            <List 
-              key={i} 
-              onClick={() => handleAbilityClicked(i)}
-            >
+            <List key={i} onClick={() => handleAbilityClicked(i)}>
               <ListItem sx={{ padding: 0 }}>
-                <Typography 
+                <Typography
                   sx={{ fontSize: "0.4em" }}
-                  style= {{display: 'inline-flex'}}
+                  style={{ display: "inline-flex" }}
                 >
                   {expand ? "\u25B2" : "\u25BC"}
                   {RenderAbilityName(ability)}

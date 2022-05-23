@@ -20,8 +20,7 @@ export const PokemonDisplay = (props: displayProps) => {
   const createPokemonObject = useCallback(
     (url: string) => {
       if (url && url.length > 0) {
-        getPokemonData(url)
-          .then((pokemon) => setPokemonObject(pokemon));
+        getPokemonData(url).then((pokemon) => setPokemonObject(pokemon));
       }
     },
     [getPokemonData]
