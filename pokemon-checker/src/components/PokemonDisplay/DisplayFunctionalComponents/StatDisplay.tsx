@@ -1,20 +1,45 @@
 import { styled } from "@mui/material/styles";
 import {
+  Grid,
   Table,
   TableBody,
   TableCell,
   TableRow,
   tableCellClasses,
+  Typography,
 } from "@mui/material";
 import {
   statMaxThreshold,
   statColourDisplay,
 } from "../../../constants/StatThresholds";
+import { GenerateBar } from "../../PercentageBar";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StatLabelTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-    textAlign: "center",
+    border: 0,
+    color: '#fff',
+    fontSize: 12,
+    paddingRight: '5px',
+    textAlign: 'right',
+    minWidth: '35px',
+  },
+}));
+
+const StatValueTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.body}`]: {
+    border: 0,
+    fontSize: 12,
+    paddingRight: '5px',
+    textAlign: 'right',
+    whiteSpace: 'nowrap',
+    minWidth: '30px',
+  },
+}));
+
+const ColorBarTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.body}`]: {
+    border: 0,
+    width: '100%',
   },
 }));
 
@@ -35,60 +60,112 @@ export const StatDisplay = ({ baseStats, stats }: pokemonStats) => {
   const att = stats?.attack ? stats?.attack : 0;
   const def = stats?.defense ? stats?.defense : 0;
   const spA = stats?.spAttack ? stats?.spAttack : 0;
-  const spE = stats?.spDefense ? stats?.spDefense : 0;
-  const spD = stats?.speed ? stats?.speed : 0;
+  const spD = stats?.spDefense ? stats?.spDefense : 0;
+  const spE = stats?.speed ? stats?.speed : 0;
+
+  const MAXBARWIDTH = 200;
   return (
-    <div id="PokemonBaseStats">
-      <h5>{baseStats}</h5>
-      <Table
-        sx={{ minWidth: 300, tableLayout: "fixed" }}
-        aria-label="stat table"
-        color="white"
-      >
-        <TableBody>
-          <TableRow>
-            <StyledTableCell sx={{ color: "#ffffff" }}>HP</StyledTableCell>
-            <StyledTableCell sx={{ color: setDisplayColour(hp) }}>
-              {stats?.hp}
-            </StyledTableCell>
-          </TableRow>
-          <TableRow>
-            <StyledTableCell sx={{ color: "#ffffff" }}>Attack</StyledTableCell>
-            <StyledTableCell sx={{ color: setDisplayColour(att) }}>
-              {stats?.attack}
-            </StyledTableCell>
-          </TableRow>
-          <TableRow>
-            <StyledTableCell sx={{ color: "#ffffff" }}>Defense</StyledTableCell>
-            <StyledTableCell sx={{ color: setDisplayColour(def) }}>
-              {stats?.defense}
-            </StyledTableCell>
-          </TableRow>
-          <TableRow>
-            <StyledTableCell sx={{ color: "#ffffff" }}>
-              Special Attack
-            </StyledTableCell>
-            <StyledTableCell sx={{ color: setDisplayColour(spA) }}>
-              {stats?.spAttack}
-            </StyledTableCell>
-          </TableRow>
-          <TableRow>
-            <StyledTableCell sx={{ color: "#ffffff" }}>
-              Special Defense
-            </StyledTableCell>
-            <StyledTableCell sx={{ color: setDisplayColour(spE) }}>
-              {stats?.spDefense}
-            </StyledTableCell>
-          </TableRow>
-          <TableRow>
-            <StyledTableCell sx={{ color: "#ffffff" }}>Speed</StyledTableCell>
-            <StyledTableCell sx={{ color: setDisplayColour(spD) }}>
-              {stats?.speed}
-            </StyledTableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </div>
+    <Grid 
+      container 
+      spacing={0}
+      alignItems='center'
+      justifyContent='center'
+    >
+      <Grid item xs={12} sm={3}>
+        <Typography>
+          Base Total Stats {baseStats}
+        </Typography>
+      </Grid>
+      <Grid item xs={12} sm={9}>
+        <Table
+          sx={{ margin: 'auto', maxWidth: 300 }}
+          aria-label="stat table"
+          padding="none"
+          size="small"
+        >
+          <TableBody>
+            <TableRow>
+              <StatLabelTableCell>HP</StatLabelTableCell>
+              <StatValueTableCell sx={{ color: setDisplayColour(hp)}}>
+                {stats?.hp}: 
+              </StatValueTableCell>
+              <ColorBarTableCell>
+                <GenerateBar
+                    max={MAXBARWIDTH}
+                    value={hp}
+                    color={setDisplayColour(hp)} 
+                  />
+              </ColorBarTableCell>
+            </TableRow>
+            <TableRow>
+              <StatLabelTableCell>ATK</StatLabelTableCell>
+              <StatValueTableCell sx={{ color: setDisplayColour(att) }}>
+                {stats?.attack}:
+              </StatValueTableCell>
+              <ColorBarTableCell>
+                <GenerateBar
+                    max={MAXBARWIDTH}
+                    value={att}
+                    color={setDisplayColour(att)} 
+                  />
+              </ColorBarTableCell>
+            </TableRow>
+            <TableRow>
+              <StatLabelTableCell>DEF</StatLabelTableCell>
+              <StatValueTableCell sx={{ color: setDisplayColour(def) }}>
+                {stats?.defense}:
+              </StatValueTableCell>
+              <ColorBarTableCell>
+                <GenerateBar
+                    max={MAXBARWIDTH}
+                    value={def}
+                    color={setDisplayColour(def)} 
+                  />
+              </ColorBarTableCell>
+            </TableRow>
+            <TableRow>
+              <StatLabelTableCell>SPA</StatLabelTableCell>
+              <StatValueTableCell sx={{ color: setDisplayColour(spA) }}>
+                {stats?.spAttack}:
+              </StatValueTableCell>
+              <ColorBarTableCell>
+                <GenerateBar
+                    max={MAXBARWIDTH}
+                    value={spA}
+                    color={setDisplayColour(spA)} 
+                  />
+              </ColorBarTableCell>
+            </TableRow>
+            <TableRow>
+              <StatLabelTableCell>SPD</StatLabelTableCell>
+              <StatValueTableCell sx={{ color: setDisplayColour(spD) }}>
+                {stats?.spDefense}:
+              </StatValueTableCell>
+              <ColorBarTableCell>
+                <GenerateBar
+                    max={MAXBARWIDTH}
+                    value={spD}
+                    color={setDisplayColour(spD)} 
+                  />
+              </ColorBarTableCell>
+            </TableRow>
+            <TableRow>
+              <StatLabelTableCell>SPE</StatLabelTableCell>
+              <StatValueTableCell sx={{ color: setDisplayColour(spE) }}>
+                {stats?.speed}:
+              </StatValueTableCell>
+              <ColorBarTableCell>
+                <GenerateBar
+                    max={MAXBARWIDTH}
+                    value={spE}
+                    color={setDisplayColour(spE)} 
+                  />
+              </ColorBarTableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </Grid>
+    </Grid>
   );
 };
 
@@ -107,5 +184,6 @@ export const setDisplayColour = (stat: number): string => {
     return statColourDisplay.VERYLOW;
   }
 };
+
 
 export default StatDisplay;
