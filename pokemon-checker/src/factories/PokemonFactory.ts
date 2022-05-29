@@ -20,6 +20,50 @@ export class PokemonFactory {
     this.abilityService = new AbilityService();
   }
 
+  /**
+   * Returns constructor options given stub data (name, url)
+   * @param data Stub data from general pokemon search query
+   */
+  private getStubConstructorProps = (data: IPokemonStub): PokemonConstructorOptions => {
+    const dummyType: ITypeData = {
+      name: ElementType.NULL,
+      url: "",
+    };
+    return {
+      name: data.name,
+      id: -1,
+      types: [dummyType],
+      sprites: {
+        back_default: null,
+        back_female: null,
+        back_shiny: null,
+        back_shiny_female: null,
+        front_default: "",
+        front_female: null,
+        front_shiny: "",
+        front_shiny_female: null,
+        other: {},
+        versions: {},
+      },
+      moves: [],
+      abilities: [],
+      stats: [
+        { base_stat: 0 },
+        { base_stat: 0 },
+        { base_stat: 0 },
+        { base_stat: 0 },
+        { base_stat: 0 },
+        { base_stat: 0 },
+      ],
+      url: data.url,
+    };
+  }
+
+  /**
+   * Returns a full set of constructor options to be used in
+   * creating a more complete PokemonDTO
+   * @param data Full pokemon payload from the API
+   */
   private getFullPokemonConstructorProps = (
     data: IPokemonData
   ): PokemonConstructorOptions => {
@@ -73,38 +117,7 @@ export class PokemonFactory {
    * @param pokemon Partial stub data from the summary call
    */
   public createPokemonStub = (pokemon: IPokemonStub): PokemonDTO => {
-    const dummyType: ITypeData = {
-      name: ElementType.NULL,
-      url: "",
-    };
-    const opts: PokemonConstructorOptions = {
-      name: pokemon.name,
-      id: -1,
-      types: [dummyType],
-      sprites: {
-        back_default: null,
-        back_female: null,
-        back_shiny: null,
-        back_shiny_female: null,
-        front_default: "",
-        front_female: null,
-        front_shiny: "",
-        front_shiny_female: null,
-        other: {},
-        versions: {},
-      },
-      moves: [],
-      abilities: [],
-      stats: [
-        { base_stat: 0 },
-        { base_stat: 0 },
-        { base_stat: 0 },
-        { base_stat: 0 },
-        { base_stat: 0 },
-        { base_stat: 0 },
-      ],
-      url: pokemon.url,
-    };
+    const opts = this.getStubConstructorProps(pokemon);
     return new PokemonDTO(opts);
   };
 
