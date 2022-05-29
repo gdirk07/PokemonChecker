@@ -15,6 +15,9 @@ export class PokemonRepository {
   // Prefix for accessing pokemon data in browser localStorage
   private static localStoragePrefix = "pkc-pkmn_";
 
+  // Key to set/retrieve known pokemon table keys from localStorage
+  private static localStorageKeysPrefix = "pkc-pkmnKeys";
+
   constructor() {
     this.pokemonTable = {};
     this.factory = new PokemonFactory();
@@ -158,5 +161,24 @@ export class PokemonRepository {
         this.setPokemonData(pokemonData);
       });
     }
+  }
+
+  /**
+   * Saves the current table's keys to localStorage as a stringified array
+   */
+  private saveTableKeysToStorage(): void {
+    localStorage.setItem(
+      PokemonRepository.localStorageKeysPrefix,
+      JSON.stringify(Object.keys(this.pokemonTable))
+    );
+  }
+
+  /**
+   * Retrieves the previous session's known pokemon from localStorage
+   */
+  private getTableKeysFromStorage(): string[] {
+    const existingKeys = localStorage.getItem(PokemonRepository.localStorageKeysPrefix);
+
+    return existingKeys ? JSON.parse(existingKeys) : [];
   }
 }
