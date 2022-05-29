@@ -13,6 +13,7 @@ import {
  * @returns The correct name of the pokemon
  */
 export function scrubPokemonName(pokemonName: string): string {
+  if (!pokemonName || pokemonName.length < 1) return "";
   if (pokemonName in PERIOD_IN_NAME) return PERIOD_IN_NAME[pokemonName];
   if (pokemonName in GENDER_IN_NAME) return GENDER_IN_NAME[pokemonName];
   if (pokemonName in APOSTAPHE_IN_NAME) return APOSTAPHE_IN_NAME[pokemonName];
