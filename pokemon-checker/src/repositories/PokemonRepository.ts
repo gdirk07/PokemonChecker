@@ -103,7 +103,8 @@ export class PokemonRepository {
   }
 
   /**
-   *
+   * Writes a pokemonDTO to storage, regardless if it's a stub
+   * @param saveEntry A pokemon DTO paired with an expiry timestamp
    */
   public savePokemonToStorage(saveEntry: storedPokemon): void {
     // localStorage.setItem("pokemonTable", JSON.stringify(this.pokemonTable));
@@ -127,6 +128,7 @@ export class PokemonRepository {
       return null;
     }
 
+    // TODO: Factory needs a method for restoring from 'saved DTO'
     const rawData = JSON.parse(storedPokemon);
     const rebuiltPokemon = await this.factory.createPokemon(rawData.pokemon);
 
