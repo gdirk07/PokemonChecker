@@ -129,6 +129,8 @@ export class PokemonRepository {
     }
 
     // TODO: Factory needs a method for restoring from 'saved DTO'
+
+    // TODO: Ability service and Move factory need similar methods
     const rawData = JSON.parse(storedPokemon);
     const rebuiltPokemon = await this.factory.createPokemon(rawData.pokemon);
 
