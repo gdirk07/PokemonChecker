@@ -30,27 +30,28 @@ export const AbilityDisplay = ({ abilities }: AbilityDisplayProps) => {
     setExpanded({ ...expanded, [index]: !(expanded as expandState)[index] });
   };
 
-  const abilityContainer = {
-    height: `4em`,
-  };
-
   return (
-    <Container fixed>
-      <Box sx={abilityContainer}>
+    <Container>
+      <Box>
         {abilities.map((ability, i) => {
           let expand: boolean | null = (expanded as expandState)[i];
           return (
             <List key={i} onClick={() => handleAbilityClicked(i)}>
-              <ListItem sx={{ fontSize: 14 }}>
-                {RenderAbilityName(ability)}
-                {expand ? "\u25B2" : "\u25BC"}
+              <ListItem sx={{ padding: 0 }}>
+                <Typography
+                  sx={{ fontSize: "0.4em" }}
+                  style={{ display: "inline-flex" }}
+                >
+                  {expand ? "\u25B2" : "\u25BC"}
+                  {RenderAbilityName(ability)}
+                </Typography>
               </ListItem>
               <Collapse
                 in={(expanded as expandState)[i]}
                 timeout="auto"
                 unmountOnExit
               >
-                <Typography sx={{ fontSize: 8 }}>
+                <Typography sx={{ fontSize: "0.4em" }}>
                   {ability[0].effect}
                 </Typography>
               </Collapse>

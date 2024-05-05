@@ -12,17 +12,26 @@ import { styled } from "@mui/material/styles";
 import { shinyTheme } from "../../userinterface/CustomThemes";
 import { useEffect } from "react";
 
+const DisplayBorder = styled(Grid)<GridProps>(({ theme }) => ({
+  border: `3px double`,
+  borderRadius: `5px`,
+  padding: `10px`,
+}));
+
 const ShinyButtonDisplay = styled(Grid)<GridProps>(({ theme }) => ({
   alignSelf: "flex-start",
   position: "absolute",
 }));
 
 const SpriteDisplay = styled(Grid)<GridProps>(({ theme }) => ({
-  alignSelf: `center`,
+  alignSelf: `flex-start`,
+  marginTop: "1em",
 }));
 
-const BasicInfoDisplay = styled(Grid)<GridProps>(({ theme }) => ({
-  marginTop: `0.5em`,
+const BasicInfoDisplay = styled(Grid)<GridProps>(({ theme }) => ({}));
+
+const StatInfoDisplay = styled(Grid)<GridProps>(({ theme }) => ({
+  marginTop: "0.5em",
 }));
 
 type PokemonInfoProps = {
@@ -37,7 +46,13 @@ export const QuickView = ({ pokemon }: PokemonInfoProps) => {
   }, [pokemon]);
 
   return (
-    <Grid container alignItems="center" columnSpacing={2}>
+    <DisplayBorder
+      container
+      direction="row"
+      alignItems="stretch"
+      columnSpacing={1}
+    >
+
       <ShinyButtonDisplay
         theme={shinyTheme}
         color={displayDefault ? primary.main : secondary.main}
@@ -51,7 +66,7 @@ export const QuickView = ({ pokemon }: PokemonInfoProps) => {
           </IconButton>
         </label>
       </ShinyButtonDisplay>
-      <SpriteDisplay item xs={9} sm={6}>
+      <SpriteDisplay item xs={6} sm={2}>
         <PokemonImage
           altImageName={pokemon.name}
           spriteImage={
@@ -59,16 +74,16 @@ export const QuickView = ({ pokemon }: PokemonInfoProps) => {
           }
         />
       </SpriteDisplay>
-      <BasicInfoDisplay item xs={12} sm={6}>
+      <BasicInfoDisplay item xs={6} sm={4}>
         <TypeDisplay type={pokemon.type1} />
         <TypeDisplay type={pokemon.type2} />
         <NameDisplay name={pokemon.name} id={pokemon.dexId} />
         <AbilityDisplay abilities={pokemon.abilities} />
       </BasicInfoDisplay>
-      <Grid item xs={12}>
+      <StatInfoDisplay item xs={12} sm={6}>
         <StatDisplay baseStats={pokemon.baseStats} stats={pokemon.stats} />
-      </Grid>
-    </Grid>
+      </StatInfoDisplay>
+    </DisplayBorder>
   );
 };
 
