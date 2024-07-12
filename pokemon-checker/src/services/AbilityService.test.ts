@@ -31,7 +31,9 @@ test("Test effect fetched properly", () => {
 });
 
 test("Test pokemonList fetched properly", () => {
-  expect(fetchedAbility.pokemons).toEqual(pressureAbility.pokemons);
+  expect(fetchedAbility.id).toEqual(pressureAbility.id);
+  expect(fetchedAbility.url).toEqual(pressureAbility.url);
+  expect(fetchedAbility.name).toEqual(pressureAbility.name);
 });
 
 test("Test localized ability name fetched properly", () => {

@@ -52,7 +52,7 @@ export const AbilityDisplay = ({ abilities }: AbilityDisplayProps) => {
                 unmountOnExit
               >
                 <Typography sx={{ fontSize: "0.4em" }}>
-                  {ability[0].effect}
+                  {ability.ability.effect}
                 </Typography>
               </Collapse>
             </List>
@@ -70,17 +70,17 @@ export const AbilityDisplay = ({ abilities }: AbilityDisplayProps) => {
  * todo: Geoff - define it properly)
  */
 function RenderAbilityName(ability: pokemonAbilities): any {
-  if (ability[1]) {
+  if (ability.isHidden) {
     return (
       <Grid container maxWidth="xs">
-        <Box sx={{ fontStyle: "italic" }}>{ability[0].localizedName}</Box>
+        <Box sx={{ fontStyle: "italic" }}>{ability.ability.localizedName}</Box>
       </Grid>
     );
   }
   return (
     <Grid container maxWidth="xs" sx={{ display: "flex" }}>
       <Box maxWidth="100%" sx={{ textAlign: "left" }}>
-        {ability[0].localizedName}
+        {ability.ability.localizedName}
       </Box>
     </Grid>
   );
