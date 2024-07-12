@@ -30,7 +30,7 @@ export type pokemonDisplayObj = {
   };
 };
 
-export type pokemonAbilities = [ability: AbilityDTO, isHidden: boolean];
+export type pokemonAbilities = { ability: AbilityDTO; isHidden: boolean };
 /**
  * Pokemon stat data is (currently) sent in an array where
  * stat indices are consistent with this enum
@@ -107,7 +107,7 @@ class PokemonDTO {
       moves: this.moves.map((moveEntry) => moveEntry.name),
       type1: this.type1,
       type2: this.type2,
-      abilities: this.abilities.map((abilityEntry) => abilityEntry[0].name),
+      abilities: this.abilities.map((abilityEntry) => abilityEntry.ability.name),
       sprites: {
         frontDefault: this.frontDefault,
         frontShiny: this.frontShiny,
