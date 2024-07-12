@@ -74,10 +74,10 @@ export class PokemonFactory {
       moves: data.moves.map((moveData) =>
         this.moveFactory.createMoveFromStub(moveData)
       ),
-      abilities: data.abilities.map((abilityData) => [
-        this.abilityService.createAbilityFromStub(abilityData),
-        abilityData.is_hidden,
-      ]),
+      abilities: data.abilities.map((abilityData) => ({
+        ability: this.abilityService.createAbilityFromStub(abilityData),
+        isHidden: abilityData.is_hidden,
+      })),
       sprites: data.sprites,
       stats: data.stats.map((statData) => ({
         base_stat: statData.base_stat,
@@ -103,10 +103,10 @@ export class PokemonFactory {
 
   private fetchAbilities = async (pokemon: PokemonDTO): Promise<PokemonDTO> => {
     await Promise.all(
-      pokemon.abilities.map(async (ability) => {
-        if (!ability[0].hasFullData)
+      pokemon.abilities.map(async (entry) => {
+        if (!entry.ability.hasFullData)
           //if retrieved from repository it likely has the data, otherwise...
-          await this.abilityService.getFullAbilityDef(ability[0]);
+          await this.abilityService.getFullAbilityDef(entry.ability);
       })
     );
     return pokemon;

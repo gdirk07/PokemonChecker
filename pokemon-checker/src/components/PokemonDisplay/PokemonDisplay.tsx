@@ -3,14 +3,7 @@ import PokemonDTO from "../../DataTransferObjects/PokemonDTO";
 import { QuickView } from "./PokemonQuickCardView";
 import "../../App.css";
 import WaitingView from "./DefaultDisplayView";
-import Container, { ContainerProps } from "@mui/material/Container";
-import { styled } from "@mui/material/styles";
-
-const DisplayBorder = styled(Container)<ContainerProps>(({ theme }) => ({
-  border: `3px double`,
-  borderRadius: `5px`,
-  padding: `10px`,
-}));
+import Container from "@mui/material/Container";
 
 type displayProps = {
   getPokemonData: (url: string) => Promise<any>;
@@ -43,9 +36,9 @@ export const PokemonDisplay = (props: displayProps) => {
 
   if (pokemonObject) {
     return (
-      <DisplayBorder maxWidth="sm">
+      <Container maxWidth="sm">
         <QuickView pokemon={pokemonObject} />
-      </DisplayBorder>
+      </Container>
     );
   } else {
     return (
