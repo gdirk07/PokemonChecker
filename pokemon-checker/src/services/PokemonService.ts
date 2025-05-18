@@ -29,6 +29,7 @@ export class PokemonService {
     try {
       // Save the pokemon data to localStorage
       this.repository.saveStubs(payload);
+      console.log("storePokemonStubs flow")
       console.log(payload[0]);
       console.log(this.repository);
       // this.repository.savePokemon();

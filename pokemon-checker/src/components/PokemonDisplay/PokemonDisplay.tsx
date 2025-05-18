@@ -35,6 +35,8 @@ export const PokemonDisplay = (props: displayProps) => {
   }, [pokemonUrl, createPokemonObject]);
 
   if (pokemonObject) {
+    console.log("PokemonDisplay stats");
+    console.log(pokemonObject.getDisplayStats());
     return (
       <Container maxWidth="sm">
         <QuickView pokemon={pokemonObject} />

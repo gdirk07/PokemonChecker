@@ -1,9 +1,11 @@
 import { MoveFactory } from "./MoveFactory";
 import PokemonDTO, {
+  pokemonAbilities,
   PokemonConstructorOptions,
 } from "../DataTransferObjects/PokemonDTO";
 import {
   IPokemonData,
+  IPokemonRepoData,
   IPokemonStub,
   ITypeData,
 } from "../interfaces/PokemonData";
@@ -24,7 +26,9 @@ export class PokemonFactory {
    * Returns constructor options given stub data (name, url)
    * @param data Stub data from general pokemon search query
    */
-  private getStubConstructorProps = (data: IPokemonStub): PokemonConstructorOptions => {
+  private getStubConstructorProps = (
+    data: IPokemonStub
+  ): PokemonConstructorOptions => {
     const dummyType: ITypeData = {
       name: ElementType.NULL,
       url: "",
@@ -57,7 +61,7 @@ export class PokemonFactory {
       ],
       url: data.url,
     };
-  }
+  };
 
   /**
    * Returns a full set of constructor options to be used in
@@ -86,6 +90,61 @@ export class PokemonFactory {
   };
 
   /**
+   * Returns necessary constructor options from a saved local object
+   * 
+   * Note on abilities: the new struct for abilities matches the raw payload
+   *   Compare bulbasaur-dto.json with API-raw-ability-array.txt
+   * 
+   * Full data is available in bulbasaur (minus ability slot)
+   *   Formatted in an array the same as the raw payload
+  
+   * @param data Existing pokemon data pulled from browser storage
+   */
+  private getRestoredPokemonConstructorProps = (data: IPokemonRepoData) => {
+
+    // Pokemon Repo Data looks like it's a superset of IPokemonData
+    // Stub pokemon only have a name + URL, not an ID
+    const isStub = data.dexId > 0;
+
+    // Note: alt formes (arceus-bug, rotom-washer, etc.) are not regional species
+    // Species API tells us if it exists in alola, galar, paldea
+    // https://github.com/PokeAPI/pokeapi/issues/455
+
+    // https://pokeapi.co/docs/v2#pokemon-species
+    // https://pokeapi.co/api/v2/pokemon-species/{id or name}/
+
+    if (isStub) {
+      // Re-create the stub using what we know
+      return this.getStubConstructorProps({ name: data.name, url: data.url });
+    }
+
+    // Well shit it's a whole ass thing now isn't it
+    // Re-convert the type name string back to config format
+    const typeArray = [{ slot: 1, type: { name: data.type1, url: "" } }];
+    if (data.type2 && data.type2 !== "") {
+      typeArray.push({ slot: 2, type: { name: data.type2, url: "" } });
+    }
+
+    // Restore move data
+    const moveArray = data.moves.map((move) =>
+      this.moveFactory.restoreSavedMove(move)
+    );
+
+    // Restore ability DTOs
+    // Are they intended to be key/value pairs?
+    const abilityArray = data.abilities.map((ability) =>
+      this.abilityService.restoreSavedAbility(ability)
+    );
+
+    return {
+      name: data.name,
+      id: data.dexId,
+      types: typeArray,
+      moves: moveArray,
+    };
+  };
+
+  /**
    * Creates pokemon data that can be used for rendering
    * @param pokemon Full data from the individual pokemon requests
    */
@@ -99,6 +158,15 @@ export class PokemonFactory {
     //until all the details are returned
     const pokeWithAbilities = this.fetchAbilities(createdPokemon);
     return pokeWithAbilities;
+  };
+
+  /**
+   * Re-creates a previous factory-made Pokemon from localStorage session,
+   * regardless of if it lacks full data
+   * @param savedMon Possible stub or full pokemon DTO retrieved from storage
+   */
+  public restorePokemonFromStorage = (savedMon: IPokemonRepoData) => {
+    // const restoredMon = new PokemonDTO();
   };
 
   private fetchAbilities = async (pokemon: PokemonDTO): Promise<PokemonDTO> => {

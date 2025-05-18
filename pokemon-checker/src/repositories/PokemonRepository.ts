@@ -181,7 +181,9 @@ export class PokemonRepository {
    * Retrieves the previous session's known pokemon from localStorage
    */
   private getTableKeysFromStorage(): string[] {
-    const existingKeys = localStorage.getItem(PokemonRepository.localStorageKeysPrefix);
+    const existingKeys = localStorage.getItem(
+      PokemonRepository.localStorageKeysPrefix
+    );
 
     return existingKeys ? JSON.parse(existingKeys) : [];
   }

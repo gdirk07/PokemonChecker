@@ -1,5 +1,8 @@
 import { damageClass } from "../DataTransferObjects/MoveDTO";
-import { ListOfPokemon } from "../DataTransferObjects/AbilityDTO";
+import {
+  AbilityRepoData,
+  ListOfPokemon,
+} from "../DataTransferObjects/AbilityDTO";
 import { ElementType } from "../constants/ElementTypes";
 
 /**
@@ -79,6 +82,18 @@ export interface IMoveData {
 }
 
 /**
+ * Restored DTO stub shape
+ */
+export interface IMoveRepoData {
+  name: string;
+  power: number;
+  accuracy: number;
+  damage_class: string;
+  description: string;
+  url: string;
+}
+
+/**
  * Full ability DTO Partial
  */
 export interface IAbilityData {
@@ -131,6 +146,8 @@ export interface ISpriteData {
 
 /**
  * Stat DTOs included with pokemon
+ * 
+ * TODO: make a full, formal stat DTO that can return bases and totals
  */
 export interface IStatData {
   base_stat: number;
@@ -150,4 +167,25 @@ export interface IPokemonData {
   moves: IMoveSummary[];
   abilities: IPokemonAbilitySummary[];
   stats: IStatData[];
+}
+
+/**
+ * Raw JSON of an existing PokemonDTO
+ * 
+ * TODO: STAT DATA IS NOT REPRESENTED AS AN ARRAY AFTER STORAGE
+ * {"hp":45,"attack":49,"defense":49,"spAttack":65,"spDefense":65,"speed":45}
+ */
+export interface IPokemonRepoData {
+  name: string;
+  baseStats: number;
+  dexId: number;
+  frontDefault: string;
+  frontShiny: string;
+  type1: string;
+  type2: string;
+  sprites: ISpriteData;
+  moves: IMoveRepoData[];
+  abilities: AbilityRepoData[];
+  stats: IStatData[];
+  url: string;
 }

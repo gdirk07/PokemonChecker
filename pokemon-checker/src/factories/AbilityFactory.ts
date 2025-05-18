@@ -2,6 +2,7 @@ import { IAbilityData, IAbilityStub } from "../interfaces/PokemonData";
 import {
   AbilityConstructorOptions,
   AbilityDTO,
+  AbilityRepoData,
 } from "../DataTransferObjects/AbilityDTO";
 
 type AbilityDetails = {
@@ -38,6 +39,13 @@ export class AbilityFactory {
     stub.localizedName = fullAbility.localizedName;
     return stub;
   };
+
+  /**
+   * Restore saved ability from localStorage
+   * @param ability Saved possible stub ability from repository
+   */
+  public restoreSavedAbility = (ability: AbilityRepoData) =>
+    new AbilityDTO(ability as AbilityConstructorOptions);
 
   /**
    * Clean the response and add in the list of pokemon and english descripton

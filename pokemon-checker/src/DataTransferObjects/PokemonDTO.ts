@@ -107,7 +107,9 @@ class PokemonDTO {
       moves: this.moves.map((moveEntry) => moveEntry.name),
       type1: this.type1,
       type2: this.type2,
-      abilities: this.abilities.map((abilityEntry) => abilityEntry.ability.name),
+      abilities: this.abilities.map(
+        (abilityEntry) => abilityEntry.ability.name
+      ),
       sprites: {
         frontDefault: this.frontDefault,
         frontShiny: this.frontShiny,
@@ -134,6 +136,13 @@ class PokemonDTO {
    */
   public get hasUrl(): boolean {
     return this.url.length > 0;
+  }
+
+  /**
+   * Denotes if the data is a 'stub' (name, URL, no other date)
+   */
+  public get isStub(): boolean {
+    return this.name.length > 0 && this.url.length > 0 && this.dexId <= 0;
   }
 
   /**

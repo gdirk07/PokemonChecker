@@ -1,4 +1,8 @@
-import { IMoveSummary, IMoveData } from "../interfaces/PokemonData";
+import {
+  IMoveSummary,
+  IMoveData,
+  IMoveRepoData,
+} from "../interfaces/PokemonData";
 import {
   MoveConstructorOptions,
   MoveDTO,
@@ -26,4 +30,7 @@ export class MoveFactory {
 
     return new MoveDTO(opts);
   };
+
+  public restoreSavedMove = (moveData: IMoveRepoData): MoveDTO =>
+    new MoveDTO(moveData as MoveConstructorOptions);
 }
