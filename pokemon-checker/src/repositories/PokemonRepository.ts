@@ -45,7 +45,7 @@ export class PokemonRepository {
     // Storage key is pokemon.name, because fetching all pokemon names
     // returns an  array of stubs with valid names and 'dexId: -1'
     // List of all pokemon comes from App.tsx when we resolve pokemon stubs
-    this.pokemonTable[data.name] = item;
+    this.pokemonTable[data.name.toLowerCase()] = item;
   }
 
   /**
@@ -53,10 +53,12 @@ export class PokemonRepository {
    * @param pokemon Name of the pokemon to check against
    */
   public isExpired(pokemon: string): boolean {
-    const now = new Date();
-    const foundPokemon = this.pokemonTable[pokemon];
+    const now = Date.now();
+    const foundPokemon = this.pokemonTable[pokemon.toLowerCase()];
 
-    return foundPokemon && foundPokemon.expiry < now.getTime();
+    // If data exists, validate the expiry time.
+    // No data? By default it is invalid, expired.
+    return foundPokemon ? foundPokemon.expiry < now : true;
   }
 
   /**
@@ -103,7 +105,8 @@ export class PokemonRepository {
       ) {
         return;
       }
-      this.setPokemonData(pokemon);
+      //TODO: remove timestamp declaration (should be 1h but we're debuggin, bro)
+      this.setPokemonData(pokemon, this.timeService.generateExpiryTimestamp(0));
     });
   }
 

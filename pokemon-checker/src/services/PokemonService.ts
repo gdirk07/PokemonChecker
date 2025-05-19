@@ -78,6 +78,7 @@ export class PokemonService {
    * Search ALL pokemon with their name and individual url
    */
   public getAllPokemon = async () => {
+    // TODO: re-wire repository to have a 'general' expiry time
     if (this.repository.isExpired("bulbasaur")) {
       return await fetch(this.getAllUrl).then(this.resolvePokemonStubs);
     } else {
@@ -97,7 +98,14 @@ export class PokemonService {
     } else {
       const data = await response.json();
       const pokemonPayload = data as IPokemonData;
-      return this.factory.createPokemon(pokemonPayload);
+
+      // Hammer response into DTO, store in repository
+      const fullPokemon = await this.factory.createPokemon(pokemonPayload);
+
+      // TODO: remove the 'now' timestamp
+      this.repository.setPokemonData(fullPokemon, Date.now());
+
+      return fullPokemon;
     }
   };
 
