@@ -12,11 +12,7 @@ export class PokemonRepository {
   private factory: PokemonFactory;
   private timeService: TimeService;
 
-  // Prefix for accessing pokemon data in browser localStorage
-  private static localStoragePrefix = "pkc-pkmn_";
-
-  // Key to set/retrieve known pokemon table keys from localStorage
-  private static localStorageKeysPrefix = "pkc-pkmnKeys";
+  private static localStorageTableKey = "pokemonTable";
 
   constructor() {
     this.pokemonTable = {};
@@ -38,9 +34,11 @@ export class PokemonRepository {
       pokemon: data,
       expiry: expire,
     };
-    this.pokemonTable[data.name] = item;
 
-    // Store the item in localStorage, as well
+    // Storage key is pokemon.name, because fetching all pokemon names
+    // returns an  array of stubs with valid names and 'dexId: -1'
+    // List of all pokemon comes from App.tsx when we resolve pokemon stubs
+    this.pokemonTable[data.name] = item;
   }
 
   /**
@@ -103,61 +101,10 @@ export class PokemonRepository {
   }
 
   /**
-   * Writes a pokemonDTO to storage, regardless if it's a stub
-   * @param saveEntry A pokemon DTO paired with an expiry timestamp
-   */
-  public savePokemonToStorage(saveEntry: storedPokemon): void {
-    // localStorage.setItem("pokemonTable", JSON.stringify(this.pokemonTable));
-    const keyName = this.generateLocalStorageKey(saveEntry.pokemon.name);
-    if (keyName && keyName.length > 0) {
-      localStorage.setItem(keyName, JSON.stringify(saveEntry));
-    }
-  }
-
-  /**
-   * Retrieve the entry from storage, null if it does not exist
-   * @param pkName Name of the DTO to retrieve
-   */
-  public async getPokemonFromStorage(
-    pkName: string
-  ): Promise<storedPokemon | null> {
-    const storedPokemon = localStorage.getItem(
-      this.generateLocalStorageKey(pkName)
-    );
-    if (!storedPokemon) {
-      return null;
-    }
-
-    // TODO: Factory needs a method for restoring from 'saved DTO'
-
-    // TODO: Ability service and Move factory need similar methods
-    const rawData = JSON.parse(storedPokemon);
-    const rebuiltPokemon = await this.factory.createPokemon(rawData.pokemon);
-
-    console.log(rebuiltPokemon);
-    return {
-      pokemon: rebuiltPokemon,
-      expiry: rawData.expiry,
-    };
-  }
-
-  /**
-   * Method for accessing repository data from localStorage
-   * @param pkName DTO 'name' key to use for storage
-   */
-  private generateLocalStorageKey(pkName: string): string {
-    return PokemonRepository.localStoragePrefix + pkName;
-  }
-
-  /**
    * Instantiate the repository from localStorage
-   *
-   * TODO: Re-evaluate if we need a full load from storage at all?
-   * If we store each entry (maybe prefix names) then we'd probably
-   * just read them as necessary
    */
   public loadFromStorage(): void {
-    const savedData = localStorage.getItem("pokemonTable");
+    const savedData = localStorage.getItem(PokemonRepository.localStorageTableKey);
     if (savedData) {
       const oldTable = JSON.parse(savedData);
       Object.keys(oldTable).forEach((key) => {
@@ -165,26 +112,5 @@ export class PokemonRepository {
         this.setPokemonData(pokemonData);
       });
     }
-  }
-
-  /**
-   * Saves the current table's keys to localStorage as a stringified array
-   */
-  private saveTableKeysToStorage(): void {
-    localStorage.setItem(
-      PokemonRepository.localStorageKeysPrefix,
-      JSON.stringify(Object.keys(this.pokemonTable))
-    );
-  }
-
-  /**
-   * Retrieves the previous session's known pokemon from localStorage
-   */
-  private getTableKeysFromStorage(): string[] {
-    const existingKeys = localStorage.getItem(
-      PokemonRepository.localStorageKeysPrefix
-    );
-
-    return existingKeys ? JSON.parse(existingKeys) : [];
   }
 }
