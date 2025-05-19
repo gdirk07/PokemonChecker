@@ -43,35 +43,11 @@ export class AbilityService {
     }
   }
 
-  public createAbilityFromStub(ability: IPokemonAbilitySummary): AbilityDTO {
-    //check repository
-    const repResult = this.repositoryLookup(ability.ability.name);
-    if (repResult) return repResult;
-
-    const abilityDet: IAbilityStub = ability.ability;
-    const abilityStub = this.factory.createAbilityStub(abilityDet);
-
-    return abilityStub;
-  }
-
-  public restoreSavedAbility(ability: AbilityRepoPairData): AbilityDTO {
-    return this.factory.restoreSavedAbility(ability.ability);
-  }
-
-  public async getFullAbilityDef(ability: AbilityDTO): Promise<AbilityDTO> {
-    const repResult = this.repositoryLookup(ability.name);
-    if (repResult && repResult.hasFullData)
-      return await Promise.resolve(repResult);
-
-    const response = await fetch(ability.url);
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    } else {
-      const data = await response.json();
-      return this.resolveAbilityStub(data, ability);
-    }
-  }
-
+  /**
+   * Uses API source of truth to fill in data missing from the stub
+   * @param response API payload to be combined
+   * @param stub Existing stub data in app memory
+   */
   private resolveAbilityStub = async (
     response: Promise<any>,
     stub: AbilityDTO
@@ -95,5 +71,53 @@ export class AbilityService {
       const findAbility = this.repository.getAbility(key);
       if (findAbility) return findAbility;
     }
+  }
+
+  /**
+   * Declares an AbilityDTO stub for rendering
+   * @param ability Stub data from API
+   */
+  public createAbilityFromStub(ability: IPokemonAbilitySummary): AbilityDTO {
+    //check repository
+    const repResult = this.repositoryLookup(ability.ability.name);
+    if (repResult) return repResult;
+
+    const abilityDet: IAbilityStub = ability.ability;
+    const abilityStub = this.factory.createAbilityStub(abilityDet);
+
+    return abilityStub;
+  }
+
+  /**
+   * Take saved ability payload and re-serialize as a formal DTO
+   * @param ability Un-stringified data retrieved from local storage
+   */
+  public restoreSavedAbility(ability: AbilityRepoPairData): AbilityDTO {
+    return this.factory.restoreSavedAbility(ability.ability);
+  }
+
+  /**
+   * Inputs a DTO and returns a fully defined, non-stub DTO
+   * @param ability Object to validate stub status
+   */
+  public async getFullAbilityDef(ability: AbilityDTO): Promise<AbilityDTO> {
+    const repResult = this.repositoryLookup(ability.name);
+    if (repResult && repResult.hasFullData)
+      return await Promise.resolve(repResult);
+
+    const response = await fetch(ability.url);
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    } else {
+      const data = await response.json();
+      return this.resolveAbilityStub(data, ability);
+    }
+  }
+
+  /**
+   * Deconstructor, clear repository data out
+   */
+  public deconstructor(): void {
+    this.repository.deconstructor();
   }
 }

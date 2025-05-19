@@ -11,6 +11,7 @@ export class PokemonRepository {
   private pokemonTable: Record<string, storedPokemon>;
   private factory: PokemonFactory;
   private timeService: TimeService;
+  private oldestTimestamp: number;
 
   private static localStorageTableKey = "pokemonTable";
 
@@ -18,6 +19,7 @@ export class PokemonRepository {
     this.pokemonTable = {};
     this.factory = new PokemonFactory();
     this.timeService = new TimeService();
+    this.oldestTimestamp = Date.now();
   }
 
   /**
@@ -34,6 +36,11 @@ export class PokemonRepository {
       pokemon: data,
       expiry: expire,
     };
+
+    // Check if timestamp is older than what was there prior
+    if (expire < this.oldestTimestamp) {
+      this.oldestTimestamp = expire;
+    }
 
     // Storage key is pokemon.name, because fetching all pokemon names
     // returns an  array of stubs with valid names and 'dexId: -1'
@@ -122,5 +129,14 @@ export class PokemonRepository {
         this.setPokemonData(pokemonData);
       });
     }
+  }
+
+  /**
+   * Clear class data on repository/service deconstructor
+   */
+  public deconstructor(): void {
+    this.oldestTimestamp = 0;
+    this.pokemonTable = {};
+    this.factory.deconstructor();
   }
 }

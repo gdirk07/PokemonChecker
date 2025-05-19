@@ -173,18 +173,6 @@ export class PokemonFactory {
     return pokeWithAbilities;
   };
 
-  /**
-   * Re-creates a previous factory-made Pokemon from localStorage session,
-   * regardless of if it lacks full data
-   * @param savedMon Possible stub or full pokemon DTO retrieved from storage
-   */
-  public restorePokemonFromStorage = (
-    savedMon: IPokemonRepoData
-  ): PokemonDTO => {
-    const constructorOpts = this.getRestoredPokemonConstructorProps(savedMon);
-    return new PokemonDTO(constructorOpts);
-  };
-
   private fetchAbilities = async (pokemon: PokemonDTO): Promise<PokemonDTO> => {
     await Promise.all(
       pokemon.abilities.map(async (entry) => {
@@ -218,4 +206,23 @@ export class PokemonFactory {
     };
     return new PokemonDTO(newPokemonProps);
   };
+
+  /**
+   * Re-creates a previous factory-made Pokemon from localStorage session,
+   * regardless of if it lacks full data
+   * @param savedMon Possible stub or full pokemon DTO retrieved from storage
+   */
+  public restorePokemonFromStorage = (
+    savedMon: IPokemonRepoData
+  ): PokemonDTO => {
+    const constructorOpts = this.getRestoredPokemonConstructorProps(savedMon);
+    return new PokemonDTO(constructorOpts);
+  };
+
+  /**
+   * Deconstructor, clear class data
+   */
+  public deconstructor(): void {
+    this.abilityService.deconstructor();
+  }
 }

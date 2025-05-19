@@ -1,9 +1,9 @@
-import { Time } from "../constants/Time"
+import { Time } from "../constants/Time";
 
-export class TimeService { 
+export class TimeService {
   /**
    * Generic method for returning a timestamp to be consumed.
-   * 
+   *
    * Defaults to 1 hour (60 minutes)
    * @param minutes Duration to set an expiry time for
    */

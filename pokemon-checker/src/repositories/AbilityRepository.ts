@@ -1,5 +1,5 @@
 import AbilityDTO from "../DataTransferObjects/AbilityDTO";
-import { TimeService } from "../services/TimeService"
+import { TimeService } from "../services/TimeService";
 import { AbilityFactory } from "../factories/AbilityFactory";
 
 type storageData = {
@@ -64,5 +64,12 @@ export class AbilityRepository {
         this.setAbilityData(abilityData);
       });
     }
+  }
+
+  /**
+   * Deconstructor, clear up the repo data
+   */
+  public deconstructor(): void {
+    this.abilityTable = {};
   }
 }

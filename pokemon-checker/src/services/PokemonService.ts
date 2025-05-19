@@ -100,4 +100,13 @@ export class PokemonService {
       return this.factory.createPokemon(pokemonPayload);
     }
   };
+
+  /**
+   * Deconstructor, clear all service data
+   */
+  public deconstructor(): void {
+    console.log("Service is shutting down! Callin it.");
+    this.factory.deconstructor();
+    this.repository.deconstructor();
+  }
 }

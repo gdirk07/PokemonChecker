@@ -44,6 +44,12 @@ class App extends Component<any, AppState> {
       .catch(console.log);
   }
 
+  // On unmount, preserve the repository as localStorage
+  componentWillUnmount(): void {
+    console.log("App is dismounting!");
+    this.pokeService.deconstructor();
+  }
+
   onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let filteredPokemon: PokemonDTO[] = [];
     if (event && event.target && event.target.value) {
