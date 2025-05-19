@@ -1,6 +1,5 @@
 import { MoveFactory } from "./MoveFactory";
 import PokemonDTO, {
-  pokemonAbilities,
   PokemonConstructorOptions,
 } from "../DataTransferObjects/PokemonDTO";
 import {
@@ -100,11 +99,11 @@ export class PokemonFactory {
   
    * @param data Existing pokemon data pulled from browser storage
    */
-  private getRestoredPokemonConstructorProps = (data: IPokemonRepoData) => {
+  private getRestoredPokemonConstructorProps = (data: IPokemonRepoData): PokemonConstructorOptions => {
 
     // Pokemon Repo Data looks like it's a superset of IPokemonData
     // Stub pokemon only have a name + URL, not an ID
-    const isStub = data.dexId > 0;
+    const isStub = (data.dexId || -1) < 0;
 
     // Note: alt formes (arceus-bug, rotom-washer, etc.) are not regional species
     // Species API tells us if it exists in alola, galar, paldea
@@ -126,13 +125,12 @@ export class PokemonFactory {
     }
 
     // Restore move data
-    const moveArray = data.moves.map((move) =>
+    const moveArray = data.moves?.map((move) =>
       this.moveFactory.restoreSavedMove(move)
     );
 
     // Restore ability DTOs
-    // Are they intended to be key/value pairs?
-    const abilityArray = data.abilities.map((ability) =>
+    const abilityArray = data.abilities?.map((ability) =>
       this.abilityService.restoreSavedAbility(ability)
     );
 
@@ -140,8 +138,30 @@ export class PokemonFactory {
       name: data.name,
       id: data.dexId,
       types: typeArray,
+      sprites: {
+        back_default: null,
+        back_female: null,
+        back_shiny: null,
+        back_shiny_female: null,
+        front_default: data.frontDefault,
+        front_female: null,
+        front_shiny: data.frontShiny,
+        front_shiny_female: null,
+        other: {},
+        versions: {},
+      },
       moves: moveArray,
-    };
+      abilities: abilityArray,
+      stats: [
+        { base_stat: data.stats?.hp },
+        { base_stat: data.stats?.attack },
+        { base_stat: data.stats?.defense },
+        { base_stat: data.stats?.spAttack },
+        { base_stat: data.stats?.spDefense },
+        { base_stat: data.stats?.speed },
+      ],
+      url: data.url,
+    } as unknown as PokemonConstructorOptions;
   };
 
   /**
@@ -165,8 +185,9 @@ export class PokemonFactory {
    * regardless of if it lacks full data
    * @param savedMon Possible stub or full pokemon DTO retrieved from storage
    */
-  public restorePokemonFromStorage = (savedMon: IPokemonRepoData) => {
-    // const restoredMon = new PokemonDTO();
+  public restorePokemonFromStorage = (savedMon: IPokemonRepoData): PokemonDTO => {
+    const constructorOpts = this.getRestoredPokemonConstructorProps(savedMon);
+    return new PokemonDTO(constructorOpts);
   };
 
   private fetchAbilities = async (pokemon: PokemonDTO): Promise<PokemonDTO> => {

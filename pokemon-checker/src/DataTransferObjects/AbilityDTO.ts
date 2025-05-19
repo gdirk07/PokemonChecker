@@ -25,12 +25,10 @@ export type AbilityRepoData = {
   localizedName: string;
 };
 
-// Why are we storing 2D arrays when they're supposed to be keyed
-// ability payload has slots in it
-// {ability: {...}, is_hidden: false, slot: 1}
-export type AbilityRepoPairData = [
-  AbilityRepoData[], boolean
-]
+export type AbilityRepoPairData = {
+  ability: AbilityRepoData,
+  isHidden: boolean,
+}
 
 export class AbilityDTO {
   public name: string;

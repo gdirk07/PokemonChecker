@@ -1,6 +1,6 @@
 import { damageClass } from "../DataTransferObjects/MoveDTO";
 import {
-  AbilityRepoData,
+  AbilityRepoPairData,
   ListOfPokemon,
 } from "../DataTransferObjects/AbilityDTO";
 import { ElementType } from "../constants/ElementTypes";
@@ -145,14 +145,24 @@ export interface ISpriteData {
 }
 
 /**
- * Stat DTOs included with pokemon
- * 
- * TODO: make a full, formal stat DTO that can return bases and totals
+ * Stat object returned from API
  */
 export interface IStatData {
   base_stat: number;
   effort: number;
   stat: { name: string; url: string };
+}
+
+/**
+ * Stat type as serialized on saved Pokemon DTO
+ */
+export interface IPokemonStatData {
+  hp: number;
+  attack: number;
+  defense: number;
+  spAttack: number;
+  spDefense: number;
+  speed: number;
 }
 
 /**
@@ -170,22 +180,19 @@ export interface IPokemonData {
 }
 
 /**
- * Raw JSON of an existing PokemonDTO
- * 
- * TODO: STAT DATA IS NOT REPRESENTED AS AN ARRAY AFTER STORAGE
- * {"hp":45,"attack":49,"defense":49,"spAttack":65,"spDefense":65,"speed":45}
+ * Raw JSON of an existing PokemonDTO, stored and re-serialized from string
  */
 export interface IPokemonRepoData {
   name: string;
-  baseStats: number;
-  dexId: number;
-  frontDefault: string;
-  frontShiny: string;
-  type1: string;
-  type2: string;
-  sprites: ISpriteData;
-  moves: IMoveRepoData[];
-  abilities: AbilityRepoData[];
-  stats: IStatData[];
+  baseStats?: number;
+  dexId?: number;
+  frontDefault?: string;
+  frontShiny?: string;
+  type1?: string;
+  type2?: string;
+  sprites?: ISpriteData;
+  moves?: IMoveRepoData[];
+  abilities?: AbilityRepoPairData[];
+  stats?: IPokemonStatData;
   url: string;
 }

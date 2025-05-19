@@ -19,6 +19,9 @@ export class PokemonService {
 
     console.log("Service factory:");
     console.log(this.factory);
+
+    console.log("Service repository:");
+    console.log(this.repository);
   }
 
   /**

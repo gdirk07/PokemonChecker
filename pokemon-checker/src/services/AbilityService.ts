@@ -1,4 +1,4 @@
-import { AbilityDTO, AbilityRepoData } from "../DataTransferObjects/AbilityDTO";
+import { AbilityDTO, AbilityRepoPairData } from "../DataTransferObjects/AbilityDTO";
 import { AbilityFactory } from "../factories/AbilityFactory";
 import { AbilityRepository } from "../repositories/AbilityRepository";
 import {
@@ -52,8 +52,8 @@ export class AbilityService {
     return abilityStub;
   }
 
-  public restoreSavedAbility(ability: AbilityRepoData): AbilityDTO {
-    return this.factory.restoreSavedAbility(ability);
+  public restoreSavedAbility(ability: AbilityRepoPairData): AbilityDTO {
+    return this.factory.restoreSavedAbility(ability.ability);
   }
 
   public async getFullAbilityDef(ability: AbilityDTO): Promise<AbilityDTO> {
