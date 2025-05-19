@@ -1,4 +1,7 @@
-import { AbilityDTO, AbilityRepoPairData } from "../DataTransferObjects/AbilityDTO";
+import {
+  AbilityDTO,
+  AbilityRepoPairData,
+} from "../DataTransferObjects/AbilityDTO";
 import { AbilityFactory } from "../factories/AbilityFactory";
 import { AbilityRepository } from "../repositories/AbilityRepository";
 import {
@@ -29,7 +32,6 @@ export class AbilityService {
       // Save the ability data to localStorage
       this.repository.setAbilityData(payload);
       this.repository.saveAbility();
-
     } catch (e: unknown) {
       if (typeof e === "string") {
         console.log(`Could not store ability stubs: ${e}`);
@@ -58,10 +60,10 @@ export class AbilityService {
 
   public async getFullAbilityDef(ability: AbilityDTO): Promise<AbilityDTO> {
     const repResult = this.repositoryLookup(ability.name);
-    if (repResult && repResult.hasFullData) 
+    if (repResult && repResult.hasFullData)
       return await Promise.resolve(repResult);
 
-    const response = await fetch(ability.url)
+    const response = await fetch(ability.url);
     if (!response.ok) {
       throw new Error(response.statusText);
     } else {

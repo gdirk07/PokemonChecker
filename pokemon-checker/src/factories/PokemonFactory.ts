@@ -90,18 +90,11 @@ export class PokemonFactory {
 
   /**
    * Returns necessary constructor options from a saved local object
-   * 
-   * Note on abilities: the new struct for abilities matches the raw payload
-   *   Compare bulbasaur-dto.json with API-raw-ability-array.txt
-   * 
-   * Full data is available in bulbasaur (minus ability slot)
-   *   Formatted in an array the same as the raw payload
-  
    * @param data Existing pokemon data pulled from browser storage
    */
-  private getRestoredPokemonConstructorProps = (data: IPokemonRepoData): PokemonConstructorOptions => {
-
-    // Pokemon Repo Data looks like it's a superset of IPokemonData
+  private getRestoredPokemonConstructorProps = (
+    data: IPokemonRepoData
+  ): PokemonConstructorOptions => {
     // Stub pokemon only have a name + URL, not an ID
     const isStub = (data.dexId || -1) < 0;
 
@@ -185,7 +178,9 @@ export class PokemonFactory {
    * regardless of if it lacks full data
    * @param savedMon Possible stub or full pokemon DTO retrieved from storage
    */
-  public restorePokemonFromStorage = (savedMon: IPokemonRepoData): PokemonDTO => {
+  public restorePokemonFromStorage = (
+    savedMon: IPokemonRepoData
+  ): PokemonDTO => {
     const constructorOpts = this.getRestoredPokemonConstructorProps(savedMon);
     return new PokemonDTO(constructorOpts);
   };

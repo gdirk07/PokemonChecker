@@ -104,7 +104,9 @@ export class PokemonRepository {
    * Instantiate the repository from localStorage
    */
   public loadFromStorage(): void {
-    const savedData = localStorage.getItem(PokemonRepository.localStorageTableKey);
+    const savedData = localStorage.getItem(
+      PokemonRepository.localStorageTableKey
+    );
     if (savedData) {
       const oldTable = JSON.parse(savedData);
       Object.keys(oldTable).forEach((key) => {

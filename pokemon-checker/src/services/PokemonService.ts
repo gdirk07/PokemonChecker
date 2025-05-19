@@ -32,7 +32,7 @@ export class PokemonService {
   private storePokemonStubs(payload: PokemonDTO[]): void {
     try {
       this.repository.saveStubs(payload);
-      console.log("storePokemonStubs flow, payload[0]:")
+      console.log("storePokemonStubs flow, payload[0]:");
       console.log(payload[0]);
       console.log(this.repository);
 
@@ -60,16 +60,14 @@ export class PokemonService {
     const results = data.results;
     //the query fetches all pokemon AND forms (megas etc), but we don't want
     //forms so filter out any result that has a url > 10000
-    const filterResults = results.map(
-      (stub: IPokemonStub) => {
-        //cut the final "/" out
-        const url = stub.url.substring(0, stub.url.length - 1).split("/");
+    const filterResults = results.map((stub: IPokemonStub) => {
+      //cut the final "/" out
+      const url = stub.url.substring(0, stub.url.length - 1).split("/");
 
-        const id = Number(url.pop());
-        if (id && id < 10000) return this.factory.createPokemonStub(stub);
-        return false;
-      }
-    );
+      const id = Number(url.pop());
+      if (id && id < 10000) return this.factory.createPokemonStub(stub);
+      return false;
+    });
     // Store the pokemon names in the repository
     this.storePokemonStubs(filterResults);
 
@@ -86,7 +84,7 @@ export class PokemonService {
       this.repository.loadFromStorage();
       return Promise.resolve(this.repository.getAllPokemon());
     }
-  }
+  };
 
   /**
    * Lookup an individual pokemon
