@@ -28,12 +28,10 @@ export class PokemonService {
    */
   private storePokemonStubs(payload: PokemonDTO[]): void {
     try {
-      // Save the pokemon data to localStorage
       this.repository.saveStubs(payload);
       console.log("storePokemonStubs flow, payload[0]:")
       console.log(payload[0]);
       console.log(this.repository);
-      // this.repository.savePokemon();
 
       // Set the timestamp for 30 minutes
       // this.repository.setExpiryTimestamp(30);
@@ -79,8 +77,7 @@ export class PokemonService {
    * Search ALL pokemon with their name and individual url
    */
   public getAllPokemon = async () => {
-    // if (this.repository.isExpired) {
-      if (true){
+    if (this.repository.isExpired("bulbasaur")) {
       return await fetch(this.getAllUrl).then(this.resolvePokemonStubs);
     } else {
       this.repository.loadFromStorage();
