@@ -13,6 +13,13 @@ type displayProps = {
 export const PokemonDisplay = (props: displayProps) => {
   const [pokemonObject, setPokemonObject] = useState<PokemonDTO>();
   const { getPokemonData, pokemonUrl } = props;
+
+  //TODO: the display should not be doing the fetch itself.
+  /**
+   * This display component should not have any idea about URLs or API calls
+   * The only dependency view components should have is on the service(s)
+   * intended to provide this data.
+   */
   /**
    * Create a PokemonObject from the results retrieved
    * @param pokemonRetrieved the pokemon retrieved from the API
@@ -20,11 +27,10 @@ export const PokemonDisplay = (props: displayProps) => {
   const createPokemonObject = useCallback(
     (url: string) => {
       if (url && url.length > 0) {
-        getPokemonData(url)
-          .then((pokemon) => {
-            console.log(pokemon);
-            setPokemonObject(pokemon)
-          });
+        getPokemonData(url).then((pokemon) => {
+          console.log(pokemon);
+          setPokemonObject(pokemon);
+        });
       }
     },
     [getPokemonData]
@@ -35,8 +41,6 @@ export const PokemonDisplay = (props: displayProps) => {
   }, [pokemonUrl, createPokemonObject]);
 
   if (pokemonObject) {
-    console.log("PokemonDisplay stats");
-    console.log(pokemonObject.getDisplayStats());
     return (
       <Container maxWidth="sm">
         <QuickView pokemon={pokemonObject} />

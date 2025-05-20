@@ -105,7 +105,6 @@ export class PokemonRepository {
       ) {
         return;
       }
-      //TODO: remove timestamp declaration (should be 1h but we're debuggin, bro)
       this.setPokemonData(pokemon, this.timeService.generateExpiryTimestamp(0));
     });
   }

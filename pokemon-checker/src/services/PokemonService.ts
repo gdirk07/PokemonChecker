@@ -25,8 +25,8 @@ export class PokemonService {
   }
 
   /**
-   * Fills the repository with skeleton DTOs and URLs,
-   * assigning a timestamp in the process.
+   * Fills the repository with skeleton DTOs and URLs.
+   * Skeletal data needs to be backfilled
    * @param payload List of pokemon to store in the repository
    */
   private storePokemonStubs(payload: PokemonDTO[]): void {
@@ -35,9 +35,6 @@ export class PokemonService {
       console.log("storePokemonStubs flow, payload[0]:");
       console.log(payload[0]);
       console.log(this.repository);
-
-      // Set the timestamp for 30 minutes
-      // this.repository.setExpiryTimestamp(30);
     } catch (e: unknown) {
       if (typeof e === "string") {
         console.log(`Could not store pokemon stubs: ${e}`);

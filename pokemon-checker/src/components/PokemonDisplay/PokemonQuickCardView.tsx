@@ -52,7 +52,6 @@ export const QuickView = ({ pokemon }: PokemonInfoProps) => {
       alignItems="stretch"
       columnSpacing={1}
     >
-
       <ShinyButtonDisplay
         theme={shinyTheme}
         color={displayDefault ? primary.main : secondary.main}

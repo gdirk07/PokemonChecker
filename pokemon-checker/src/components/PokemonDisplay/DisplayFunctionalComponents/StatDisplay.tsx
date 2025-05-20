@@ -17,11 +17,11 @@ import { GenerateBar } from "../../PercentageBar";
 const StatLabelTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.body}`]: {
     border: 0,
-    color: '#fff',
+    color: "#fff",
     fontSize: 12,
-    paddingRight: '5px',
-    textAlign: 'right',
-    minWidth: '35px',
+    paddingRight: "5px",
+    textAlign: "right",
+    minWidth: "35px",
   },
 }));
 
@@ -29,17 +29,17 @@ const StatValueTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.body}`]: {
     border: 0,
     fontSize: 12,
-    paddingRight: '5px',
-    textAlign: 'right',
-    whiteSpace: 'nowrap',
-    minWidth: '30px',
+    paddingRight: "5px",
+    textAlign: "right",
+    whiteSpace: "nowrap",
+    minWidth: "30px",
   },
 }));
 
 const ColorBarTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.body}`]: {
     border: 0,
-    width: '100%',
+    width: "100%",
   },
 }));
 
@@ -65,20 +65,13 @@ export const StatDisplay = ({ baseStats, stats }: pokemonStats) => {
 
   const MAXBARWIDTH = 200;
   return (
-    <Grid 
-      container 
-      spacing={0}
-      alignItems='center'
-      justifyContent='center'
-    >
+    <Grid container spacing={0} alignItems="center" justifyContent="center">
       <Grid item xs={12} sm={3}>
-        <Typography>
-          Base Total Stats {baseStats}
-        </Typography>
+        <Typography>Base Total Stats {baseStats}</Typography>
       </Grid>
       <Grid item xs={12} sm={9}>
         <Table
-          sx={{ margin: 'auto', maxWidth: 300 }}
+          sx={{ margin: "auto", maxWidth: 300 }}
           aria-label="stat table"
           padding="none"
           size="small"
@@ -86,15 +79,15 @@ export const StatDisplay = ({ baseStats, stats }: pokemonStats) => {
           <TableBody>
             <TableRow>
               <StatLabelTableCell>HP</StatLabelTableCell>
-              <StatValueTableCell sx={{ color: setDisplayColour(hp)}}>
-                {stats?.hp}: 
+              <StatValueTableCell sx={{ color: setDisplayColour(hp) }}>
+                {stats?.hp}:
               </StatValueTableCell>
               <ColorBarTableCell>
                 <GenerateBar
-                    max={MAXBARWIDTH}
-                    value={hp}
-                    color={setDisplayColour(hp)} 
-                  />
+                  max={MAXBARWIDTH}
+                  value={hp}
+                  color={setDisplayColour(hp)}
+                />
               </ColorBarTableCell>
             </TableRow>
             <TableRow>
@@ -104,10 +97,10 @@ export const StatDisplay = ({ baseStats, stats }: pokemonStats) => {
               </StatValueTableCell>
               <ColorBarTableCell>
                 <GenerateBar
-                    max={MAXBARWIDTH}
-                    value={att}
-                    color={setDisplayColour(att)} 
-                  />
+                  max={MAXBARWIDTH}
+                  value={att}
+                  color={setDisplayColour(att)}
+                />
               </ColorBarTableCell>
             </TableRow>
             <TableRow>
@@ -117,10 +110,10 @@ export const StatDisplay = ({ baseStats, stats }: pokemonStats) => {
               </StatValueTableCell>
               <ColorBarTableCell>
                 <GenerateBar
-                    max={MAXBARWIDTH}
-                    value={def}
-                    color={setDisplayColour(def)} 
-                  />
+                  max={MAXBARWIDTH}
+                  value={def}
+                  color={setDisplayColour(def)}
+                />
               </ColorBarTableCell>
             </TableRow>
             <TableRow>
@@ -130,10 +123,10 @@ export const StatDisplay = ({ baseStats, stats }: pokemonStats) => {
               </StatValueTableCell>
               <ColorBarTableCell>
                 <GenerateBar
-                    max={MAXBARWIDTH}
-                    value={spA}
-                    color={setDisplayColour(spA)} 
-                  />
+                  max={MAXBARWIDTH}
+                  value={spA}
+                  color={setDisplayColour(spA)}
+                />
               </ColorBarTableCell>
             </TableRow>
             <TableRow>
@@ -143,10 +136,10 @@ export const StatDisplay = ({ baseStats, stats }: pokemonStats) => {
               </StatValueTableCell>
               <ColorBarTableCell>
                 <GenerateBar
-                    max={MAXBARWIDTH}
-                    value={spD}
-                    color={setDisplayColour(spD)} 
-                  />
+                  max={MAXBARWIDTH}
+                  value={spD}
+                  color={setDisplayColour(spD)}
+                />
               </ColorBarTableCell>
             </TableRow>
             <TableRow>
@@ -156,10 +149,10 @@ export const StatDisplay = ({ baseStats, stats }: pokemonStats) => {
               </StatValueTableCell>
               <ColorBarTableCell>
                 <GenerateBar
-                    max={MAXBARWIDTH}
-                    value={spE}
-                    color={setDisplayColour(spE)} 
-                  />
+                  max={MAXBARWIDTH}
+                  value={spE}
+                  color={setDisplayColour(spE)}
+                />
               </ColorBarTableCell>
             </TableRow>
           </TableBody>
@@ -184,6 +177,5 @@ export const setDisplayColour = (stat: number): string => {
     return statColourDisplay.VERYLOW;
   }
 };
-
 
 export default StatDisplay;
