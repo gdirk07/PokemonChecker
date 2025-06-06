@@ -5,7 +5,7 @@ import Box from "@mui/system/box";
 
 export type PokemonSearchResultsProps = {
   pokemonQuery: PokemonDTO[];
-  onPokemonSelected: (url: string) => void;
+  onPokemonSelected: (name: string, url: string) => void;
 };
 
 export default function PokemonSearchResults({

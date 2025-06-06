@@ -3,7 +3,7 @@ import Box from "@mui/system/box";
 type PokemonIdProps = {
   name: string;
   url: string;
-  onSelectPokemon: (url: string) => void;
+  onSelectPokemon: (name: string, url: string) => void;
   onPokemonClicked: React.Dispatch<React.SetStateAction<string>>;
   active: string;
 };
@@ -16,7 +16,7 @@ const PokemonId = ({
   active,
 }: PokemonIdProps) => {
   const pokemonClicked = (name: string, url: string) => {
-    onSelectPokemon(url);
+    onSelectPokemon(name, url);
     onPokemonClicked(name);
   };
 

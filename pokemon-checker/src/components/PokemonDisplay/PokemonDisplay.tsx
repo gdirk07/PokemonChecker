@@ -8,6 +8,7 @@ import Container from "@mui/material/Container";
 type displayProps = {
   getPokemonData: (url: string) => Promise<any>;
   pokemonUrl: string;
+  pokemonToRender?: PokemonDTO;
 };
 
 export const PokemonDisplay = (props: displayProps) => {

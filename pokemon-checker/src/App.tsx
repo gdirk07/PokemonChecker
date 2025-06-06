@@ -68,7 +68,7 @@ class App extends Component<any, AppState> {
     this.setState({ pokemonResults: filteredPokemon });
   };
 
-  onPokemonSelected = (url: string) => {
+  onPokemonSelected = (name: string, url: string) => {
     if (url && url !== "") {
       this.setState({ pokemonUrl: url });
     }
