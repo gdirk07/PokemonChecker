@@ -69,6 +69,8 @@ class App extends Component<any, AppState> {
   };
 
   onPokemonSelected = (name: string, url: string) => {
+    // Name + URL forms a pokemon stub, the service can determine
+    // where to fetch that stub's full data from: the repo, or API?
     if (url && url !== "") {
       this.setState({ pokemonUrl: url });
     }
