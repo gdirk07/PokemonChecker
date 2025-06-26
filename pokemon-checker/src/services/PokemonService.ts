@@ -1,6 +1,10 @@
 import { PokemonRepository } from "../repositories/PokemonRepository";
 import { PokemonFactory } from "../factories/PokemonFactory";
-import { IPokemonData, IPokemonStub } from "../interfaces/PokemonData";
+import {
+  IPokeAPIStub,
+  IPokemonData,
+  IPokemonStub,
+} from "../interfaces/PokemonData";
 import PokemonDTO from "../DataTransferObjects/PokemonDTO";
 
 /**
@@ -85,6 +89,7 @@ export class PokemonService {
   };
 
   /**
+   * @TODO: Should be a private method, really...
    * Lookup an individual pokemon
    * @param url the url for the specific pokemon
    */
@@ -104,6 +109,22 @@ export class PokemonService {
 
       return fullPokemon;
     }
+  };
+
+  /**
+   * Takes an API stub and returns a DTO, either using an
+   * existing copy in the repository or calling the API.
+   * @param pokeStub API stub data to use for the fetch
+   */
+  public fetchPokemon = async (pokeStub: IPokeAPIStub) => {
+    // If the repo says the data is no good, go to the API
+    const shouldFetchNewData = this.repository.isExpired(pokeStub.name);
+    if (shouldFetchNewData) {
+      return this.getPokemon(pokeStub.url);
+    }
+
+    // Otherwise, data is present and valid - get it from the repo
+    return this.repository.getPokemonData(pokeStub.name);
   };
 
   /**

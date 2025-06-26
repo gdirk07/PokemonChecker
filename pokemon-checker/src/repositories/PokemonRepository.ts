@@ -66,7 +66,10 @@ export class PokemonRepository {
    * @param name Name of the Pokemon to be retrieved
    */
   public getPokemonData(name: string): PokemonDTO | null {
-    return this.pokemonTable[name] ? this.pokemonTable[name].pokemon : null;
+    const sanitizedName = name.toLowerCase();
+    return this.pokemonTable[sanitizedName]
+      ? this.pokemonTable[sanitizedName].pokemon
+      : null;
   }
 
   /**
