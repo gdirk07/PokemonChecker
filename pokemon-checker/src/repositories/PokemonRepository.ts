@@ -130,7 +130,13 @@ export class PokemonRepository {
           oldTable[key]
         );
 
-        this.setPokemonData(pokemonData);
+        // Stubs don't need to be saved for any amount of time.
+        const expiryTime = pokemonData.isStub ? 0 : 30;
+
+        this.setPokemonData(
+          pokemonData,
+          this.timeService.generateExpiryTimestamp(expiryTime)
+        );
       });
     }
   }

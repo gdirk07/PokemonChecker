@@ -117,14 +117,26 @@ export class PokemonService {
    * @param pokeStub API stub data to use for the fetch
    */
   public fetchPokemon = async (pokeStub: IPokeAPIStub) => {
-    // If the repo says the data is no good, go to the API
-    const shouldFetchNewData = this.repository.isExpired(pokeStub.name);
+    // Fetch what we can first
+    const candidatePokemon = this.repository.getPokemonData(pokeStub.name);
+
+    /**
+     * We will do a full API fetch of this pokemon if:
+     *  - Repo says it expired
+     *  - Candidate doesn't exist
+     *  - Candidate is a stub
+     */
+    const shouldFetchNewData =
+      this.repository.isExpired(pokeStub.name) ||
+      !candidatePokemon ||
+      candidatePokemon.isStub;
+
     if (shouldFetchNewData) {
       return this.getPokemon(pokeStub.url);
     }
 
     // Otherwise, data is present and valid - get it from the repo
-    return this.repository.getPokemonData(pokeStub.name);
+    return candidatePokemon;
   };
 
   /**
