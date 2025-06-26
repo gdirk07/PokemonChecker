@@ -122,14 +122,13 @@ export class PokemonRepository {
     if (savedData) {
       const oldTable = JSON.parse(savedData);
       Object.keys(oldTable).forEach((key) => {
-        // TODO: update 'pokemonData' to depend on if retrieved entry is stub or not
         // Stub data is as follows:
         // {name: 'bulbasaur', url: 'https://pokeapi.co/api/v2/pokemon/1/'}
         // Resulting DTO will have the following characteristics
         // dexId: -1, abilities: [], moves: [], type1: ""
-        const pokemonData = this.factory.createPokemonStub(oldTable[key]);
-
-        // A full DTO retrieved from serializtion will have more
+        const pokemonData = this.factory.restorePokemonFromStorage(
+          oldTable[key]
+        );
 
         this.setPokemonData(pokemonData);
       });
