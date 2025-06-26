@@ -11,7 +11,7 @@ import { scrubPokemonName } from "./utils/NameScrubbingHelper";
 type AppState = {
   pokemonList: PokemonDTO[];
   pokemonResults: PokemonDTO[];
-  pokemonUrl: string;
+  displayedPokemon: PokemonDTO | null;
 };
 
 class App extends Component<any, AppState> {
@@ -19,13 +19,12 @@ class App extends Component<any, AppState> {
 
   constructor(props: any) {
     super(props);
+    this.pokeService = new PokemonService();
     this.state = {
       pokemonList: [],
       pokemonResults: [],
-      pokemonUrl: "",
+      displayedPokemon: null,
     };
-
-    this.pokeService = new PokemonService();
   }
 
   //Fetch all of the pokemon to start, no need to paginate
@@ -50,6 +49,10 @@ class App extends Component<any, AppState> {
     this.pokeService.deconstructor();
   }
 
+  /**
+   * Filters the held list of pokemon down to what was input on the search form
+   * @param event Triggered by search input field. Carries text.
+   */
   onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let filteredPokemon: PokemonDTO[] = [];
     if (event && event.target && event.target.value) {
@@ -68,16 +71,19 @@ class App extends Component<any, AppState> {
     this.setState({ pokemonResults: filteredPokemon });
   };
 
-  onPokemonSelected = (name: string, url: string) => {
-    // Name + URL forms a pokemon stub, the service can determine
-    // where to fetch that stub's full data from: the repo, or API?
-    if (url && url !== "") {
-      this.setState({ pokemonUrl: url });
-    }
+  /**
+   * Receives API stub data from the selection event to request
+   * the Pokemon's data from the Service (local or external)
+   * @param name Identifier for the pokemon from the API stub
+   * @param url Pointer to the full DTO payload
+   */
+  onPokemonSelected = async (name: string, url: string) => {
+    const retrievedPokemon = await this.pokeService.fetchPokemon({ name, url });
+    this.setState({ displayedPokemon: retrievedPokemon });
   };
 
   render() {
-    const { pokemonResults, pokemonUrl } = this.state;
+    const { pokemonResults, displayedPokemon } = this.state;
 
     return (
       <div className="App">
@@ -87,10 +93,7 @@ class App extends Component<any, AppState> {
           onPokemonSelected={this.onPokemonSelected}
           pokemonQuery={pokemonResults}
         />
-        <PokemonDisplay
-          getPokemonData={this.pokeService.getPokemon}
-          pokemonUrl={pokemonUrl}
-        />
+        <PokemonDisplay pokemonToRender={displayedPokemon} />
       </div>
     );
   }
