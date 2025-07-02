@@ -142,9 +142,22 @@ export class PokemonRepository {
   }
 
   /**
+   * Save the contents of the pokemonTable to localStorage
+   */
+  private saveToStorage(): void {
+    localStorage.setItem(
+      PokemonRepository.localStorageTableKey,
+      JSON.stringify(this.pokemonTable)
+    );
+  }
+
+  /**
    * Clear class data on repository/service deconstructor
    */
   public deconstructor(): void {
+    // Save the state on the way out
+    this.saveToStorage();
+
     this.oldestTimestamp = 0;
     this.pokemonTable = {};
     this.factory.deconstructor();
