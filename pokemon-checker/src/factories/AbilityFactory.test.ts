@@ -1,5 +1,5 @@
 import { AbilityFactory } from "./AbilityFactory";
-import { pressureAbility } from "../_stubs/AbilityData";
+import { pressureAbility, pressureCon } from "../_stubs/AbilityData";
 import { IAbilityData } from "../interfaces/PokemonData";
 import AbilityDTO from "../DataTransferObjects/AbilityDTO";
 
@@ -13,23 +13,16 @@ const pressureStub = {
   localizedName: pressureAbility.name,
 };
 let mockFull: AbilityDTO;
-let apiRetrieved: IAbilityData;
-
-// TODO: Remove external dependency on ability data from this unit test.
-beforeAll(async () => {
-  apiRetrieved = await fetch(pressureStub.url).then((retrieved) =>
-    retrieved.json()
-  );
-});
 
 test("Can create stub ability", () => {
   const mockStub = factory.createAbilityStub(pressureStub);
+
   expect(mockStub).toEqual(pressureStub);
 });
 
 test("Can convert stub to full", () => {
   const mockStub = factory.createAbilityStub(pressureStub);
-  mockFull = factory.createAbilityFromDataAndStub(apiRetrieved, mockStub);
+  mockFull = factory.createAbilityFromDataAndStub(pressureCon, mockStub);
 
   expect(mockFull).toBeTruthy();
   expect(mockFull.name).toBe("pressure");
