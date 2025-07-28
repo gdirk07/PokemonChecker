@@ -1,6 +1,5 @@
 import { AbilityFactory } from "./AbilityFactory";
 import { pressureAbility, pressureCon } from "../_stubs/AbilityData";
-import { IAbilityData } from "../interfaces/PokemonData";
 import AbilityDTO from "../DataTransferObjects/AbilityDTO";
 
 const factory = new AbilityFactory();
@@ -24,10 +23,11 @@ test("Can convert stub to full", () => {
   const mockStub = factory.createAbilityStub(pressureStub);
   mockFull = factory.createAbilityFromDataAndStub(pressureCon, mockStub);
 
+  // The final object should retain key characteristics of the API payload
   expect(mockFull).toBeTruthy();
-  expect(mockFull.name).toBe("pressure");
+  expect(mockFull.name).toBe(pressureCon.name);
   expect(mockFull.hasFullData).toBeTruthy();
-  expect(mockFull.id).toBe(46);
+  expect(mockFull.id).toBe(pressureCon.id);
 });
 
 //When we get into name localizations we can write test functions for that
