@@ -89,11 +89,10 @@ export class PokemonService {
   };
 
   /**
-   * @TODO: Should be a private method, really...
    * Lookup an individual pokemon
    * @param url the url for the specific pokemon
    */
-  public getPokemon = async (url: string) => {
+  private getPokemon = async (url: string) => {
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(response.statusText);

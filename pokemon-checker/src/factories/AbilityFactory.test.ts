@@ -15,20 +15,22 @@ const pressureStub = {
 let mockFull: AbilityDTO;
 let apiRetrieved: IAbilityData;
 
+// TODO: Remove external dependency on ability data from this unit test.
 beforeAll(async () => {
-  apiRetrieved 
-    = await fetch(pressureStub.url).then(retrieved => retrieved.json());
-})
+  apiRetrieved = await fetch(pressureStub.url).then((retrieved) =>
+    retrieved.json()
+  );
+});
 
 test("Can create stub ability", () => {
-  const mockStub = factory.createAbilityStub(pressureStub)
+  const mockStub = factory.createAbilityStub(pressureStub);
   expect(mockStub).toEqual(pressureStub);
-})
+});
 
 test("Can convert stub to full", () => {
   const mockStub = factory.createAbilityStub(pressureStub);
   mockFull = factory.createAbilityFromDataAndStub(apiRetrieved, mockStub);
   expect(mockFull).toEqual(pressureAbility);
-})
+});
 
-//When we get into name localizations we can write test functions for that 
+//When we get into name localizations we can write test functions for that
