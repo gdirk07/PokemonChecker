@@ -89,7 +89,7 @@ export class PokemonService {
   };
 
   /**
-   * Lookup an individual pokemon
+   * Lookup an individual pokemon from the API and set it in our repo.
    * @param url the url for the specific pokemon
    */
   private getPokemon = async (url: string) => {

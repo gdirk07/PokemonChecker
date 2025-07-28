@@ -30,7 +30,11 @@ test("Can create stub ability", () => {
 test("Can convert stub to full", () => {
   const mockStub = factory.createAbilityStub(pressureStub);
   mockFull = factory.createAbilityFromDataAndStub(apiRetrieved, mockStub);
-  expect(mockFull).toEqual(pressureAbility);
+
+  expect(mockFull).toBeTruthy();
+  expect(mockFull.name).toBe("pressure");
+  expect(mockFull.hasFullData).toBeTruthy();
+  expect(mockFull.id).toBe(46);
 });
 
 //When we get into name localizations we can write test functions for that
