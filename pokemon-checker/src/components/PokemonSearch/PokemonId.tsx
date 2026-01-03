@@ -1,4 +1,4 @@
-import Box from "@mui/system/box";
+import Box from "@mui/system/Box";
 
 type PokemonIdProps = {
   name: string;
